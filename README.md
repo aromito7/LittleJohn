@@ -8,7 +8,7 @@ Active: rgb(0, 200, 5)
 On Hover: rgb(0, 180, 5)
 
 
-Database Diagram:
+# Database Diagram:
 
 ![Database Diagram](/images/db_schema.png)
 
@@ -58,6 +58,9 @@ Database Diagram:
 - Logged in users can place a limit order to buy/sell stocks.
 - This order only executes if stock price passes a threshold within a time period.
 
+7. Stock Option:
+- Logged in users can buy a stock option.
+- Logged in users can sell a stock option if they own the required shares.
 
 
 # Portfolio Stories
