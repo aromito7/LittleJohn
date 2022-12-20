@@ -2,7 +2,7 @@
 
 Database Diagram:
 
-![Database Diagram](/images/schema.png)
+![Database Diagram](/images/db_schema.png)
 
 # Wireframes:
 
