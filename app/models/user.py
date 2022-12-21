@@ -11,14 +11,16 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    firstname = db.Column(db.String(50), nullable=False)
-    lastname = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
     account_value = db.Column(db.Float, nullable=False)
     buying_power = db.Column(db.Float, nullable=False)
-    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    updated_at = db.Column(db.String(50), default=db. DateTime(default=datetime.datetime.utcnow))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    transaction = db.relationship('Transaction', back_populates='user', cascade="all, delete")
+    portfolio = db.relationship('Portfolio', back_populates='user', cascade="all, delete")
 
     @property
     def password(self):
@@ -34,6 +36,13 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
-            'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'account_value': self.account_value,
+            'buying_power': self.buying_power,
+            'member_since': self.created_at,
+
+            'transactions': [t.to_dict() for t in self.transaction],
+            'portfolio': [p.to_dict() for p in self.portfolio]
         }
