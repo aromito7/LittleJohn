@@ -52,3 +52,52 @@
 #sidebar-lists-container{
     height: 700px;
 }
+
+.transaction{
+    height: 100px;
+    display: grid;
+    grid-template-columns: 100px auto;
+    padding: 20px;
+}
+
+.transaction p{
+    font-size: 20px;
+}
+
+.transaction-left{
+    width: 100%;
+    height: 100%;
+    /* background-color: black;
+    color: white; */
+    border-radius: 50%;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 40px;
+    line-height: 100%;
+}
+
+.transaction-left div{
+    padding-top: 25px;
+}
+
+.transaction-right{
+    margin: 10px 0 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-right-top{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.transaction-right-bot{
+    margin-top: auto;
+}
+
+.list-title{
+    display: flex;
+    flex-direction: row;
+}

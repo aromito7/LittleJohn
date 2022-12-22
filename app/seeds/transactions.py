@@ -3,14 +3,23 @@ from datetime import datetime
 
 # Adds a demo transaction, you can add other transactions here if you want
 def seed_transactions():
-    demo = Transaction(
+    demos = [Transaction(
         user_id = 1,
         stock_symbol = 'TNA',
         shares = 100,
         price = 33.21,
-        is_open = False)
+        is_open = False),
+        Transaction(
+            user_id = 1,
+            stock_symbol = 'GME',
+            shares = 150,
+            price = 18.66,
+            is_open = False)
+        ]
 
-    db.session.add(demo)
+    for demo in demos:
+        db.session.add(demo)
+
     db.session.commit()
 
 # Uses a raw SQL query to TRUNCATE or DELETE the transactions table. SQLAlchemy doesn't

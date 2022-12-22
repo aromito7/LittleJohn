@@ -12,3 +12,15 @@
 .green:hover{
     color: rgb(0, 180, 5)
 }
+
+.flex-left{
+    justify-content: flex-start;
+}
+
+.flex-right{
+    margin-left: auto;
+}
+
+.upside-down{
+    transform: rotate(180deg);
+}

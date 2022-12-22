@@ -30,7 +30,7 @@ class Transaction(db.Model):
             'stockSymbol': self.stock_symbol,
             'price': self.price,
             'shares': self.shares,
-            'createdAt': self.created_at,
+            'createdAt': self.created_at
 
             #'user' : self.user.to_dict()
         }
