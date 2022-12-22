@@ -1,0 +1,54 @@
+#landing-page-container *{
+    border: 1px solid black;
+}
+
+
+#menu-container{
+    height: 50px;
+    display: grid;
+    grid-template-columns: 50px 1fr 1fr;
+    padding: 0 50px 0 50px;
+}
+
+
+#search-bar-container{
+    align-self: center;
+}
+
+#icon-container{
+    align-self: center;
+    justify-self: center;
+}
+
+#search-bar{
+    margin-left: 50px;
+}
+
+#menu-items-container{
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+#icon-container, #search-bar-container, #menu-items-container{
+    margin: 0 20px 0 20px;
+}
+
+#graph-sidebar{
+    margin: 50px auto 0 auto;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    max-width: 1500px;
+    height: 100%;
+
+}
+
+#account-graph-container{
+    height: 600px;
+}
+
+#sidebar-lists-container{
+    height: 700px;
+}
