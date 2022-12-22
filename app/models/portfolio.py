@@ -21,8 +21,8 @@ class Portfolio(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'stock_symbol': self.stock_symbol,
-            'average_price': self.price,
+            'average_price': self.average_price,
             'shares': self.shares,
 
-            'user': self.user.to_dict()
+            #'user': self.user.to_dict()
         }

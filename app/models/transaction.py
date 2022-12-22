@@ -32,5 +32,5 @@ class Transaction(db.Model):
             'shares': self.shares,
             'createdAt': self.created_at,
 
-            'user' : self.user.to_dict()
+            #'user' : self.user.to_dict()
         }
