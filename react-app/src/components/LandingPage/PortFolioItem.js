@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux"
 const PortfolioItem = ({stock}) => {
+
     return(
         <div className="portfolio-item-container">
-            "hello, stock"
+            <p>{stock.stock_symbol}</p>
+            <p>Hello, Graph!</p>
+            <p>{stock.average_price}</p>
         </div>
     )
 }

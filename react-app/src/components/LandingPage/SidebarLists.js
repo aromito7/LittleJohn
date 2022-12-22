@@ -6,17 +6,17 @@ const SidebarLists = () => {
     const [showPortfolio, setShowPortfolio] = useState(true)
     const [showWatchlist, setShowWatchlist] = useState(true)
     const user = useSelector(state => state.session.user)
+    if(!user) return null
     const portfolio = user.portfolio
-
     const togglePortfolio = () => {
         setShowPortfolio(!showPortfolio);
     }
     return(
         <div id="sidebar-lists-container">
-            <div className="list-title">
+            <div className="list-title cursor-pointer" onClick={togglePortfolio}>
                 <h1>My Portfolio</h1>
-                {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right" onClick={togglePortfolio}/> :
-                <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right upside-down"  onClick={togglePortfolio}/>}
+                {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
+                <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right upside-down"/>}
             </div>
             {showPortfolio &&
             <div id="sidebar-portfolio">
