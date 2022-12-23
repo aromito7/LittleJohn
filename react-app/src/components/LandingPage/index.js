@@ -1,7 +1,7 @@
 import AccountGraph from "./AccountGraph"
 import SidebarLists from "./SidebarLists"
 import Info from "./Info"
-import Menu from "./menu"
+import Menu from "../menu.js"
 import './LandingPage.css'
 
 
