@@ -13,8 +13,6 @@ const removeStock = () => ({
 
 const initialState = { };
 
-
-
 export const thunkAlphaAPI = (symbol) => async (dispatch) => {
   const key = "3GF39QHX8I9QGO8J"
   var url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${key}`;

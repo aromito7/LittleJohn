@@ -26,6 +26,14 @@ const Stock = () => {
     //console.log(user)
 
     const buyStock = () => {
+        if(shares <= 0) setError("Enter at least 0.000001 shares.")
+        const userStocks = user.portfolio.map(stock => stock.stock_symbol)
+
+
+        //If user doesn't own a stock then we do a create
+        if(!userStocks.includes(symbol)){
+
+        }
     }
 
     return(
