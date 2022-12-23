@@ -10,6 +10,7 @@ const Stock = () => {
     const user = useSelector(state => state.session.user)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
+    const [error, setError] = useState("")
     const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
     console.log("STOCK DATA")
@@ -23,6 +24,10 @@ const Stock = () => {
     const open = 30.9800//stockData[keys.slice(-1)[0]]["1. open"]
     const current = 31.2100//stockData[keys[0]]["4. close"]
     //console.log(user)
+
+    const buyStock = () => {
+    }
+
     return(
         <div id="landing-page-container">
             <Menu/>
@@ -58,14 +63,19 @@ const Stock = () => {
                             </div>
                             <div className="flex">
                                 <p className="flex-left green-font">Market Price</p>
-                                <p className="flex-right">${current}</p>
+                                <p className="flex-right bold">${current}</p>
                             </div>
                             <div className="flex">
-                                <p className="flex-left">Estimated Cost</p>
-                                <p className="flex-right">${shares.match(/^[0-9]*$/) ? shares * current : 0}</p>
+                                <p className="flex-left bold">Estimated Cost</p>
+                                <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? shares * current : 0}</p>
                             </div>
                         </>
                         }
+                        <div className="flex">
+                            <div id="purchase-button" className="center cursor-pointer" onClick={buyStock}>
+                                Purchase
+                            </div>
+                        </div>
                         <p className="center">{`Buying Power: $${user.buying_power}`}</p>
                     </div>
                 </div>

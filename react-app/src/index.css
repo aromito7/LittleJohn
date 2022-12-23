@@ -5,6 +5,7 @@
     margin: 0;
     background-color: black;
     color: white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .cursor-pointer{
@@ -59,12 +60,13 @@
 
 .center{
     text-align: center;
+    margin: 0 auto 0 auto;
 }
 
 .no-border{
     border: none;
 }
 
-.underline{
-    border-bottom: ;
+.bold{
+    font-weight: bold;
 }
