@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 
 const SidebarLists = () => {
     const [showPortfolio, setShowPortfolio] = useState(true)
-    const [showWatchlist, setShowWatchlist] = useState(true)
+    //const [showWatchlist, setShowWatchlist] = useState(true)
     const user = useSelector(state => state.session.user)
     if(!user) return null
     const portfolio = user.portfolio

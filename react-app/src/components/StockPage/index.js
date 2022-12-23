@@ -1,36 +1,73 @@
 import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useState, useEffect } from "react"
+import { thunkAlphaAPI } from "../../store/stock.js"
 import Menu from '../menu.js'
+import './stock.css'
 
 const Stock = () => {
     const {symbol} = useParams()
-    const [stockData, setStockData] = useState(['2022-12-22 20:00:00', '2022-12-22 19:55:00', '2022-12-22 19:50:00', '2022-12-22 19:40:00', '2022-12-22 19:35:00', '2022-12-22 19:30:00', '2022-12-22 19:25:00', '2022-12-22 19:20:00', '2022-12-22 19:05:00', '2022-12-22 19:00:00', '2022-12-22 18:55:00', '2022-12-22 18:50:00', '2022-12-22 18:45:00', '2022-12-22 18:40:00', '2022-12-22 18:30:00', '2022-12-22 18:25:00', '2022-12-22 18:20:00', '2022-12-22 18:15:00', '2022-12-22 18:10:00', '2022-12-22 18:05:00', '2022-12-22 18:00:00', '2022-12-22 17:55:00', '2022-12-22 17:45:00', '2022-12-22 17:35:00', '2022-12-22 17:30:00', '2022-12-22 17:20:00', '2022-12-22 17:15:00', '2022-12-22 17:10:00', '2022-12-22 17:05:00', '2022-12-22 17:00:00', '2022-12-22 16:45:00', '2022-12-22 16:40:00', '2022-12-22 16:35:00', '2022-12-22 16:30:00', '2022-12-22 16:25:00', '2022-12-22 16:20:00', '2022-12-22 16:15:00', '2022-12-22 16:10:00', '2022-12-22 16:05:00', '2022-12-22 16:00:00', '2022-12-22 15:55:00', '2022-12-22 15:50:00', '2022-12-22 15:45:00', '2022-12-22 15:40:00', '2022-12-22 15:35:00', '2022-12-22 15:30:00', '2022-12-22 15:25:00', '2022-12-22 15:20:00', '2022-12-22 15:15:00', '2022-12-22 15:10:00', '2022-12-22 15:05:00', '2022-12-22 15:00:00', '2022-12-22 14:55:00', '2022-12-22 14:50:00', '2022-12-22 14:45:00', '2022-12-22 14:40:00', '2022-12-22 14:35:00', '2022-12-22 14:30:00', '2022-12-22 14:25:00', '2022-12-22 14:20:00', '2022-12-22 14:15:00', '2022-12-22 14:10:00', '2022-12-22 14:05:00', '2022-12-22 14:00:00', '2022-12-22 13:55:00', '2022-12-22 13:50:00', '2022-12-22 13:45:00', '2022-12-22 13:40:00', '2022-12-22 13:35:00', '2022-12-22 13:30:00', '2022-12-22 13:25:00', '2022-12-22 13:20:00', '2022-12-22 13:15:00', '2022-12-22 13:10:00', '2022-12-22 13:05:00', '2022-12-22 13:00:00', '2022-12-22 12:55:00', '2022-12-22 12:50:00', '2022-12-22 12:45:00', '2022-12-22 12:40:00', '2022-12-22 12:35:00', '2022-12-22 12:30:00', '2022-12-22 12:25:00', '2022-12-22 12:20:00', '2022-12-22 12:15:00', '2022-12-22 12:10:00', '2022-12-22 12:05:00', '2022-12-22 12:00:00', '2022-12-22 11:55:00', '2022-12-22 11:50:00', '2022-12-22 11:45:00', '2022-12-22 11:40:00', '2022-12-22 11:35:00', '2022-12-22 11:30:00', '2022-12-22 11:25:00', '2022-12-22 11:20:00', '2022-12-22 11:15:00', '2022-12-22 11:10:00', '2022-12-22 11:05:00', '2022-12-22 11:00:00'])
-    const key = "3GF39QHX8I9QGO8J"
-    var url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${key}`;
+    const user = useSelector(state => state.session.user)
+    const [buyInType, setBuyInType] = useState("Shares")
+    const [shares, setShares] = useState("0")
+    const stockData = useSelector(state => state.stocks[symbol])
+    const dispatch = useDispatch()
+    console.log("STOCK DATA")
+    console.log(stockData)
     // useEffect(async() => {
-    //     const response = await fetch(url)
-    //     const data = await response.json()
-    //     console.log(data)
-    //     setStockData(data["Time Series (5min)"])
-    // },[])
-    if(!stockData) return "Too many api calls"
-    const keys = Object.keys(stockData)
+    //     if(!stockData) dispatch(thunkAlphaAPI(symbol))
+    // },[dispatch])
+
+    // const keys = Object.keys(stockData)
     // console.log(stockData)
-    // console.log(keys)
-    // console.log(stockData[keys.slice(-1)[0]])
+    const open = 30.9800//stockData[keys.slice(-1)[0]]["1. open"]
+    const current = 31.2100//stockData[keys[0]]["4. close"]
+    //console.log(user)
     return(
         <div id="landing-page-container">
             <Menu/>
             <div id="graph-sidebar">
                 <div>
-                <div id="account-graph-container">
-                    Hello, Stock Graph!
-                </div>
-                    <p>Stock Info</p>
-                    <p></p>
+                    <div id="account-graph-container">
+                        <div>
+                            <p>{symbol}</p>
+                            <p>{current}</p>
+                        </div>
+                    </div>
+                    <p>Stock History</p>
                 </div>
                 <div>
-                    <p>Stock Info</p>
+                    <div id="stock-sidebar" className="dark-background grey-border">
+                        <p>Buy {symbol}</p>
+                        <div className="flex">
+                            <p className="flex-left">Order Type</p>
+                            <p className="flex-right">Market Order</p>
+                        </div>
+                        <div className="flex">
+                            <p className="flex-left">Buy In</p>
+                            <select className="flex-right" value={buyInType} onChange={e => setBuyInType(e.target.value)}>
+                                <option>Shares</option>
+                                <option>Dollars</option>
+                            </select>
+                        </div>
+                        {buyInType == "Shares" &&
+                        <>
+                            <div className="flex">
+                                <p className="flex-left">Shares</p>
+                                <input className="flex-right no-border light-gray-background" value={shares} onChange={e => setShares(e.target.value)}></input>
+                            </div>
+                            <div className="flex">
+                                <p className="flex-left green-font">Market Price</p>
+                                <p className="flex-right">${current}</p>
+                            </div>
+                            <div className="flex">
+                                <p className="flex-left">Estimated Cost</p>
+                                <p className="flex-right">${shares.match(/^[0-9]*$/) ? shares * current : 0}</p>
+                            </div>
+                        </>
+                        }
+                        <p className="center">{`Buying Power: $${user.buying_power}`}</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,14 +3,44 @@
 *{
     padding: 0;
     margin: 0;
+    background-color: black;
+    color: white;
 }
 
 .cursor-pointer{
     cursor: pointer;
 }
 
-.green:hover{
+.green-font-hover:hover, .green-font{
     color: rgb(0, 180, 5)
+}
+
+.green-background{
+    background-color: rgb(0, 180, 5);
+}
+
+.orange-font-hover:hover, .orange-font{
+    color: rgb(255, 80, 0);
+}
+
+.orange-background{
+    background-color: rgb(255, 80, 0);
+}
+
+.dark-background, .dark-background *{
+    background-color: rgb(30, 33, 36);
+}
+
+.grey-border{
+    border: 1px solid rgb(64, 73, 78);
+}
+
+.light-gray-background{
+    background-color: rgb(64, 73, 78);
+}
+
+.flex{
+    display: flex;
 }
 
 .flex-left{
@@ -19,8 +49,22 @@
 
 .flex-right{
     margin-left: auto;
+    width: 50%;
+    text-align: end;
 }
 
 .upside-down{
     transform: rotate(180deg);
+}
+
+.center{
+    text-align: center;
+}
+
+.no-border{
+    border: none;
+}
+
+.underline{
+    border-bottom: ;
 }

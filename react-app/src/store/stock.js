@@ -1,50 +1,29 @@
 // constants
-const SET_USER = 'session/SET_STOCK';
-const REMOVE_USER = 'session/REMOVE_STOCK';
+const SET_STOCK = 'session/SET_STOCK';
+const REMOVE_STOCK = 'session/REMOVE_STOCK';
 
-const setUser = (stock) => ({
+const setStock = (symbol, stock) => ({
   type: SET_STOCK,
-  payload: stock
+  payload: [symbol, stock]
 });
 
-const removeUser = () => ({
+const removeStock = () => ({
   type: REMOVE_STOCK,
 })
 
 const initialState = { };
 
-export const authenticate = () => async (dispatch) => {
-  const response = await fetch('/api/auth/', {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  if (response.ok) {
-    const data = await response.json();
-    if (data.errors) {
-      return;
-    }
 
-    dispatch(setUser(data));
-  }
-}
 
-export const login = (email, password) => async (dispatch) => {
-  const response = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email,
-      password
-    })
-  });
-
+export const thunkAlphaAPI = (symbol) => async (dispatch) => {
+  const key = "3GF39QHX8I9QGO8J"
+  var url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${key}`;
+  const response = await fetch(url);
+  console.log("HELLO, API!")
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(setUser(data))
+    dispatch(setStock(symbol, data["Time Series (5min)"]))
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -52,56 +31,21 @@ export const login = (email, password) => async (dispatch) => {
       return data.errors;
     }
   } else {
-    return ['An error occurred. Please try again.']
-  }
-
-}
-
-export const logout = () => async (dispatch) => {
-  const response = await fetch('/api/auth/logout', {
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-
-  if (response.ok) {
-    dispatch(removeUser());
-  }
-};
-
-
-export const signUp = (username, email, password) => async (dispatch) => {
-  const response = await fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      email,
-      password,
-    }),
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data))
-    return null;
-  } else if (response.status < 500) {
-    const data = await response.json();
-    if (data.errors) {
-      return data.errors;
-    }
-  } else {
-    return ['An error occurred. Please try again.']
+    console.log("API ERROR")
+    return ['An API error occurred.']
   }
 }
+
+
+
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER:
-      return { user: action.payload }
-    case REMOVE_USER:
+    case SET_STOCK:
+      const newState = {...state}
+      newState[action.payload[0]] = action.payload[1]
+      return newState
+    case REMOVE_STOCK:
       return { user: null }
     default:
       return state;
