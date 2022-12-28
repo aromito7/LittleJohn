@@ -11,18 +11,26 @@ const Stock = () => {
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [error, setError] = useState("")
-    const stockData = useSelector(state => state.stocks[symbol])
+    const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
+
+
+    useEffect(async() => {
+        if(false) return
+        const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
+        const data = await response.json()
+        setStockData(data)
+    },[dispatch])
+
+    if(!stockData) return null
+    const history = stockData.history.Close
+    console.log("STOCK HISTORY")
+    console.log(Object.values(history))
     console.log("STOCK DATA")
     console.log(stockData)
-    // useEffect(async() => {
-    //     if(!stockData) dispatch(thunkAlphaAPI(symbol))
-    // },[dispatch])
-
-    // const keys = Object.keys(stockData)
-    // console.log(stockData)
+    const keys = Object.keys(stockData)
     const open = 30.9800//stockData[keys.slice(-1)[0]]["1. open"]
-    const current = 31.2100//stockData[keys[0]]["4. close"]
+    const current = Object.values(history).slice(-1)[0]//31.2100//stockData[keys[0]]["4. close"]
     //console.log(user)
 
     const buyStock = () => {

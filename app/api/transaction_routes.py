@@ -4,7 +4,7 @@ from app.forms import TransactionForm
 
 transaction_routes = Blueprint('transaction', __name__)
 
-@transaction_routes('/users/<int:id>', methods=['POST'])
+@transaction_routes.route('/users/<int:id>', methods=['POST'])
 def create_transaction(id):
     """
     Creates a new stock transaction in the database
