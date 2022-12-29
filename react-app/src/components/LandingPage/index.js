@@ -10,10 +10,13 @@ const LandingPage = () => {
 
     return(
         <div id="landing-page-container">
-            <Menu/>
             <div id="graph-sidebar">
                 <div>
                     <AccountGraph/>
+                    <div id="buying-power">
+                        <p>Buying Power</p>
+                        <p>$100,000</p>
+                    </div>
                     <Info/>
                 </div>
                 <div>

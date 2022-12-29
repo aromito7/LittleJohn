@@ -9,6 +9,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import Stock from './components/StockPage';
+import Menu from './components/menu.js';
 import { authenticate } from './store/session';
 
 function App() {
@@ -43,9 +44,11 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path='/stocks/:symbol' exact={true}>
+          <Menu/>
           <Stock/>
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
+          <Menu/>
           <LandingPage/>
         </ProtectedRoute>
         <Route path='/' exact={true}>

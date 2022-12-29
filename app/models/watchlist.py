@@ -1,0 +1,24 @@
+from .db import db, environment, SCHEMA, add_prefix_for_prod
+from sqlalchemy import ForeignKey
+
+class Transaction(db.Model):
+    __tablename__ = 'transactions'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('users.id')),nullable=False)
+    stock_symbol = db.Column(db.String(20), nullable=False)
+
+    user = db.relationship('User', back_populates='transaction')
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'userId': self.user_id,
+            'stockSymbol': self.stock_symbol,
+
+            #'user' : self.user.to_dict()
+        }

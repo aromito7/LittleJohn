@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
-import { thunkAlphaAPI } from "../../store/stock.js"
 import Menu from '../menu.js'
 import './stock.css'
 
