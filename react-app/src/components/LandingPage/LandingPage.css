@@ -113,3 +113,12 @@
 #info-container > h1{
     text-align: center;
 }
+
+
+#deposit-funds{
+    height: 50px;
+    border-radius: 25px;
+    width: 40%;
+    margin: 10px auto 10px auto;
+    background: rgb(0, 180, 5);
+}

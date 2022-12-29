@@ -1,5 +1,6 @@
 import AccountGraph from "./AccountGraph"
 import SidebarLists from "./SidebarLists"
+import BuyingPower from "./BuyingPower"
 import Info from "./Info"
 import Menu from "../menu.js"
 import './LandingPage.css'
@@ -13,10 +14,7 @@ const LandingPage = () => {
             <div id="graph-sidebar">
                 <div>
                     <AccountGraph/>
-                    <div id="buying-power">
-                        <p>Buying Power</p>
-                        <p>$100,000</p>
-                    </div>
+                    <BuyingPower/>
                     <Info/>
                 </div>
                 <div>

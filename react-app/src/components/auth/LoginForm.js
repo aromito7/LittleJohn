@@ -73,7 +73,7 @@ const LoginForm = () => {
           </div>
           <div id="login-buttons-container">
             <button type='submit' className='cursor-pointer green-background' onClick={onLogin}>Login</button>
-            <button type='submit' className='cursor-pointer' onClick={loginDemo}>Demo User</button>
+            <button type='submit' className='cursor-pointer green-background' onClick={loginDemo}>Demo User</button>
           </div>
         </form>
       </div>
