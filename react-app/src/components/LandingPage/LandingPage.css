@@ -118,7 +118,16 @@
 #deposit-funds{
     height: 50px;
     border-radius: 25px;
-    width: 40%;
+    width: 50%;
     margin: 10px auto 10px auto;
     background: rgb(0, 180, 5);
+}
+
+#transfer-modal-grid{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#transfer-modal-grid *{
+    padding: 5px;
 }

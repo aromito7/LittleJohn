@@ -1,16 +1,23 @@
 import { useState } from "react"
+import DepositModal from "./DepositModal"
 const BuyingPower = () => {
     const [open, setOpen] = useState(false)
-
+    const [depositOpen, setDepositOpen] = useState(false)
     const toggleOpen = (e) => {
         setOpen(!open)
+        setDepositOpen(false)
+    }
+
+    const deposit = (e) => {
+        e.stopPropagation()
+        setDepositOpen(true)
     }
 
     const MainBuyingPower = () => {
         return(
             <div className="flex pad25">
                 <p className="flex-left grey-bottom bold">Buying Power</p>
-                <p className="flex-right grey-bottom">{open? "" : "$100,000"}</p>
+                <p className="flex-right grey-bottom">$100,000</p>
             </div>
         )
     }
@@ -20,25 +27,26 @@ const BuyingPower = () => {
         </div>
     )
     return(
-        <div id="buying-power-open" className="dark-background cursor-pointer" onClick={toggleOpen}>
-            <MainBuyingPower/>
-            <div className="flex pad25">
-                <p className="flex-quarter grey-bottom">Brokerage Cash</p>
-                <p className="flex-quarter grey-bottom text-right">$0.00</p>
-                <p className="flex-right">
-                Buying Power represents the total value of assets you can purchase.
-                </p>
-            </div>
-            <div className="flex pad25">
-                <p className="flex-quarter grey-bottom">Buying Power</p>
-                <p className="flex-quarter grey-bottom text-right">$0.00</p>
-            </div>
-            <div className="flex pad25">
-                <div id="deposit-funds" className="flex-left green-background hover">
-                    Deposit Funds
+        <>
+            <div id="buying-power-open" className="dark-background cursor-pointer" onClick={toggleOpen}>
+                <MainBuyingPower/>
+                <div className="flex pad25">
+                    <p className="flex-quarter grey-bottom">Brokerage Cash</p>
+                    <p className="flex-quarter grey-bottom text-right">$0.00</p>
+                    <p className="flex-right">
+                    Buying Power represents the total value of assets you can purchase.
+                    </p>
+                </div>
+                <div className="flex pad25">
+                    <p className="flex-quarter grey-bottom">Buying Power</p>
+                    <p className="flex-quarter grey-bottom text-right">$0.00</p>
+                </div>
+                <div className="flex pad25">
+                    <button className="standard-button green-background" onClick={deposit}>Deposit Funds</button>
                 </div>
             </div>
-        </div>
+        {depositOpen && <DepositModal setDepositOpen={setDepositOpen}/>}
+        </>
     )
 }
 

@@ -28,11 +28,11 @@
     background-color: rgb(255, 80, 0);
 }
 
-.dark-background, .dark-background *{
+.dark-background, .dark-background div, .dark-background p{
     background-color: rgb(30, 33, 36);
 }
 
-.dark-background-hover:hover *{
+.dark-background-hover{
     background-color: rgb(30, 33, 36);
 }
 
@@ -44,7 +44,11 @@
     border: 1px solid rgb(64, 73, 78);
 }
 
-.light-gray-background{
+.black-border{
+    border: 1px solid black;
+}
+
+.light-background, .light-background *{
     background-color: rgb(64, 73, 78);
 }
 
@@ -88,10 +92,32 @@
     font-weight: bold;
 }
 
+.font16{
+    font-size: 20px
+}
+
 .full-width{
     width: 100%;
 }
 
 .pad25{
     padding: 25px;
+}
+
+.standard-button{
+    width: 40%;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modal{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 50%;
+    width: 30%;
+    border-radius: 25px;
 }
