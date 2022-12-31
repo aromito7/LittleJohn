@@ -21,6 +21,8 @@ class User(db.Model, UserMixin):
 
     transaction = db.relationship('Transaction', back_populates='user', cascade="all, delete")
     portfolio = db.relationship('Portfolio', back_populates='user', cascade="all, delete")
+    transfer = db.relationship('Transfer', back_populates='user', cascade="all, delete")
+    watchlist = db.relationship('Watchlist', back_populates='user', cascade="all, delete")
 
     @property
     def password(self):
@@ -43,6 +45,8 @@ class User(db.Model, UserMixin):
             'buying_power': self.buying_power,
             'member_since': self.created_at,
 
-            'transactions': [t.to_dict() for t in self.transaction],
-            'portfolio': [p.to_dict() for p in self.portfolio]
+            'transactions': [transaction.to_dict() for transaction in self.transaction],
+            'portfolio': [stock.to_dict() for stock in self.portfolio],
+            'transfers': [transfer.to_dict() for transfer in self.transfer],
+            'watchlist': [item.to_dict() for item in self.watchlist]
         }

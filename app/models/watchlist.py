@@ -1,8 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import ForeignKey
 
-class Transaction(db.Model):
-    __tablename__ = 'transactions'
+class Watchlist(db.Model):
+    __tablename__ = 'watchlists'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -11,7 +11,7 @@ class Transaction(db.Model):
     user_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('users.id')),nullable=False)
     stock_symbol = db.Column(db.String(20), nullable=False)
 
-    user = db.relationship('User', back_populates='transaction')
+    user = db.relationship('User', back_populates='watchlist')
 
 
     def to_dict(self):

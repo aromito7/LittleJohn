@@ -6,8 +6,6 @@ from app.models import User
 
 
 
-class TransactionForm(FlaskForm):
+class TransferForm(FlaskForm):
     user_id = IntegerField('user_id', validators=[DataRequired()])
-    stock_symbol = StringField('symbol', validators=[DataRequired()])
-    price = FloatField('price', validators=[DataRequired()])
-    shares = FloatField('shares', validators=[DataRequired()])
+    amount = FloatField('amount', validators=[DataRequired()])
