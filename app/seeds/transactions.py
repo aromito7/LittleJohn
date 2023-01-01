@@ -5,12 +5,14 @@ from datetime import datetime
 def seed_transactions():
     demos = [Transaction(
         user_id = 1,
+        stock_id = 1,
         stock_symbol = 'TNA',
         shares = 100,
         price = 33.21,
         is_open = False),
         Transaction(
             user_id = 1,
+            stock_id = 2,
             stock_symbol = 'GME',
             shares = 150,
             price = 18.66,

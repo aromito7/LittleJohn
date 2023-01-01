@@ -5,11 +5,13 @@ from datetime import datetime
 def seed_portfolios():
     demos = [Portfolio(
         user_id = 1,
+        stock_id = 1,
         stock_symbol = 'TNA',
         shares = 100,
         average_price = 33.21),
         Portfolio(
         user_id = 1,
+        stock_id = 2,
         stock_symbol = "GME",
         shares = 150,
         average_price = 18.66)]

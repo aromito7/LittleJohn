@@ -19,7 +19,6 @@ def get_stock_info(symbol):
 
     stock = yf.Ticker(symbol)
     history = stock.history(start=start, end=end, interval="5m")
-    return {"history": history.to_json()}
     return {"stock": stock.info,
         "start": start,
         "end" : end,

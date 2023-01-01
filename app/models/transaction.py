@@ -17,9 +17,9 @@ class Transaction(db.Model):
 
     order_type = db.Column(db.String, default="Market")
     is_open = db.Column(db.Boolean, default=False)
-    close_datetime = db.Column(db.DateTime, default=datetime.utcnow)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    close_datetime = db.Column(db.DateTime, default=datetime.utcnow())
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow())
 
     user = db.relationship('User', back_populates='transaction')
     stock = db.relationship('Stock', back_populates='transaction')
