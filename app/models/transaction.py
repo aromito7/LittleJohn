@@ -10,6 +10,7 @@ class Transaction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('users.id')),nullable=False)
+    stock_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('stocks.id')),nullable=False)
     stock_symbol = db.Column(db.String(20), nullable=False)
     shares = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
