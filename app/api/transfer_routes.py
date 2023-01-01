@@ -29,4 +29,4 @@ def create_transaction(id):
         db.session.commit()
         return transfer.to_dict()
 
-    return { 'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return { 'errors': (form.errors)}, 401

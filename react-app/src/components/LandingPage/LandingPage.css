@@ -130,4 +130,9 @@
 
 #transfer-modal-grid *{
     padding: 5px;
+    margin: 10px 0 10px 0;
+}
+
+#x-close{
+    margin-left: auto;
 }

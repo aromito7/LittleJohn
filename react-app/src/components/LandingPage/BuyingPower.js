@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { useSelector } from "react-redux"
 import DepositModal from "./DepositModal"
-const BuyingPower = () => {
+const BuyingPower = ({user}) => {
     const [open, setOpen] = useState(false)
     const [depositOpen, setDepositOpen] = useState(false)
     const toggleOpen = (e) => {
@@ -15,9 +16,9 @@ const BuyingPower = () => {
 
     const MainBuyingPower = () => {
         return(
-            <div className="flex pad25">
+            <div className="flex pad25 dark-background-hover">
                 <p className="flex-left grey-bottom bold">Buying Power</p>
-                <p className="flex-right grey-bottom">$100,000</p>
+                <p className="flex-right grey-bottom">${user.buying_power}</p>
             </div>
         )
     }
@@ -39,13 +40,13 @@ const BuyingPower = () => {
                 </div>
                 <div className="flex pad25">
                     <p className="flex-quarter grey-bottom">Buying Power</p>
-                    <p className="flex-quarter grey-bottom text-right">$0.00</p>
+                    <p className="flex-quarter grey-bottom text-right">${user.buying_power}</p>
                 </div>
                 <div className="flex pad25">
                     <button className="standard-button green-background" onClick={deposit}>Deposit Funds</button>
                 </div>
             </div>
-        {depositOpen && <DepositModal setDepositOpen={setDepositOpen}/>}
+        {depositOpen && <DepositModal setDepositOpen={setDepositOpen} user={user}/>}
         </>
     )
 }

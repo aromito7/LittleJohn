@@ -1,6 +1,7 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const DEPOSIT_AMOUNT = 'session/DEPOSIT_AMOUNT';
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -9,6 +10,11 @@ const setUser = (user) => ({
 
 const removeUser = () => ({
   type: REMOVE_USER,
+})
+
+const depositAmount = (amount) => ({
+  type: DEPOSIT_AMOUNT,
+  payload: amount
 })
 
 const initialState = { user: null };
@@ -24,7 +30,7 @@ export const authenticate = () => async (dispatch) => {
     if (data.errors) {
       return;
     }
-  
+
     dispatch(setUser(data));
   }
 }
@@ -40,8 +46,8 @@ export const login = (email, password) => async (dispatch) => {
       password
     })
   });
-  
-  
+
+
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data))
@@ -69,6 +75,34 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+export const deposit = (userId, amount) => async (dispatch) =>{
+  const url = `/api/transfers/users/${userId}`
+  console.log(url, amount)
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      amount
+    }),
+  });
+
+  if(response.ok){
+    const data = await response.json();
+    dispatch(depositAmount(amount))
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['An error occurred. Please try again.']
+  }
+}
+
+
 
 export const signUp = (username, email, password) => async (dispatch) => {
   const response = await fetch('/api/auth/signup', {
@@ -82,7 +116,7 @@ export const signUp = (username, email, password) => async (dispatch) => {
       password,
     }),
   });
-  
+
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data))
@@ -103,6 +137,14 @@ export default function reducer(state = initialState, action) {
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
+    case DEPOSIT_AMOUNT:
+      const newUser = {...state.user}
+      const newBuyingPower = newUser.buying_power + parseInt(action.payload)
+      if (newBuyingPower >= 0){
+        newUser.buying_power = newBuyingPower
+      }
+      const newState = {...state, user: newUser}
+      return newState
     default:
       return state;
   }
