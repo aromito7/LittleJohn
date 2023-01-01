@@ -38,13 +38,31 @@ def upgrade():
     if environment == "production":
             op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
+
+    op.create_table('stocks',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('symbol', sa.String(length=20), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
+    sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('history', sa.String(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE stocks SET SCHEMA {SCHEMA};")
+
+
+
     op.create_table('portfolios',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('stock_id', sa.Integer(), nullable=False),
     sa.Column('stock_symbol', sa.String(length=20), nullable=False),
     sa.Column('average_price', sa.Float(), nullable=False),
     sa.Column('shares', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
 
@@ -54,6 +72,7 @@ def upgrade():
     op.create_table('transactions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('stock_id', sa.Integer(), nullable=False),
     sa.Column('stock_symbol', sa.String(length=20), nullable=False),
     sa.Column('shares', sa.Integer(), nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
@@ -63,6 +82,7 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
 
@@ -84,8 +104,10 @@ def upgrade():
     op.create_table('watchlists',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('stock_id', sa.Integer(), nullable=False),
     sa.Column('stock_symbol', sa.String(length=20), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
 

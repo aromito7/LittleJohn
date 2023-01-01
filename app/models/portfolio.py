@@ -9,12 +9,14 @@ class Portfolio(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('users.id')),nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    stock_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('stocks.id')), nullable=False)
     stock_symbol = db.Column(db.String(20), nullable=False)
     average_price = db.Column(db.Float, nullable=False)
     shares = db.Column(db.Integer, nullable=False)
 
     user = db.relationship('User', back_populates='portfolio')
+    stock = db.relationship('Stock', back_populates='portfolio')
 
     def to_dict(self):
         return {

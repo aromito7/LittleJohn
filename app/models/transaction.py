@@ -22,7 +22,7 @@ class Transaction(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship('User', back_populates='transaction')
-
+    stock = db.relationship('Stock', back_populates='transaction')
 
     def to_dict(self):
         return {
@@ -31,7 +31,8 @@ class Transaction(db.Model):
             'stockSymbol': self.stock_symbol,
             'price': self.price,
             'shares': self.shares,
-            'createdAt': self.created_at
+            'createdAt': self.created_at,
 
+            'stock' : self.stock.to_dict(),
             #'user' : self.user.to_dict()
         }

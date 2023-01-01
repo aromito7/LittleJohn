@@ -1,5 +1,6 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
+from .stocks import seed_stocks, undo_stocks
 from .portfolio import seed_portfolios, undo_portfolios
 from .transactions import seed_transactions, undo_transactions
 
@@ -20,8 +21,10 @@ def seed():
         # Make sure to add all your other model's undo functions below
         undo_portfolios()
         undo_transactions()
+        undo_stocks()
         undo_users()
     seed_users()
+    seed_stocks()
     seed_transactions()
     seed_portfolios()
     # Add other seed functions here
@@ -32,5 +35,6 @@ def seed():
 def undo():
     undo_portfolios()
     undo_transactions()
+    undo_stocks()
     undo_users()
     # Add other undo functions here

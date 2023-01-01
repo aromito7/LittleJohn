@@ -9,14 +9,21 @@ class Stock(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
-
+    history = db.Column(db.String, nullable=False)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     #user = db.relationship('User', back_populates='transfer')
 
 
     def to_dict(self):
         return {
             'id': self.id,
+            'symbol': self.symbol,
+            'name' : self.name,
+            'price' : self.price,
+            'history' : self.history,
 
             #'user' : self.user.to_dict()
         }
