@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import ForeignKey
 from datetime import datetime
+import json
 
 class Stock(db.Model):
     __tablename__ = 'stocks'
@@ -26,7 +27,7 @@ class Stock(db.Model):
             'symbol': self.symbol,
             'name' : self.name,
             'price' : self.price,
-            'history' : self.history,
+            'history' : json.loads(self.history),
 
             #'user' : self.user.to_dict()
         }

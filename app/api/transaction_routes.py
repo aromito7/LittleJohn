@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import Transaction, User, db
+from app.models import Transaction, User, db, Portfolio, Stock
 from app.forms import TransactionForm
 
 transaction_routes = Blueprint('transaction', __name__)
@@ -10,17 +10,28 @@ def create_transaction(id):
     Creates a new stock transaction in the database
     """
     form = TransactionForm()
+    user = User.query.get(id)
+    symbol = form.data['symbol']
+    price = form.data['price']
+    shares = form.data['shares']
+    total_cost = price * shares
     form['user_id'].data = id
     form['csrf_token'].data = request.cookies['csrf_token']
+    stock = Stock.query.filter(Stock.symbol == symbol).first()
+    stock_id = stock.id
+    form['stock_id'].data = stock_id
+    print("HELLO, TRANSACTION ROUTES")
+    print(symbol, price, shares, stock.id)
     if form.validate_on_submit():
-        user = User.query.get(id)
-        symbol = form.data['stock_symbol']
-        price = form.data['price']
-        shares = form.data['shares']
-        for stock in user.portfolio:
-            if stock.stock_symbol == symbol:
-                current_shares = stock.shares
-                portfolio_item = stock
+        current_shares = 0
+
+        portfolio_item = Portfolio.query.filter(Portfolio.user_id == id, Portfolio.stock_symbol == symbol).first()
+
+        if portfolio_item:
+            current_shares = portfolio_item.shares
+
+        if total_cost > user.buying_power:
+            return { 'errors': 'Not enough buying power for this purchase'}
 
         if shares + current_shares < 0:
             return { 'errors': 'Cannot sell more shares than you own'}
@@ -29,9 +40,10 @@ def create_transaction(id):
             db.session.delete(portfolio_item)
 
         portfolio_item.shares += shares
-
+        user.buying_power -= total_cost
         transaction = Transaction(
             user_id = id,
+            stock_id = stock_id,
             stock_symbol = symbol,
             price = price,
             shares = shares,
@@ -40,4 +52,4 @@ def create_transaction(id):
         db.session.commit()
         return transaction.to_dict()
 
-    return { 'errors': (form.errors)}, 401
+    return { 'errors': (form.errors)}

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
-import Menu from '../menu.js'
+import { transaction } from "../../store/session"
 import './stock.css'
 
 const Stock = () => {
@@ -15,37 +15,29 @@ const Stock = () => {
 
 
     useEffect(async() => {
-        if(true) return
+        if(false) return
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
         const data = await response.json()
         setStockData(data)
     },[dispatch])
 
-    if(!stockData) return null
+    if(!stockData || !stockData.name) return null
+    // console.log("STOCK DATA")
+    // console.log(stockData)
     const history = stockData.history.Close
-    console.log("STOCK HISTORY")
-    console.log(Object.values(history))
-    console.log("STOCK DATA")
-    console.log(stockData)
+    // console.log("STOCK HISTORY")
+    // console.log(Object.values(history))
     const keys = Object.keys(stockData)
     const open = 30.9800//stockData[keys.slice(-1)[0]]["1. open"]
-    const current = Object.values(history).slice(-1)[0]//31.2100//stockData[keys[0]]["4. close"]
+    const current = Object.values(history).slice(-1)[0].toFixed(2)//31.2100//stockData[keys[0]]["4. close"]
     //console.log(user)
 
-    const buyStock = () => {
+    const buyStock = async() => {
         if(shares <= 0) setError("Enter at least 0.000001 shares.")
-        const userStocks = user.portfolio.map(stock => stock.stock_symbol)
-
-
-        //If user doesn't own a stock then we do a create
-        if(!userStocks.includes(symbol)){
-
-        }
+        dispatch(transaction(user.id, symbol, current, shares))
     }
-
     return(
         <div id="landing-page-container">
-            <Menu/>
             <div id="graph-sidebar">
                 <div>
                     <div id="account-graph-container">
