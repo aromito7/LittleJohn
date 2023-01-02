@@ -15,16 +15,29 @@ def get_stock_info(symbol):
     stock = Stock.query.filter(Stock.symbol == symbol).first()
     if stock:
         return stock.to_dict()
-    return { "message" : "something went wrong"}
+
+    print("HELLO YFINANCE API!")
+    print("HELLO YFINANCE API!")
+    print("HELLO YFINANCE API!")
+
     end = datetime.now()#.strftime("%Y-%m-%d")
     start = end - timedelta(days=90)
     end = end + timedelta(days=1)
     start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
 
     stock = yf.Ticker(symbol)
-    history = stock.history(start=start, end=end, interval="1d")
-    return {"stock": stock.info,
-        "start": start,
-        "end" : end,
-        "history": json.loads(history.to_json()),
-        "history_string": history.to_json(),}
+    history_string = stock.history(start=start, end=end, interval="1d").to_json()
+    name = stock.info['shortName']
+    price = stock.info['bid']
+
+    newStock = Stock(
+        symbol = symbol,
+        name = name,
+        price = price,
+        history = history_string
+        )
+
+    db.session.add(newStock)
+    db.session.commit()
+
+    return newStock.to_dict()
