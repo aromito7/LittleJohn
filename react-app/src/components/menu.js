@@ -1,15 +1,25 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../store/session";
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
+import { useState } from "react";
 
 const Menu = () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const [search, setSearch] = useState("")
 
     const onLogout = async (e) => {
         await dispatch(logout());
         history.push("/login")
     };
+
+    const onEnter = (e) => {
+        if (e.key === 'Enter') {
+            //console.log(search)
+            history.push(`/stocks/${search}`)
+            setSearch("")
+        }
+      };
 
     return(
         <div id="menu-container">
@@ -19,13 +29,13 @@ const Menu = () => {
             <div id="search-bar-container">
                 <div id="search-bar">
                     <i className="fa-solid fa-magnifying-glass"/>
-                    <input type="text"/>
+                    <input type="text" value={search} onChange={e => setSearch(e.target.value)} onKeyDown={onEnter}/>
                 </div>
             </div>
             <div id="menu-items-container">
                 <div className="menu-item-container">
                     <div className="menu-item cursor-pointer green">
-                        Investing
+                        <Link to="/">Investing</Link>
                     </div>
                 </div>
                 <div className="menu-item-container">
