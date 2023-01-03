@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
-import { transaction } from "../../store/session"
+import { transaction, toggleWatchlist } from "../../store/session"
 import Transaction from "../Transaction"
 import './stock.css'
 
@@ -11,7 +11,6 @@ const Stock = () => {
     const portfolioItem = user.portfolio.find(stock => stock.stock_symbol == symbol)
     const currentShares = portfolioItem ? portfolioItem.shares : 0
     const transactions = user.transactions.filter(transaction => transaction.stockSymbol == symbol)
-    console.log(transactions)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [error, setError] = useState("")
@@ -32,8 +31,7 @@ const Stock = () => {
     // },[isBuying])
 
     if(!stockData || !stockData.name) return null
-    // console.log("STOCK DATA")
-    // console.log(stockData)
+
     const history = stockData.history.Close
 
     const open = stockData.open
@@ -42,11 +40,19 @@ const Stock = () => {
     const isGreen = delta >= 0
     const percent = parseFloat(delta) / parseFloat(open)
     const name = stockData.name.split(', Inc')[0].split(".com")[0]
-    //console.log(user)
-    //console.log(`Open: ${open}; Current: ${current}`)
+    // console.log(user.watchlist)
+    // console.log(user.watchlist.map(item => item.stockSymbol))
+    // console.log(symbol)
+    // console.log(user.watchlist.find(item => item.stockSymbol == symbol))
+    var onWatchlist = Boolean(user.watchlist.find(item => item.stockSymbol == symbol))
     const buyStock = async() => {
         if(shares <= 0) setError("Enter at least 0.000001 shares.")
         dispatch(transaction(user.id, symbol, current, shares * isBuying))
+    }
+
+    const toggleWatchlistItem = async() => {
+        dispatch(toggleWatchlist(user.id, symbol))
+        onWatchlist = !onWatchlist
     }
 
 
@@ -109,8 +115,8 @@ const Stock = () => {
                         </div>
                         <p className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
                     </div>
-                    <div className="standard-button">
-                        Add to watchlist
+                    <div id="watchlist-button" className="wide-button center cursor-pointer" onClick={toggleWatchlistItem}>
+                        {onWatchlist ? `- Remove from watchlist`:`+ Add to watchlist`}
                     </div>
                 </div>
             </div>

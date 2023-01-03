@@ -2,7 +2,8 @@
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const DEPOSIT_AMOUNT = 'session/DEPOSIT_AMOUNT';
-const STOCK_TRANSACTION ='session/STOCK_TRANSACTION';
+const STOCK_TRANSACTION = 'session/STOCK_TRANSACTION';
+const TOGGLE_WATCHLIST = 'session/TOGGLE_WATCHLIST';
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -21,6 +22,11 @@ const depositAmount = (amount) => ({
 const stockTransaction = (symbol, price, shares) => ({
   type: STOCK_TRANSACTION,
   payload: {symbol, price, shares}
+})
+
+const toggleWatchlistItem = (userId, symbol) => ({
+  type: TOGGLE_WATCHLIST,
+  payload: {userId, symbol}
 })
 
 const initialState = { user: null };
@@ -81,6 +87,22 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+export const toggleWatchlist = (userId, symbol) => async(dispatch) => {
+  const response = await fetch(`/api/watchlists/users/${userId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      stock_symbol: symbol
+    }),
+  });
+
+  if(response.ok){
+    const data = response.json();
+  }
+}
+
 export const transaction = (userId, symbol, price, shares) => async (dispatch) => {
   const url = `/api/transactions/users/${userId}`
   console.log(url, symbol, price, shares)
@@ -111,7 +133,7 @@ export const transaction = (userId, symbol, price, shares) => async (dispatch) =
 
 export const deposit = (userId, amount) => async (dispatch) =>{
   const url = `/api/transfers/users/${userId}`
-  console.log(url, amount)
+  //console.log(url, amount)
   const response = await fetch(url, {
     method: 'POST',
     headers: {

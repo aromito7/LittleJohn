@@ -2,7 +2,7 @@
     padding: 10px;
 }
 
-#purchase-button{
+.wide-button, #purchase-button{
     background-color: rgb(0, 180, 5);
     width: 200px;
     height: 30px;
@@ -15,4 +15,8 @@
 
 #transaction-select{
     width: 100%;
+}
+
+#watchlist-button{
+    margin-top: 20px;
 }
