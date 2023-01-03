@@ -109,6 +109,9 @@ const Stock = () => {
                         </div>
                         <p className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
                     </div>
+                    <div className="standard-button">
+                        Add to watchlist
+                    </div>
                 </div>
             </div>
         </div>
