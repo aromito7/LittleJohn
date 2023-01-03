@@ -15,4 +15,5 @@ class StockForm(FlaskForm):
     stock_symbol = StringField('symbol', validators=[DataRequired(), symbol_exists])
     name = StringField('name', validators=[DataRequired()])
     price = FloatField('price', validators=[DataRequired()])
+    open = FloatField('price', validators=[DataRequired()])
     history = StringField('history', validators=[DataRequired()])

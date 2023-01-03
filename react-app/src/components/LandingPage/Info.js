@@ -1,6 +1,6 @@
 //import { useState, useEffect } from "react"
 import { useSelector } from "react-redux";
-import Transaction from "./Transaction";
+import Transaction from "../Transaction";
 const Info = () => {
     const user = useSelector(state => state.session.user);
     if(!user) return null

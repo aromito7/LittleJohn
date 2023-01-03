@@ -27,11 +27,21 @@ def create_transaction(id):
 
         portfolio_item = Portfolio.query.filter(Portfolio.user_id == id, Portfolio.stock_symbol == symbol).first()
 
-        if portfolio_item:
-            current_shares = portfolio_item.shares
-
         if total_cost > user.buying_power:
             return { 'errors': 'Not enough buying power for this purchase'}
+
+        if not portfolio_item:
+            portfolio_item = Portfolio(
+                user_id = user.id,
+                stock_id = stock.id,
+                stock_symbol = symbol,
+                average_price = price,
+                shares = 0
+            )
+            db.session.add(portfolio_item)
+
+        current_shares = portfolio_item.shares
+
 
         if shares + current_shares < 0:
             return { 'errors': 'Cannot sell more shares than you own'}
@@ -48,6 +58,7 @@ def create_transaction(id):
             price = price,
             shares = shares,
         )
+
         db.session.add(transaction)
         db.session.commit()
         return transaction.to_dict()

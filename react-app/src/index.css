@@ -96,8 +96,16 @@
     font-weight: bold;
 }
 
-.font16{
+.font20{
     font-size: 20px
+}
+
+.font36{
+    font-size: 36px
+}
+
+.font48{
+    font-size: 48px
 }
 
 .full-width{

@@ -44,6 +44,7 @@ def upgrade():
     sa.Column('symbol', sa.String(length=20), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('open', sa.Float(), nullable=False),
     sa.Column('history', sa.String(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')

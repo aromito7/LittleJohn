@@ -13,6 +13,7 @@ class Stock(db.Model):
     symbol = db.Column(db.String, unique=True, nullable=False)
     name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
+    open = db.Column(db.Float, nullable=False)
     history = db.Column(db.String, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
     #user = db.relationship('User', back_populates='transfer')
@@ -27,6 +28,7 @@ class Stock(db.Model):
             'symbol': self.symbol,
             'name' : self.name,
             'price' : self.price,
+            'open' : self.open,
             'history' : json.loads(self.history),
 
             #'user' : self.user.to_dict()

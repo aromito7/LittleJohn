@@ -2,14 +2,20 @@ import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { transaction } from "../../store/session"
+import Transaction from "../Transaction"
 import './stock.css'
 
 const Stock = () => {
     const {symbol} = useParams()
     const user = useSelector(state => state.session.user)
+    const portfolioItem = user.portfolio.find(stock => stock.stock_symbol == symbol)
+    const currentShares = portfolioItem ? portfolioItem.shares : 0
+    const transactions = user.transactions.filter(transaction => transaction.stockSymbol == symbol)
+    console.log(transactions)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [error, setError] = useState("")
+    const [isBuying, setIsBuying] = useState(1)
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
 
@@ -19,39 +25,56 @@ const Stock = () => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
         const data = await response.json()
         setStockData(data)
-        console.log(data)
     },[dispatch])
+
+    // useEffect(() => {
+    //     console.log(isBuying)
+    // },[isBuying])
 
     if(!stockData || !stockData.name) return null
     // console.log("STOCK DATA")
     // console.log(stockData)
     const history = stockData.history.Close
-    // console.log("STOCK HISTORY")
-    // console.log(Object.values(history))
-    const keys = Object.keys(stockData)
-    const open = 30.9800//stockData[keys.slice(-1)[0]]["1. open"]
-    const current = Object.values(history).slice(-1)[0].toFixed(2)//31.2100//stockData[keys[0]]["4. close"]
-    //console.log(user)
 
+    const open = stockData.open
+    const current = stockData.price
+    const delta = parseFloat(current) - parseFloat(open)
+    const isGreen = delta >= 0
+    const percent = parseFloat(delta) / parseFloat(open)
+    const name = stockData.name.split(', Inc')[0].split(".com")[0]
+    //console.log(user)
+    //console.log(`Open: ${open}; Current: ${current}`)
     const buyStock = async() => {
         if(shares <= 0) setError("Enter at least 0.000001 shares.")
-        dispatch(transaction(user.id, symbol, current, shares))
+        dispatch(transaction(user.id, symbol, current, shares * isBuying))
     }
+
+
     return(
         <div id="landing-page-container">
             <div id="graph-sidebar">
                 <div>
                     <div id="account-graph-container">
                         <div>
-                            <p>{symbol}</p>
-                            <p>{current}</p>
+                            <p className="font48">{name}</p>
+                            <p className="font36">{`${Math.abs(current.toFixed(2))}`}</p>
+                            <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
                         </div>
                     </div>
-                    <p>Stock History</p>
+                    <div>
+                        {transactions.map((transaction, i) => {
+                            return(
+                                <Transaction transaction={transaction} key={i}/>
+                            )
+                        })}
+                    </div>
                 </div>
                 <div>
                     <div id="stock-sidebar" className="dark-background grey-border">
-                        <p>Buy {symbol}</p>
+                        <select value={isBuying} onChange={e => setIsBuying(e.target.value)} id="transaction-select" className="dark-background">
+                            <option value={1}>Buy {symbol}</option>
+                            <option value={-1}>Sell {symbol}</option>
+                        </select>
                         <div className="flex">
                             <p className="flex-left">Order Type</p>
                             <p className="flex-right">Market Order</p>
@@ -75,7 +98,7 @@ const Stock = () => {
                             </div>
                             <div className="flex">
                                 <p className="flex-left bold">Estimated Cost</p>
-                                <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? shares * current : 0}</p>
+                                <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? (shares * current).toFixed(2) : 0}</p>
                             </div>
                         </>
                         }
@@ -84,7 +107,7 @@ const Stock = () => {
                                 Purchase
                             </div>
                         </div>
-                        <p className="center">{`Buying Power: $${user.buying_power}`}</p>
+                        <p className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
                     </div>
                 </div>
             </div>

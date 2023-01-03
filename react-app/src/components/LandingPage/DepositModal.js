@@ -33,7 +33,7 @@ const DepositModal = ({setDepositOpen, user}) => {
     return(
         <div className="modal dark-background pad25 black-border" id="deposit-modal">
             <div className="flex">
-                <p className="flex-left bold font16">Transfer Money</p>
+                <p className="flex-left bold font20">Transfer Money</p>
                 <p id="x-close" className="cursor-pointer" onClick={e => setDepositOpen(false)}>X</p>
             </div>
             <div id="transfer-modal-grid">
