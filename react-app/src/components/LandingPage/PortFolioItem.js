@@ -10,8 +10,12 @@ const PortfolioItem = ({stock}) => {
     }
     return(
         <div className="portfolio-item-container cursor-pointer" onClick={e => goToStock(stock.stock.symbol)}>
-            <p>{stock.stock.symbol}</p>
-            <p>graph</p>
+            <div>
+                <p>{stock.stock.symbol}</p>
+            </div>
+            {stock.shares && stock.shares > 0 &&
+                    <p>Shares: {stock.shares}</p>
+            }
             <div>
                 <p>${price.toFixed(2)}</p>
                 <p className={delta >= 0 ? "green-font" : "orange-font"}>{percentDelta}</p>

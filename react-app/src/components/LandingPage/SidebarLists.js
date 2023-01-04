@@ -2,11 +2,10 @@ import PortfolioItem from "./PortFolioItem"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 
-const SidebarLists = () => {
+const SidebarLists = ({user}) => {
     const [showPortfolio, setShowPortfolio] = useState(true)
     const [showWatchlist, setShowWatchlist] = useState(true)
     //const [showWatchlist, setShowWatchlist] = useState(true)
-    const user = useSelector(state => state.session.user)
 
 
     if(!user) return null
