@@ -2,21 +2,23 @@
     padding: 10px;
 }
 
-.wide-button, #purchase-button{
-    background-color: rgb(0, 180, 5);
-    width: 200px;
-    height: 30px;
-    border-radius: 20px;
-    align-items: center;
-    font-size: 16px;
-    color: black;
-    padding: 10px 0 0 0;
+#stock-sidebar{
+    width: 90%;
+    border-radius: 5px;
+}
+
+#toggle-watchlist-div{
+    margin-top: 50px;
 }
 
 #transaction-select{
     width: 100%;
 }
 
-#watchlist-button{
+#watchlist-div{
     margin-top: 20px;
+}
+
+#buying-power-display, #estimated-cost-div{
+    border-top: 1px solid grey;
 }

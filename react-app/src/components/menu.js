@@ -2,11 +2,17 @@ import { useDispatch } from "react-redux";
 import { logout } from "../store/session";
 import { useHistory, Link } from "react-router-dom"
 import { useState } from "react";
+//const fs = require('fs')
 
 const Menu = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const [search, setSearch] = useState("")
+    //console.log(fs)
+    // fs.readFile('stock_info.csv', (err, data) => {
+    //     if(err) throw err;
+    //     console.log(data.toString())
+    // })
 
     const onLogout = async (e) => {
         await dispatch(logout());
@@ -16,7 +22,8 @@ const Menu = () => {
     const onEnter = (e) => {
         if (e.key === 'Enter') {
             //console.log(search)
-            history.push(`/stocks/${search}`)
+            history.push('/')
+            history.push(`/stocks/${search.toUpperCase()}`)
             setSearch("")
         }
       };

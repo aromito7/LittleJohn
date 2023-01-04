@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { transaction, toggleWatchlist } from "../../store/session"
+import DepositModal from "../DepositModal"
+import StockErrors from "./StockErrors"
+import StockBuyingPower from "./StockBuyingPower"
 import Transaction from "../Transaction"
 import './stock.css'
 
@@ -13,18 +16,22 @@ const Stock = () => {
     const transactions = user.transactions.filter(transaction => transaction.stockSymbol == symbol)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
-    const [error, setError] = useState("")
     const [isBuying, setIsBuying] = useState(1)
+
+    const [showErrors, setShowErrors] = useState(false)
+    const [shareError, setShareError] = useState("")
+    const [depositOpen, setDepositOpen] = useState(false)
+    const [reviewOrder, setReviewOrder] = useState(false)
+
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
 
 
     useEffect(async() => {
-        if(false) return
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
         const data = await response.json()
         setStockData(data)
-    },[dispatch])
+    },[dispatch, symbol])
 
     // useEffect(() => {
     //     console.log(isBuying)
@@ -46,13 +53,31 @@ const Stock = () => {
     // console.log(user.watchlist.find(item => item.stockSymbol == symbol))
     var onWatchlist = Boolean(user.watchlist.find(item => item.stockSymbol == symbol))
     const buyStock = async() => {
-        if(shares <= 0) setError("Enter at least 0.000001 shares.")
+        if(shares <= 0) {
+            setShareError("Enter at least 0.000001 shares.")
+            return
+        }
+        if(shares * current > user.buying_power){
+            setDepositOpen(true)
+            return
+        }
         dispatch(transaction(user.id, symbol, current, shares * isBuying))
     }
 
     const toggleWatchlistItem = async() => {
         dispatch(toggleWatchlist(user.id, symbol))
         onWatchlist = !onWatchlist
+    }
+
+    const PurchaseButtons = () => {
+        if(shareError) return(
+            <StockErrors error={shareError}/>
+        )
+        return(
+            <button className={`wide-button center cursor-pointer ${isGreen ? 'green-background' : 'orange-background'}`} onClick={buyStock}>
+                Purchase
+            </button>
+        )
     }
 
 
@@ -99,24 +124,25 @@ const Stock = () => {
                                 <input className="flex-right no-border light-gray-background" value={shares} onChange={e => setShares(e.target.value)}></input>
                             </div>
                             <div className="flex">
-                                <p className="flex-left green-font">Market Price</p>
+                                <p className={`flex-left ${isGreen ? 'green-font' : 'orange-font'}`}>Market Price</p>
                                 <p className="flex-right bold">${current}</p>
                             </div>
-                            <div className="flex">
+                            <div id="estimated-cost-div" className="flex">
                                 <p className="flex-left bold">Estimated Cost</p>
                                 <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? (shares * current).toFixed(2) : 0}</p>
                             </div>
                         </>
                         }
                         <div className="flex">
-                            <div id="purchase-button" className="center cursor-pointer" onClick={buyStock}>
-                                Purchase
-                            </div>
+                        <PurchaseButtons/>
                         </div>
-                        <p className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
+                        <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
                     </div>
-                    <div id="watchlist-button" className="wide-button center cursor-pointer" onClick={toggleWatchlistItem}>
-                        {onWatchlist ? `- Remove from watchlist`:`+ Add to watchlist`}
+                    {depositOpen && <DepositModal setDepositOpen={setDepositOpen} user={user}/>}
+                    <div id="watchlist-div" className="flex">
+                        <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
+                            {onWatchlist ? `- Remove from watchlist`:`+ Add to watchlist`}
+                        </button>
                     </div>
                 </div>
             </div>
