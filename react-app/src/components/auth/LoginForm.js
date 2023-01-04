@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
 import loginImage from '../../images/login.jpg'
+import SignUpForm from './SignUpForm';
 import './LoginForm.css'
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [showSignUpModal, setShowSignUpModal] = useState(false)
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const onLogin = async (e) => {
     e.preventDefault();
+    setHasSubmitted(true)
+    if(passwordError || emailError) return
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
@@ -36,46 +43,85 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
+  const openSignupModal = e => {
+    e.stopPropagation()
+    setShowSignUpModal(true)
+  }
+
+  useEffect(() => {
+    for(let error of errors){
+      const [type, message] = error.split(' : ')
+      if(type == "email"){
+        setEmailError(message.split('Email')[1])
+        return
+      }
+      else if(type == 'password'){
+        setPasswordError(message.split('Password')[1])
+        return
+      }
+    }
+  },[errors])
+
+  useEffect(() => {
+    const errors = []
+    if(email.length == 0) {
+      setEmailError(" is required")
+    }
+    else if(!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
+      setEmailError(" is not valid")
+    }
+    else setEmailError('')
+
+    if(password.length == 0) {
+      setPasswordError(" is required")
+    }
+    else setPasswordError('')
+
+    setErrors(errors)
+  },[email, password])
+
   if (user) {
     return <Redirect to='/' />;
   }
-
   return (
-    <div id="login-container">
+    <div id="login-container" onClick={e => setShowSignUpModal(false)}>
       <div className="left-half">
         <img className="half" id="login-image" src={loginImage}/>
       </div>
       <div className="right-half">
         <form className="half">
           <h2>Log in to Little John</h2>
-          {errors.length > 0 && <div>
-            {errors.map((error, ind) => (
-              <div key={ind}>{error}</div>
-            ))}
-          </div>}
           <div id="login-inputs">
-            <label htmlFor='email'>Email</label>
+            <label htmlFor='email' className={hasSubmitted && emailError ? "red-font" : ''}>Email {hasSubmitted && emailError ? emailError : ''}</label>
             <input
               name='email'
               type='text'
               placeholder='Email'
               value={email}
               onChange={updateEmail}
+              className={hasSubmitted && emailError ? "red-border" : ''}
               />
-            <label htmlFor='password'>Password</label>
+            <label htmlFor='password' className={hasSubmitted && passwordError ? "red-font" : ''}>Password {hasSubmitted && passwordError ? passwordError : ''}</label>
             <input
               name='password'
               type='password'
               placeholder='Password'
               value={password}
               onChange={updatePassword}
+              className={hasSubmitted && passwordError ? "red-border" : ''}
               />
           </div>
           <div id="login-buttons-container">
             <button type='submit' className='standard-button green-background' onClick={onLogin}>Login</button>
-            <button type='submit' className='standard-button green-background' onClick={loginDemo}>Demo User</button>
+            <button type='button' className='standard-button green-background' onClick={openSignupModal}>Sign Up</button>
+          </div>
+          <div id='demo-login-container'>
+            <button type='submit' className='standard-button center green-background' onClick={loginDemo}>Demo User</button>
           </div>
         </form>
+        {showSignUpModal &&
+          <SignUpForm showModal={setShowSignUpModal}/>
+        }
       </div>
     </div>
   );

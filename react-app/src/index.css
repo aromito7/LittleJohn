@@ -24,6 +24,10 @@
     color: rgb(255, 80, 0);
 }
 
+.red-font{
+    color: red;
+}
+
 .orange-background{
     background-color: rgb(255, 80, 0);
 }
@@ -34,6 +38,10 @@
 
 .green-border{
     border: 1px solid rgb(0, 180, 5);
+}
+
+.red-border{
+    border: 1px solid red;
 }
 
 .dark-background, .dark-background p, .dark-background div{

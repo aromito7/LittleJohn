@@ -17,6 +17,7 @@
     position: absolute;
     right: 0px;
     width: 50%;
+    height: 100%;
   }
 
 .right-half .half{
@@ -35,6 +36,7 @@
     display: flex;
     width: 60%;
     justify-content: space-between;
+    margin-top: 20px;
 }
 /*
 #login-buttons-container button{
@@ -51,4 +53,10 @@
 
 #login-inputs > *{
     margin: 10px 0 10px 0;
+}
+
+#demo-login-container{
+    display: flex;
+    width: 60%;
+    margin-top: 20px;
 }
