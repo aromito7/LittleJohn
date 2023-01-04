@@ -50,7 +50,9 @@ const DepositModal = ({setDepositOpen, user}) => {
                     <option>Interest Checking</option>
                 </select>
             </div>
-            <button className="standard-button green-background" onClick={depositAmount}>Confirm Transfer</button>
+            <div className="flex">
+                <button className="standard-button green-background center" onClick={depositAmount}>Confirm Transfer</button>
+            </div>
         </div>
     )
 }

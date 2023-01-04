@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { transaction, toggleWatchlist } from "../../store/session"
 import DepositModal from "../DepositModal"
-import StockErrors from "./StockErrors"
 import StockBuyingPower from "./StockBuyingPower"
 import Transaction from "../Transaction"
 import './stock.css'
@@ -21,7 +20,7 @@ const Stock = () => {
     const [showErrors, setShowErrors] = useState(false)
     const [shareError, setShareError] = useState("")
     const [depositOpen, setDepositOpen] = useState(false)
-    const [reviewOrder, setReviewOrder] = useState(false)
+    const [insuficientFunds, setInsuficientFunds] = useState(false)
 
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
@@ -38,9 +37,6 @@ const Stock = () => {
     // },[isBuying])
 
     if(!stockData || !stockData.name) return null
-
-    const history = stockData.history.Close
-
     const open = stockData.open
     const current = stockData.price
     const delta = parseFloat(current) - parseFloat(open)
@@ -53,33 +49,50 @@ const Stock = () => {
     // console.log(user.watchlist.find(item => item.stockSymbol == symbol))
     var onWatchlist = Boolean(user.watchlist.find(item => item.stockSymbol == symbol))
     const buyStock = async() => {
+
+        if(showErrors){
+            setShowErrors(false)
+            setDepositOpen(false)
+            setInsuficientFunds(false)
+            setShareError('')
+            return
+        }
+        if(isBuying < 0 && shares > portfolioItem.shares){
+            setShareError("Insuficient shares.")
+            setShowErrors(true)
+            return
+        }
         if(shares <= 0) {
             setShareError("Enter at least 0.000001 shares.")
+            setShowErrors(true)
             return
         }
         if(shares * current > user.buying_power){
-            setDepositOpen(true)
+            setShowErrors(true)
+            setInsuficientFunds(true)
+            setShareError("Not enough buying power")
             return
         }
-        dispatch(transaction(user.id, symbol, current, shares * isBuying))
+        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying))
+        setShares(0)
+    }
+
+    const closeModal = () => {
+        setDepositOpen(false)
+    }
+
+    const PurchaseDismiss = () => {
+        return(
+            <button className={`wide-button center cursor-pointer margin-verticle20 ${isGreen ? 'green-background' : 'orange-background'}`} onClick={buyStock}>
+                {shareError ? "Dismiss" : isBuying > 0 ? "Purchase" : "Sell"}
+            </button>
+        )
     }
 
     const toggleWatchlistItem = async() => {
         dispatch(toggleWatchlist(user.id, symbol))
         onWatchlist = !onWatchlist
     }
-
-    const PurchaseButtons = () => {
-        if(shareError) return(
-            <StockErrors error={shareError}/>
-        )
-        return(
-            <button className={`wide-button center cursor-pointer ${isGreen ? 'green-background' : 'orange-background'}`} onClick={buyStock}>
-                Purchase
-            </button>
-        )
-    }
-
 
     return(
         <div id="landing-page-container">
@@ -88,7 +101,7 @@ const Stock = () => {
                     <div id="account-graph-container">
                         <div>
                             <p className="font48">{name}</p>
-                            <p className="font36">{`${Math.abs(current.toFixed(2))}`}</p>
+                            <p className="font36">{`$${Math.abs(current.toFixed(2))}`}</p>
                             <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
                         </div>
                     </div>
@@ -133,12 +146,19 @@ const Stock = () => {
                             </div>
                         </>
                         }
-                        <div className="flex">
-                        <PurchaseButtons/>
+
+                        <div className="flex-verticle">
+                            {shareError &&
+                                <p id="stock-purchase-errors">{shareError}</p>
+                            }
+                            {depositOpen && <DepositModal setDepositOpen={setDepositOpen} user={user}/>}
+                            {insuficientFunds &&
+                            <button className={`wide-button center ${isGreen ? 'green-background' : 'orange-background'}`} onClick={e => setDepositOpen(true)}>Make Deposit</button>
+                            }
+                            <PurchaseDismiss/>
                         </div>
                         <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
                     </div>
-                    {depositOpen && <DepositModal setDepositOpen={setDepositOpen} user={user}/>}
                     <div id="watchlist-div" className="flex">
                         <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
                             {onWatchlist ? `- Remove from watchlist`:`+ Add to watchlist`}

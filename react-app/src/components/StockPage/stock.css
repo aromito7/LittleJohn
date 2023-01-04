@@ -17,8 +17,14 @@
 
 #watchlist-div{
     margin-top: 20px;
+    width: 90%;
 }
 
 #buying-power-display, #estimated-cost-div{
     border-top: 1px solid grey;
+}
+
+#stock-purchase-errors{
+    margin: 20px 0 20px 0;
+    font-weight: bold;
 }

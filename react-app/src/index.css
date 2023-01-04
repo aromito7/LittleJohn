@@ -64,6 +64,13 @@
     background-color: rgb(64, 73, 78);
 }
 
+.flex-verticle{
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+}
+
 .flex{
     display: flex;
 }
@@ -144,14 +151,20 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 50%;
     width: 30%;
     border-radius: 25px;
+    text-align: left;
+
 }
 
 .wide-button{
-    width: 200px;
+    width: 90%;
     height: 50px;
     border-radius: 25px;
-    font-size: 16px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.margin-verticle20{
+    margin: 20px 0 20px 0;
 }
