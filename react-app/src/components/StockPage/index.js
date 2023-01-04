@@ -32,9 +32,12 @@ const Stock = () => {
         setStockData(data)
     },[dispatch, symbol])
 
-    // useEffect(() => {
-    //     console.log(isBuying)
-    // },[isBuying])
+    useEffect(() => {
+        setShowErrors(false)
+        setDepositOpen(false)
+        setInsuficientFunds(false)
+        setShareError(false)
+    },[shares])
 
     if(!stockData || !stockData.name) return null
     const open = stockData.open
@@ -74,7 +77,7 @@ const Stock = () => {
             return
         }
         const response = dispatch(transaction(user.id, symbol, current, shares * isBuying))
-        setShares(0)
+        setShares('0')
     }
 
     const closeModal = () => {
@@ -90,7 +93,7 @@ const Stock = () => {
     }
 
     const toggleWatchlistItem = async() => {
-        dispatch(toggleWatchlist(user.id, symbol))
+        dispatch(toggleWatchlist(user.id, symbol, stockData))
         onWatchlist = !onWatchlist
     }
 
