@@ -27,7 +27,7 @@ const SidebarLists = ({user}) => {
                 <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
             </div>
             {showPortfolio &&
-            <div id="sidebar-portfolio">
+            <div id={`sidebar-portfolio ${showPortfolio ? '' : 'transform-hide'}`}>
                 {portfolio.map((stock, i) => {
                     return(
                         <PortfolioItem key={i} stock={stock}/>
