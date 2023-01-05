@@ -24,7 +24,7 @@ const SidebarLists = ({user}) => {
             <div className="list-title cursor-pointer" onClick={togglePortfolio}>
                 <h1>Portfolio</h1>
                 {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
-                <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right upside-down"/>}
+                <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
             </div>
             {showPortfolio &&
             <div id="sidebar-portfolio">
@@ -38,7 +38,7 @@ const SidebarLists = ({user}) => {
             <div className="list-title curosor pointer" onClick={toggleWatchlist}>
                 <h1>Watchlist</h1>
                 {showWatchlist ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
-                <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right upside-down"/>}
+                <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
             </div>
             {showWatchlist &&
             <div id="sidebar-watchlist">
