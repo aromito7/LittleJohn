@@ -2,9 +2,12 @@
 import { useSelector } from "react-redux";
 import Transaction from "../Transaction";
 const Info = () => {
-    const user = useSelector(state => state.session.user);
-    if(!user) return null
-    const transactions = user.transactions
+    const transactions = useSelector(state => state.session.transactions);
+    if(transactions.length < 1) return(
+        <div>
+            <h1>No transactions... yet</h1>
+        </div>
+    )
     // useEffect(async() => {
     //     if(!user) return
     //     const response = await fetch(`/api/users/${user.id}/transactions`)

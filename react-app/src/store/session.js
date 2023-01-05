@@ -19,14 +19,14 @@ const depositAmount = (amount) => ({
   payload: amount
 })
 
-const stockTransaction = (symbol, price, shares) => ({
+const stockTransaction = (symbol, price, shares, name) => ({
   type: STOCK_TRANSACTION,
-  payload: {symbol, price, shares}
+  payload: {symbol, price, shares, name}
 })
 
-const toggleWatchlistItem = (userId, symbol) => ({
+const toggleWatchlistItem = (userId, symbol, stock) => ({
   type: TOGGLE_WATCHLIST,
-  payload: {userId, symbol}
+  payload: {userId, symbol, stock}
 })
 
 const initialState = { user: null };
@@ -87,23 +87,24 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const toggleWatchlist = (userId, symbol) => async(dispatch) => {
+export const toggleWatchlist = (userId, stock) => async(dispatch) => {
   const response = await fetch(`/api/watchlists/users/${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      stock_symbol: symbol
+      stock_symbol: stock.symbol
     }),
   });
 
   if(response.ok){
     const data = response.json();
+    dispatch(toggleWatchlistItem(userId, stock.stockSymbol, stock))
   }
 }
 
-export const transaction = (userId, symbol, price, shares) => async (dispatch) => {
+export const transaction = (userId, symbol, price, shares, name) => async (dispatch) => {
   const url = `/api/transactions/users/${userId}`
   console.log(url, symbol, price, shares)
   const response = await fetch(url, {
@@ -120,6 +121,7 @@ export const transaction = (userId, symbol, price, shares) => async (dispatch) =
 
   if (response.ok) {
     const data = await response.json();
+    dispatch(transaction(symbol, price, shares, name))
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -160,14 +162,16 @@ export const deposit = (userId, amount) => async (dispatch) =>{
 
 
 
-export const signUp = (username, email, password) => async (dispatch) => {
+export const signUp = (firstName, lastName, email, password) => async (dispatch) => {
+  console.log(firstName, lastName, email, password)
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username,
+      firstName,
+      lastName,
       email,
       password,
     }),
@@ -192,9 +196,17 @@ export default function reducer(state = initialState, action) {
   const newState = {...state, user: newUser}
   switch (action.type) {
     case SET_USER:
-      return { user: action.payload }
+      return { user: action.payload,
+                watchlist: action.payload.watchlist,
+                portfolio: action.payload.portfolio,
+                transactions: action.payload.transactions,
+              }
     case REMOVE_USER:
-      return { user: null }
+      return {user: null,
+              watchlist: [],
+              portfolio: [],
+              transactions: [],
+            }
     case DEPOSIT_AMOUNT:
       const newBuyingPower = newUser.buying_power + parseInt(action.payload)
       if (newBuyingPower >= 0){
@@ -202,9 +214,19 @@ export default function reducer(state = initialState, action) {
       }
       return newState
     case STOCK_TRANSACTION:
-      const {symbol, shares, price} = action.payload
-      const stock = newUser.portfolio.find(stock => stock.symbol == symbol)
-
+      var {symbol, shares, price, name} = action.payload
+      newUser.portfolio = [...newUser.portfolio]
+      newUser.transaction = [...newUser.transaction]
+      var stock = newUser.portfolio.find(stock => stock.symbol == symbol)
+      newUser.transaction.push({
+        createdAt: Date.now(),
+        price,
+        shares,
+        stockSymbol: symbol,
+        stock: {
+          name
+        }
+      })
       if(stock){
         const currentShares = stock.shares
         const newShares = currentShares + shares
@@ -215,7 +237,25 @@ export default function reducer(state = initialState, action) {
         }
       }
 
-      return newUser;
+      return newState;
+    case TOGGLE_WATCHLIST:
+      var {userId, stock} = action.payload
+      const watchlist = state.watchlist
+
+      var newWatchlist = watchlist.filter(watchlistItem => (watchlistItem.stockSymbol != stock.symbol) || (watchlistItem.userId != userId))
+      if(newWatchlist.length == watchlist.length){
+        watchlist.push({
+          userId,
+          stockSymbol: stock.symbol,
+          stock,
+          stockId: stock.id
+        })
+        newWatchlist = [...watchlist]
+      }
+      console.log(newWatchlist)
+      newState.watchlist = newWatchlist
+
+      return newState
     default:
       return state;
   }

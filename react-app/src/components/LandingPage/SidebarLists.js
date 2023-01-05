@@ -8,9 +8,8 @@ const SidebarLists = ({user}) => {
     //const [showWatchlist, setShowWatchlist] = useState(true)
 
 
-    if(!user) return null
-    const portfolio = user.portfolio
-    const watchlist = user.watchlist
+    const portfolio = useSelector(state => state.session.portfolio)
+    const watchlist = useSelector(state => state.session.watchlist)
 
     const toggleWatchlist = () => {
         setShowWatchlist(!showWatchlist);
@@ -19,6 +18,7 @@ const SidebarLists = ({user}) => {
     const togglePortfolio = () => {
         setShowPortfolio(!showPortfolio);
     }
+    if(!user) return null
     return(
         <div id="sidebar-lists-container">
             <div className="list-title cursor-pointer" onClick={togglePortfolio}>

@@ -10,9 +10,11 @@ import './stock.css'
 const Stock = () => {
     const {symbol} = useParams()
     const user = useSelector(state => state.session.user)
-    const portfolioItem = user.portfolio.find(stock => stock.stock_symbol == symbol)
+    const portfolio = useSelector(state => state.session.portfolio)
+    const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
     const currentShares = portfolioItem ? portfolioItem.shares : 0
-    const transactions = user.transactions.filter(transaction => transaction.stockSymbol == symbol)
+    const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
+    const watchlist = useSelector(state => state.session.watchlist)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [isBuying, setIsBuying] = useState(1)
@@ -50,7 +52,6 @@ const Stock = () => {
     // console.log(user.watchlist.map(item => item.stockSymbol))
     // console.log(symbol)
     // console.log(user.watchlist.find(item => item.stockSymbol == symbol))
-    var onWatchlist = Boolean(user.watchlist.find(item => item.stockSymbol == symbol))
     const buyStock = async() => {
 
         if(showErrors){
@@ -76,7 +77,7 @@ const Stock = () => {
             setShareError("Not enough buying power")
             return
         }
-        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying))
+        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name))
         setShares('0')
     }
 
@@ -93,8 +94,8 @@ const Stock = () => {
     }
 
     const toggleWatchlistItem = async() => {
-        dispatch(toggleWatchlist(user.id, symbol, stockData))
-        onWatchlist = !onWatchlist
+        dispatch(toggleWatchlist(user.id, stockData))
+        //onWatchlist = !onWatchlist
     }
 
     return(
@@ -164,7 +165,7 @@ const Stock = () => {
                     </div>
                     <div id="watchlist-div" className="flex">
                         <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
-                            {onWatchlist ? `- Remove from watchlist`:`+ Add to watchlist`}
+                            {Boolean(watchlist.find(item => item.stockSymbol == symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
                         </button>
                     </div>
                 </div>

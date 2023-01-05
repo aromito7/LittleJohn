@@ -14,8 +14,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
-    account_value = db.Column(db.Float, nullable=False)
-    buying_power = db.Column(db.Float, nullable=False)
+    account_value = db.Column(db.Float, default=0)
+    buying_power = db.Column(db.Float, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 

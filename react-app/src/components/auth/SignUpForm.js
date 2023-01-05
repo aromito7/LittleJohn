@@ -26,7 +26,7 @@ const SignUpForm = ({showModal}) => {
     if(firstNameError || emailError || passwordError || repeatPasswordError) return
 
     if (password === repeatPassword) {
-      const data = await dispatch(signUp(firstName, email, password));
+      const data = await dispatch(signUp(firstName, lastName, email, password));
       if (data) {
         setErrors(data)
       }
