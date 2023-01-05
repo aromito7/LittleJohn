@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom"
 const PortfolioItem = ({stock}) => {
     const history = useHistory()
+    if(!stock.stock) return null
     const open = parseFloat(stock.stock.open)
     const price = parseFloat(stock.stock.price)
     const delta = ((price - open)/open).toFixed(2)

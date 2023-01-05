@@ -10,9 +10,10 @@ import './stock.css'
 const Stock = () => {
     const {symbol} = useParams()
     const user = useSelector(state => state.session.user)
+    const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const portfolio = useSelector(state => state.session.portfolio)
     const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
-    const currentShares = portfolioItem ? portfolioItem.shares : 0
+    const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
     const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
     const watchlist = useSelector(state => state.session.watchlist)
     const [buyInType, setBuyInType] = useState("Shares")
@@ -61,23 +62,25 @@ const Stock = () => {
             setShareError('')
             return
         }
-        if(isBuying < 0 && shares > portfolioItem.shares){
-            setShareError("Insuficient shares.")
-            setShowErrors(true)
-            return
-        }
         if(shares <= 0) {
             setShareError("Enter at least 0.000001 shares.")
             setShowErrors(true)
             return
         }
-        if(shares * current > user.buying_power){
+        if(isBuying < 0 && shares > portfolioItem.shares){
+            setShareError("Insuficient shares.")
+            setShowErrors(true)
+            return
+        }
+        if(isBuying > 0 && shares * current > user.buying_power){
             setShowErrors(true)
             setInsuficientFunds(true)
             setShareError("Not enough buying power")
             return
         }
-        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name))
+        setCurrentShares((parseInt(currentShares) + isBuying*parseInt(shares)).toString())
+        setBuyingPower(buyingPower - (isBuying * shares) * current)
+        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
         setShares('0')
     }
 
@@ -161,7 +164,7 @@ const Stock = () => {
                             }
                             <PurchaseDismiss/>
                         </div>
-                        <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${user.buying_power}` : `Shares: ${currentShares}`}</p>
+                        <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${buyingPower.toFixed(2)}` : `Shares: ${currentShares}`}</p>
                     </div>
                     <div id="watchlist-div" className="flex">
                         <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>

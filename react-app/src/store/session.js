@@ -19,9 +19,9 @@ const depositAmount = (amount) => ({
   payload: amount
 })
 
-const stockTransaction = (symbol, price, shares, name) => ({
+const stockTransaction = (symbol, price, shares, name, stock) => ({
   type: STOCK_TRANSACTION,
-  payload: {symbol, price, shares, name}
+  payload: {symbol, price, shares, name, stock}
 })
 
 const toggleWatchlistItem = (userId, symbol, stock) => ({
@@ -104,9 +104,8 @@ export const toggleWatchlist = (userId, stock) => async(dispatch) => {
   }
 }
 
-export const transaction = (userId, symbol, price, shares, name) => async (dispatch) => {
+export const transaction = (userId, symbol, price, shares, name, stock) => async(dispatch) => {
   const url = `/api/transactions/users/${userId}`
-  console.log(url, symbol, price, shares)
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -121,7 +120,9 @@ export const transaction = (userId, symbol, price, shares, name) => async (dispa
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(transaction(symbol, price, shares, name))
+    console.log("Hello, thunk")
+    console.log(symbol, price, shares, name, stock)
+    dispatch(stockTransaction(symbol, price, shares, name, stock))
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -214,29 +215,51 @@ export default function reducer(state = initialState, action) {
       }
       return newState
     case STOCK_TRANSACTION:
-      var {symbol, shares, price, name} = action.payload
-      newUser.portfolio = [...newUser.portfolio]
-      newUser.transaction = [...newUser.transaction]
-      var stock = newUser.portfolio.find(stock => stock.symbol == symbol)
-      newUser.transaction.push({
-        createdAt: Date.now(),
+      var {symbol, price, shares, name, stock} = action.payload
+      console.log("Stock:")
+      console.log(stock.open, stock.name)
+      var portfolio = [...state.portfolio]
+      var transactions = [...state.transactions]
+      const newTransaction = {
+        createdAt: new Date().toString(),
         price,
         shares,
         stockSymbol: symbol,
         stock: {
-          name
-        }
-      })
-      if(stock){
-        const currentShares = stock.shares
-        const newShares = currentShares + shares
-        if(newShares > 0){
-          stock.shares = newShares
-        }else if(newShares == 0){
-          newUser.portfolio = newUser.portfolio(stock => stock.symbol != symbol)
+          history: stock.history,
+          name: stock.name,
+          open: stock.open,
+          price: stock.price,
+          symbol: stock.symbol
         }
       }
 
+      transactions.push(newTransaction)
+      var item = portfolio.find(item => item.symbol == symbol)
+      if(item){
+        const currentShares = item.shares
+        const newShares = currentShares + shares
+        if(newShares > 0){
+          item.shares = newShares
+        }else if(newShares == 0){
+          portfolio = portfolio.filter(item => item.symbol != symbol)
+        }
+      }else{
+        const newPortfolioItem = {
+            stock_symbol: symbol,
+            average_price: price,
+            shares,
+            name,
+            stock: item,
+        }
+        portfolio.push(newPortfolioItem)
+      }
+      newState.transactions = transactions
+      newState.portfolio = portfolio
+      console.log("Transactions")
+      console.log(transactions)
+      console.log("Portfolio")
+      console.log(portfolio)
       return newState;
     case TOGGLE_WATCHLIST:
       var {userId, stock} = action.payload

@@ -18,7 +18,7 @@ const BuyingPower = ({user}) => {
         return(
             <div className="flex pad25 dark-background-hover">
                 <p className="flex-left grey-bottom bold">Buying Power</p>
-                <p className="flex-right grey-bottom">${user.buying_power}</p>
+                <p className="flex-right grey-bottom">${user.buying_power.toFixed(2)}</p>
             </div>
         )
     }
@@ -40,7 +40,7 @@ const BuyingPower = ({user}) => {
                 </div>
                 <div className="flex pad25 dark-background">
                     <p className="flex-quarter grey-bottom">Buying Power</p>
-                    <p className="flex-quarter grey-bottom text-right">${user.buying_power}</p>
+                    <p className="flex-quarter grey-bottom text-right">${user.buying_power.toFixed(2)}</p>
                 </div>
                 <div className="flex pad25 dark-background">
                     <button className="standard-button green-background font-black" onClick={deposit}>Deposit Funds</button>
