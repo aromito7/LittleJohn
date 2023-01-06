@@ -14,6 +14,7 @@ const LoginForm = () => {
   const [passwordError, setPasswordError] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [showSignUpModal, setShowSignUpModal] = useState(false)
+  const [firstShowing, setFirstShowing] = useState(true)
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
@@ -46,6 +47,7 @@ const LoginForm = () => {
   const openSignupModal = e => {
     e.stopPropagation()
     setShowSignUpModal(true)
+    setFirstShowing(false)
   }
 
   useEffect(() => {
@@ -61,6 +63,10 @@ const LoginForm = () => {
       }
     }
   },[errors])
+
+  useEffect(() => {
+    console.log(showSignUpModal)
+  },[showSignUpModal])
 
   useEffect(() => {
     const errors = []
@@ -83,6 +89,7 @@ const LoginForm = () => {
   if (user) {
     return <Redirect to='/' />;
   }
+
   return (
     <div id="login-container" onClick={e => setShowSignUpModal(false)}>
       <div className="left-half">
@@ -119,8 +126,8 @@ const LoginForm = () => {
             <button type='submit' className='standard-button center green-background' onClick={loginDemo}>Demo User</button>
           </div>
         </form>
-        {showSignUpModal &&
-          <SignUpForm showModal={setShowSignUpModal}/>
+        {!firstShowing &&
+          <SignUpForm showModal={showSignUpModal} setShowModal={setShowSignUpModal}/>
         }
       </div>
     </div>
