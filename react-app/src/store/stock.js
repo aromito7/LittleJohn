@@ -1,6 +1,7 @@
 // constants
-const SET_STOCK = 'session/SET_STOCK';
-const REMOVE_STOCK = 'session/REMOVE_STOCK';
+const SET_STOCK = 'stocks/SET_STOCK';
+const REMOVE_STOCK = 'stocks/REMOVE_STOCK';
+const SET_OPTIONS = 'stocks/SET_OPTIONS';
 
 const setStock = (symbol, stock) => ({
   type: SET_STOCK,
@@ -9,6 +10,11 @@ const setStock = (symbol, stock) => ({
 
 const removeStock = () => ({
   type: REMOVE_STOCK,
+})
+
+const setOptions = (options) => ({
+  type: SET_OPTIONS,
+  payload: options
 })
 
 const initialState = { };
@@ -34,12 +40,22 @@ export const thunkAlphaAPI = (symbol) => async (dispatch) => {
   }
 }
 
+export const setSearchOptions = (options) => async (dispatch) => {
+  const response = await fetch("/api/stocks/search-options")
+
+  if(response.ok){
+    const data = await response.json();
+    dispatch(setOptions(data.searchOptions))
+  }
+}
 
 
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_STOCK:
+    case SET_OPTIONS:
+      return {...state, searchOptions: action.payload}
+      case SET_STOCK:
       const newState = {...state}
       newState[action.payload[0]] = action.payload[1]
       return newState

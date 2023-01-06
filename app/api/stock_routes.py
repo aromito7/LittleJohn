@@ -34,7 +34,7 @@ def get_stock_info(symbol):
     stock = yf.Ticker(symbol)
     history_string = stock.history(start=start, end=end, interval="1d").to_json()
     name = stock.info['shortName']
-    price = stock.info['bid']
+    price = stock.info['currentPrice']
     open = stock.info['open']
 
     new_stock = Stock(
@@ -49,3 +49,16 @@ def get_stock_info(symbol):
     db.session.commit()
 
     return new_stock.to_dict()
+
+
+
+@stock_routes.route('/search-options', methods=['GET'])
+def get_search_options():
+    with open('./app/api/files/stock_info.csv') as f:
+        contents = f.readlines()
+
+    contents = contents[1:]
+    for i, content in enumerate(contents):
+        contents[i] = content.split(',')[:2]
+
+    return {"searchOptions" : [c for c in contents if c[0].isalpha()]}
