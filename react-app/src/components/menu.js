@@ -75,7 +75,7 @@ const Menu = () => {
                                     )
                             })}
                             {options.length == 0 &&
-                                <p>No results</p>
+                                <p>No Results</p>
                             }
                         </div>
                     }

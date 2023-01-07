@@ -10,6 +10,7 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import Stock from './components/StockPage';
 import Menu from './components/menu.js';
+import ErrorPage from './components/ErrorPage';
 import { authenticate } from './store/session';
 
 function App() {
@@ -53,6 +54,10 @@ function App() {
         </ProtectedRoute>
         <Route path='/' exact={true}>
           <LoginForm/>
+        </Route>
+        <Route path='/'>
+          <Menu/>
+          <ErrorPage/>
         </Route>
       </Switch>
     </BrowserRouter>
