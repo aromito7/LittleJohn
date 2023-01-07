@@ -21,34 +21,38 @@ const SidebarLists = ({user}) => {
     if(!user) return null
     return(
         <div id="sidebar-lists-container">
-            <div className="list-title cursor-pointer" onClick={togglePortfolio}>
-                <h1>Portfolio</h1>
-                {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
-                <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
+            <div id="portfolio-container" className="grey-border">
+                <div className="list-title cursor-pointer dark-background-hover pad10" onClick={togglePortfolio}>
+                    <h1>Portfolio</h1>
+                    {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
+                    <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
+                </div>
+                {showPortfolio &&
+                <div id={`sidebar-portfolio ${showPortfolio ? '' : 'transform-hide'}`}>
+                    {portfolio.map((stock, i) => {
+                        return(
+                            <PortfolioItem key={i} stock={stock}/>
+                        )
+                    })}
+                </div>
+                }
             </div>
-            {showPortfolio &&
-            <div id={`sidebar-portfolio ${showPortfolio ? '' : 'transform-hide'}`}>
-                {portfolio.map((stock, i) => {
-                    return(
-                        <PortfolioItem key={i} stock={stock}/>
-                    )
-                })}
+            <div id="watchlist-container" className="grey-border">
+                <div className="list-title cursor-pointer dark-background-hover pad10" onClick={toggleWatchlist}>
+                    <h1>Watchlist</h1>
+                    {showWatchlist ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
+                    <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
+                </div>
+                {showWatchlist &&
+                <div id="sidebar-watchlist">
+                    {watchlist.map((stock, i) => {
+                        return(
+                            <PortfolioItem key={i} stock={stock}/>
+                        )
+                    })}
+                </div>
+                }
             </div>
-            }
-            <div className="list-title curosor pointer" onClick={toggleWatchlist}>
-                <h1>Watchlist</h1>
-                {showWatchlist ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
-                <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
-            </div>
-            {showWatchlist &&
-            <div id="sidebar-watchlist">
-                {watchlist.map((stock, i) => {
-                    return(
-                        <PortfolioItem key={i} stock={stock}/>
-                    )
-                })}
-            </div>
-            }
         </div>
     )
 }

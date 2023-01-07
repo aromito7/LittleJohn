@@ -83,17 +83,17 @@ const Menu = () => {
             </div>
             <div id="menu-items-container">
                 <div className="menu-item-container">
-                    <div className="menu-item cursor-pointer green">
-                        <Link to="/">Investing</Link>
+                    <div className="menu-item cursor-pointer green-font-hover" onClick={e => history.push("/")}>
+                        Investing
                     </div>
                 </div>
-                <div className="menu-item-container">
+                {/* <div className="menu-item-container">
                     <div className="menu-item cursor-pointer green">
                         Notifications
                     </div>
-                </div>
+                </div> */}
                 <div className="menu-item-container">
-                    <div className="menu-item cursor-pointer green" onClick={onLogout}>
+                    <div className="menu-item cursor-pointer green-font-hover" onClick={onLogout}>
                         Log out
                     </div>
                 </div>

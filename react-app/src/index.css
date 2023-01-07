@@ -28,6 +28,11 @@
     color: red;
 }
 
+.white-background{
+    background-color: white;
+    color:black;
+}
+
 .orange-background{
     background-color: rgb(255, 80, 0);
 }
@@ -44,15 +49,12 @@
     border: 1px solid red;
 }
 
-.dark-background, .dark-background p, .dark-background div, .dark-background label{
+.dark-background, .dark-background p, .dark-background div, .dark-background label, .dark-background-hover:hover, .dark-background-hover:hover *{
     background-color: rgb(30, 33, 36);
 }
 
-.dark-background-hover:hover *{
-    background-color: rgb(30, 33, 36);
-}
 
-.light-background, .light-background *, .light-background-hover:hover{
+.light-background, .light-background *, .light-background-hover:hover, .light-background-hover:hover *{
     background-color: rgb(64, 73, 78);
 }
 
@@ -151,6 +153,10 @@
 
 .full-width{
     width: 100%;
+}
+
+.pad10{
+    padding: 10px;
 }
 
 .pad25{

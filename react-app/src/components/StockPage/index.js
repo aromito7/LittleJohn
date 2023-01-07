@@ -7,6 +7,7 @@ import StockBuyingPower from "./StockBuyingPower"
 import Transaction from "../Transaction"
 import LoadingPage from "../LoadingPage"
 import ErrorPage from "../ErrorPage"
+import StockInfo from "./StockInfo"
 import './stock.css'
 
 const Stock = () => {
@@ -124,9 +125,7 @@ const Stock = () => {
                             <p className="font36">{`$${Math.abs(current.toFixed(2))}`}</p>
                             <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
                         </div>
-                        <div id="graph">
-
-                        </div>
+                        <StockInfo stock={stockData}/>
                     </div>
                     <div>
                         {transactions.map((transaction, i) => {

@@ -55,13 +55,12 @@
 
 }
 
-#account-graph-container{
-    height: 600px;
-}
 
 #sidebar-lists-container{
     height: 700px;
 }
+
+
 
 .transaction{
     height: 100px;
@@ -115,8 +114,7 @@
 .portfolio-item-container{
     display: flex;
     justify-content: space-between;
-    font-size: 24px;
-    height: 100px;
+    font-size: 16px;
     align-items: center;
 }
 
@@ -164,4 +162,8 @@
 
 #search-results > p:hover{
     background: rgb(0, 180, 5);
+}
+
+#buying-power-closed, #buying-power-open{
+    margin: 50px 0 50px 0;
 }

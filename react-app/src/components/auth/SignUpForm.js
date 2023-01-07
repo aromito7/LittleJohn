@@ -100,7 +100,7 @@ const SignUpForm = ({showModal, setShowModal}) => {
             name='firstName'
             onChange={updatefirstName}
             value={firstName}
-            className={`flex-right ${hasSubmitted && firstNameError ? 'red-border' : ''}`}
+            className={`flex-right white-background ${hasSubmitted && firstNameError ? 'red-border' : ''}`}
           ></input>
         </div>
         {/* {hasSubmitted && firstNameError &&
@@ -115,7 +115,7 @@ const SignUpForm = ({showModal, setShowModal}) => {
             name='lastName'
             onChange={e => setLastName(e.target.value)}
             value={lastName}
-            className={`flex-right ${hasSubmitted && lastNameError ? 'red-border' : ''}`}
+            className={`flex-right white-background ${hasSubmitted && lastNameError ? 'red-border' : ''}`}
           ></input>
         </div>
         {/* {hasSubmitted && lastNameError &&
@@ -130,7 +130,7 @@ const SignUpForm = ({showModal, setShowModal}) => {
             name='email'
             onChange={updateEmail}
             value={email}
-            className={`flex-right ${hasSubmitted && emailError ? 'red-border' : ''}`}
+            className={`flex-right white-background ${hasSubmitted && emailError ? 'red-border' : ''}`}
           ></input>
         </div>
         {/* {hasSubmitted && emailError &&
@@ -145,7 +145,7 @@ const SignUpForm = ({showModal, setShowModal}) => {
             name='password'
             onChange={updatePassword}
             value={password}
-            className={`flex-right ${hasSubmitted && passwordError ? 'red-border' : ''}`}
+            className={`flex-right white-background ${hasSubmitted && passwordError ? 'red-border' : ''}`}
           ></input>
         </div>
         {/* {hasSubmitted && passwordError &&
@@ -161,7 +161,7 @@ const SignUpForm = ({showModal, setShowModal}) => {
             onChange={updateRepeatPassword}
             value={repeatPassword}
             required={true}
-            className={`flex-right ${hasSubmitted && repeatPasswordError ? 'red-border' : ''}`}
+            className={`flex-right white-background ${hasSubmitted && repeatPasswordError ? 'red-border' : ''}`}
           ></input>
         </div>
         {/* {hasSubmitted && repeatPasswordError &&

@@ -240,7 +240,7 @@ export default function reducer(state = initialState, action) {
       }
 
       transactions.push(newTransaction)
-      var item = portfolio.find(item => item.symbol == symbol)
+      var item = portfolio.find(item => item.stock_symbol == symbol)
       if(item){
         const currentShares = item.shares
         const newShares = currentShares + shares

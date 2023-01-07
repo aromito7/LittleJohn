@@ -65,10 +65,6 @@ const LoginForm = () => {
   },[errors])
 
   useEffect(() => {
-    console.log(showSignUpModal)
-  },[showSignUpModal])
-
-  useEffect(() => {
     const errors = []
     if(email.length == 0) {
       setEmailError(" is required")
