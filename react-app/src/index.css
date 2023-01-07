@@ -276,3 +276,17 @@
     height: 500px;
     max-width: 100%;
 }
+
+#loading-page{
+    width: 100%;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+
+#loading-page img{
+    width: 500px;
+}

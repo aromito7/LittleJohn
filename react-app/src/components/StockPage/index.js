@@ -1,14 +1,17 @@
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { transaction, toggleWatchlist } from "../../store/session"
 import DepositModal from "../DepositModal"
 import StockBuyingPower from "./StockBuyingPower"
 import Transaction from "../Transaction"
+import LoadingPage from "../LoadingPage"
+import ErrorPage from "../ErrorPage"
 import './stock.css'
 
 const Stock = () => {
     const {symbol} = useParams()
+    const history = useHistory()
     const user = useSelector(state => state.session.user)
     const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const portfolio = useSelector(state => state.session.portfolio)
@@ -28,6 +31,10 @@ const Stock = () => {
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
     const dispatch = useDispatch()
 
+    window.addEventListener('locationchange', function () {
+        setStockData(null)
+    });
+
 
     useEffect(async() => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
@@ -42,7 +49,13 @@ const Stock = () => {
         setShareError(false)
     },[shares])
 
-    if(!stockData || !stockData.name) return null
+    //This is for when stock data hasn't loaded
+    if(!stockData) return <LoadingPage/>
+    //This is for when no stock data was returned from the backend
+    if(!stockData.name) {
+
+        return <ErrorPage/>
+    }
     const open = stockData.open
     const current = stockData.price
     const delta = parseFloat(current) - parseFloat(open)
@@ -110,6 +123,9 @@ const Stock = () => {
                             <p className="font48">{name}</p>
                             <p className="font36">{`$${Math.abs(current.toFixed(2))}`}</p>
                             <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
+                        </div>
+                        <div id="graph">
+
                         </div>
                     </div>
                     <div>

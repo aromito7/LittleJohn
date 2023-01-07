@@ -33,6 +33,12 @@ def get_stock_info(symbol):
 
     stock = yf.Ticker(symbol)
     history_string = stock.history(start=start, end=end, interval="1d").to_json()
+    if not stock.info:
+        return {'error' : 'stock not found'}
+
+    for key in ['shortName', 'currentPrice', 'open']:
+        if key not in stock.info.keys():
+            return {'error' : key + ' not found in stock info'}
     name = stock.info['shortName']
     price = stock.info['currentPrice']
     open = stock.info['open']

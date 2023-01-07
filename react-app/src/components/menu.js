@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/session";
 import { useHistory, Link } from "react-router-dom"
 import { useState } from "react";
+
 //const fs = require('fs')
 
 const Menu = () => {
@@ -39,7 +40,6 @@ const Menu = () => {
             i++
         }
         setOptions([...tickerOptions, ...nameOptions])
-        console.log(tickerOptions, nameOptions)
     }
 
     const onLogout = async (e) => {

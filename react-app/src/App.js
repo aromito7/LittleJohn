@@ -56,7 +56,6 @@ function App() {
           <LoginForm/>
         </Route>
         <Route path='/'>
-          <Menu/>
           <ErrorPage/>
         </Route>
       </Switch>
