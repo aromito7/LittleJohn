@@ -11,6 +11,7 @@ import User from './components/User';
 import Stock from './components/StockPage';
 import Menu from './components/menu.js';
 import ErrorPage from './components/ErrorPage';
+import About from './components/About';
 import { authenticate } from './store/session';
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
           <Menu/>
           <LandingPage/>
         </ProtectedRoute>
+        <Route path='/about' exact={true}>
+          <About/>
+        </Route>
         <Route path='/' exact={true}>
           <LoginForm/>
         </Route>
