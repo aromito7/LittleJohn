@@ -11,7 +11,7 @@
 
 <p align="center">"Little John is a companion of Robin Hood who serves as his chief lieutenant and second-in-command of the Merry Men." - Wikipedia</p>
 
-<img align="center" src"https://cdn.dribbble.com/users/2491475/screenshots/9836447/media/c7740bb95ddd3e55250e84b1495e56bb.jpg"/>
+<img align="center" src="https://cdn.dribbble.com/users/2491475/screenshots/9836447/media/c7740bb95ddd3e55250e84b1495e56bb.jpg"/>
 
 <p>This is the repo for my RobinHood clone where you can create a new user, log in, transfer play money into your account, search for stocks based on name/ticker symbol, buy/sell stocks, and add stocks to your watchlist.</p>
 
