@@ -1,5 +1,8 @@
 # LittleJohn
 
+
+![image]({https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white})
+
 Font Family:  Avenir, Goggle Fonts "Sen", "Sans-Serif"
 
 Buttons:
