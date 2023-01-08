@@ -1,10 +1,8 @@
 const StockInfo = ({stock}) => {
-    console.log(stock)
     const history = Object.values(stock.history.Close)
     const low = Object.values(stock.history.Low).slice(-1)[0]
     const high = Object.values(stock.history.High).slice(-1)[0]
     const {open, price} = stock
-    console.log(open, price, low, high)
     return(
         <div id='stock-info' className="flex dark-background grey-border">
             <div className="flex-quarter">

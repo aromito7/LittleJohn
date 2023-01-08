@@ -222,6 +222,7 @@ export default function reducer(state = initialState, action) {
     case STOCK_TRANSACTION:
       var {symbol, price, shares, name, stock} = action.payload
       console.log("Stock:")
+      console.log(Object.keys(stock))
       console.log(stock.open, stock.name)
       var portfolio = [...state.portfolio]
       var transactions = [...state.transactions]
@@ -247,7 +248,7 @@ export default function reducer(state = initialState, action) {
         if(newShares > 0){
           item.shares = newShares
         }else if(newShares == 0){
-          portfolio = portfolio.filter(item => item.symbol != symbol)
+          portfolio = portfolio.filter(item => item.stock_symbol != symbol)
         }
       }else{
         const newPortfolioItem = {
@@ -255,10 +256,17 @@ export default function reducer(state = initialState, action) {
             average_price: price,
             shares,
             name,
-            stock: item,
+            stock: {
+              history: stock.history,
+              name: stock.name,
+              open: stock.open,
+              price: stock.price,
+              symbol: stock.symbol
+            }
         }
         portfolio.push(newPortfolioItem)
       }
+      newState.user.buying_power -= price * shares
       newState.transactions = transactions
       newState.portfolio = portfolio
       console.log("Transactions")
