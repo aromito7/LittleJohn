@@ -1,7 +1,5 @@
 <h1 align="center">LittleJohn</h1>
 
-<p align="center">"Little John is a companion of Robin Hood who serves as his chief lieutenant and second-in-command of the Merry Men." - Wikipedia</p>
-
 <p align="center">
     <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
     <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
@@ -10,6 +8,10 @@
     <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white">
     <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
 </p>
+
+<p align="center">"Little John is a companion of Robin Hood who serves as his chief lieutenant and second-in-command of the Merry Men." - Wikipedia</p>
+
+<img align="center" src"https://cdn.dribbble.com/users/2491475/screenshots/9836447/media/c7740bb95ddd3e55250e84b1495e56bb.jpg"/>
 
 <p>This is the repo for my RobinHood clone where you can create a new user, log in, transfer play money into your account, search for stocks based on name/ticker symbol, buy/sell stocks, and add stocks to your watchlist.</p>
 
