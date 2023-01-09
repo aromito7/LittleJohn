@@ -93,6 +93,11 @@ const Menu = () => {
                     </div>
                 </div> */}
                 <div className="menu-item-container">
+                    <div className="menu-item cursor-pointer green-font-hover" onClick={e => history.push("/about")}>
+                        About
+                    </div>
+                </div>
+                <div className="menu-item-container">
                     <div className="menu-item cursor-pointer green-font-hover" onClick={onLogout}>
                         Log out
                     </div>

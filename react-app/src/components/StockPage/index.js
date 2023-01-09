@@ -77,7 +77,12 @@ const Stock = () => {
             return
         }
         if(shares <= 0) {
-            setShareError("Enter at least 0.000001 shares.")
+            setShareError("Enter at least 1 share(s).")
+            setShowErrors(true)
+            return
+        }
+        else if(shares % 1 != 0){
+            setShareError("Enter a whole number of shares")
             setShowErrors(true)
             return
         }
@@ -128,7 +133,7 @@ const Stock = () => {
                         <StockInfo stock={stockData}/>
                     </div>
                     <div>
-                        {transactions.map((transaction, i) => {
+                        {transactions.reverse().map((transaction, i) => {
                             return(
                                 <Transaction transaction={transaction} key={i}/>
                             )
@@ -145,13 +150,14 @@ const Stock = () => {
                             <p className="flex-left">Order Type</p>
                             <p className="flex-right">Market Order</p>
                         </div>
-                        <div className="flex">
+
+                        {/* <div className="flex">
                             <p className="flex-left">Buy In</p>
                             <select className="flex-right" value={buyInType} onChange={e => setBuyInType(e.target.value)}>
                                 <option>Shares</option>
                                 <option>Dollars</option>
                             </select>
-                        </div>
+                        </div> */}
                         {buyInType == "Shares" &&
                         <>
                             <div className="flex">

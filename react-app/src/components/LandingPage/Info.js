@@ -4,7 +4,7 @@ import Transaction from "../Transaction";
 const Info = () => {
     const transactions = useSelector(state => state.session.transactions);
     if(transactions.length < 1) return(
-        <div>
+        <div id="info-container">
             <h1>No transactions... yet</h1>
         </div>
     )
@@ -18,7 +18,7 @@ const Info = () => {
     return(
         <div id="info-container">
             <h1>Recent Transactions</h1>
-            {transactions.map((transaction, i) => {
+            {transactions.slice().reverse().map((transaction, i) => {
                 return(
                     <Transaction transaction={transaction} key={i}/>
                 )

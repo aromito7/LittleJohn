@@ -16,7 +16,7 @@ const BuyingPower = ({user}) => {
 
     const MainBuyingPower = () => {
         return(
-            <div className="flex pad25 dark-background-hover">
+            <div className="flex pad25 dark-background-hover grey-border">
                 <p className="flex-left grey-bottom bold">Buying Power</p>
                 <p className="flex-right grey-bottom">${user.buying_power.toFixed(2)}</p>
             </div>

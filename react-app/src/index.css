@@ -296,3 +296,26 @@
 #loading-page img{
     width: 500px;
 }
+
+#about-page-container{
+    width: 800px;
+    margin: 200px auto 0 auto;
+}
+
+
+
+#about-home-button-container{
+    width: 100%;
+}
+
+#about-home-button-container button{
+    width: 200px;
+    margin: 50px 300px 0 300px;
+}
+
+.transaction-symbol{
+    height: 50px;
+    width: 120px;
+    border-radius: 50px;
+    padding: 0 10px 15px 10px;
+}
