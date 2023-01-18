@@ -16,7 +16,7 @@ const Transaction = ({transaction}) => {
                     <p className="flex-right">{transaction.createdAt.split(" GMT")[0]}</p>
                 </div>
                 <div className="transaction-right-bot">
-                    <p>{`You ${transaction.shares > 0 ? 'bought' : 'sold'} ${Math.abs(transaction.shares)} shares at $${transaction.price}`}</p>
+                    <p>{`You ${transaction.shares > 0 ? 'bought' : 'sold'} ${Math.abs(transaction.shares)} shares at $${transaction.price.toFixed(2)}`}</p>
                 </div>
             </div>
         </div>

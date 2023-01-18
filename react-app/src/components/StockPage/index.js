@@ -12,30 +12,27 @@ import './stock.css'
 
 const Stock = () => {
     const {symbol} = useParams()
+    const dispatch = useDispatch()
     const history = useHistory()
     const user = useSelector(state => state.session.user)
-    const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const portfolio = useSelector(state => state.session.portfolio)
     const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
-    const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
     const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
     const watchlist = useSelector(state => state.session.watchlist)
+    const [buyingPower, setBuyingPower] = useState(user.buying_power)
+    const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
     const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [isBuying, setIsBuying] = useState(1)
-
     const [showErrors, setShowErrors] = useState(false)
     const [shareError, setShareError] = useState("")
     const [depositOpen, setDepositOpen] = useState(false)
     const [insuficientFunds, setInsuficientFunds] = useState(false)
-
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
-    const dispatch = useDispatch()
 
     window.addEventListener('locationchange', function () {
         setStockData(null)
     });
-
 
     useEffect(async() => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
@@ -52,23 +49,20 @@ const Stock = () => {
 
     //This is for when stock data hasn't loaded
     if(!stockData) return <LoadingPage/>
+
     //This is for when no stock data was returned from the backend
     if(!stockData.name) {
-
         return <ErrorPage/>
     }
+
     const open = stockData.open
     const current = stockData.price
     const delta = parseFloat(current) - parseFloat(open)
     const isGreen = delta >= 0
     const percent = parseFloat(delta) / parseFloat(open)
     const name = stockData.name.split(', Inc')[0].split(".com")[0]
-    // console.log(user.watchlist)
-    // console.log(user.watchlist.map(item => item.stockSymbol))
-    // console.log(symbol)
-    // console.log(user.watchlist.find(item => item.stockSymbol == symbol))
-    const buyStock = async() => {
 
+    const buyStock = async() => {
         if(showErrors){
             setShowErrors(false)
             setDepositOpen(false)
