@@ -10,7 +10,7 @@ stock_routes = Blueprint('stocks', __name__)
 def use_yfinance_api(symbol):
     stock = yf.Ticker(symbol)
     print(yf.__version__)
-    return {'stock': "hello",
+    return {'stock': stock.get_info(),
             'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
@@ -33,16 +33,17 @@ def get_stock_info(symbol):
     start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
 
     stock = yf.Ticker(symbol)
+    info = stock.get_info()
     history_string = stock.history(start=start, end=end, interval="1d").to_json()
-    if not stock.info:
+    if not info:
         return {'error' : 'stock not found'}
 
     for key in ['shortName', 'currentPrice', 'open']:
-        if key not in stock.info.keys():
+        if key not in info.keys():
             return {'error' : key + ' not found in stock info'}
-    name = stock.info['shortName']
-    price = stock.info['currentPrice']
-    open = stock.info['open']
+    name = info['shortName']
+    price = info['currentPrice']
+    open = info['open']
 
     new_stock = Stock(
         symbol = symbol,
