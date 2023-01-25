@@ -9,4 +9,4 @@ Pipfile
 Pipfile.lock
 requirements.txt
 .flaskenv
-node_modules
+node_modules    

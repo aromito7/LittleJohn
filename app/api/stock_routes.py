@@ -10,7 +10,8 @@ stock_routes = Blueprint('stocks', __name__)
 def use_yfinance_api(symbol):
     stock = yf.Ticker(symbol)
     print(yf.__version__)
-    return {'stock': "hello"}
+    return {'stock': "hello",
+            'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
 def get_stock_info(symbol):
