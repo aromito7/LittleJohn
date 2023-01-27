@@ -15,11 +15,22 @@ const StockInfo = ({stock}) => {
         }
     })
     console.log(data)
+
+    const CustomTooltip = ({data}) => {
+        return (
+        <div className="custom-tooltip">
+            <p className="label">{}</p>
+            <p className="intro">World</p>
+            <p className="desc">Anything you want can be displayed here.</p>
+        </div>
+        );
+        }
+
     const RenderLineChart = () => (
         <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
           <Line type="monotone" dataKey="price" stroke={`${price > open ? "#00B405" : "#FF5000"}`} />
           <YAxis domain={['dataMin', 'dataMax']} display="none"/>
-          <Tooltip position={{ x: 'auto', y: -100 }}/>
+          <Tooltip position={{ x: 'auto', y: -100 }} content={<CustomTooltip data={data}/>}/>
         </LineChart>
       );
     return(
