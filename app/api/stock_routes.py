@@ -10,8 +10,21 @@ stock_routes = Blueprint('stocks', __name__)
 def use_yfinance_api(symbol):
 
     stock = yf.Ticker(symbol)
+    info = stock.info
+    price_history = stock.history(period='90d', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+                                   interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+                                   actions=False)
     print(yf.__version__)
-    return {'stock': stock.history().to_json(),
+
+    return {#'dir': dir(stock),
+            'name': stock.info['shortName'],
+            #'dir' : dir(stock),
+            'fast info': dir(stock.fast_info),
+            'price' : stock.fast_info.toJSON(),
+            #'stats' : stock.stats(),
+            #'news': json.dumps(stock.get_news()),
+            #'history': price_history.to_json(),
+            #'price' : price_history.Close[-1],
             'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
@@ -29,14 +42,18 @@ def get_stock_info(symbol):
     print("HELLO YFINANCE API!")
     print("HELLO YFINANCE API!")
 
-    end = datetime.now()#.strftime("%Y-%m-%d")
-    start = end - timedelta(days=90)
-    end = end + timedelta(days=1)
-    start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
+    # end = datetime.now()#.strftime("%Y-%m-%d")
+    # start = end - timedelta(days=90)
+    # end = end + timedelta(days=1)
+    # start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
 
     stock = yf.Ticker(symbol)
-    info = stock.get_info()
-    history_string = stock.history(start=start, end=end, interval="1d").to_json()
+    info = stock.info
+    #history_string = stock.history(start=start, end=end, interval="1d").to_json()
+    history_string = stock.history(period='90d', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+                                interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+                                actions=False).to_json()
+
     if not info:
         return {'error' : 'stock not found'}
 
@@ -45,13 +62,11 @@ def get_stock_info(symbol):
             return {'error' : key + ' not found in stock info'}
     name = info['shortName']
     price = info['currentPrice']
-    open = info['open']
 
     new_stock = Stock(
         symbol = symbol,
         name = name,
         price = price,
-        open = open,
         history = history_string
         )
 

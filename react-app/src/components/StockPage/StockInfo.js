@@ -4,9 +4,23 @@ import { useState } from 'react';
 
 
 const StockInfo = ({stock}) => {
+    console.log(stock)
     const [currentHistory, setCurrentHistory] = useState("1D")
-    const history = Object.values(stock.history.Close).slice(-3)
-    const times = Object.keys(stock.history.Close).slice(-30)//.map(key => [key, stock.history.Close[key]])
+    let times
+    switch(currentHistory){
+        case "1D":
+            times = (Object.keys(stock.history.Close).slice(-1))
+            break
+        case "1W":
+            times = (Object.keys(stock.history.Close).slice(-5))
+            break
+        case "1M":
+            times = (Object.keys(stock.history.Close).slice(-20))
+            break
+        case "3M":
+            times = (Object.keys(stock.history.Close).slice(-60))
+            break
+    }
     const low = Object.values(stock.history.Low).slice(-1)[0]
     const high = Object.values(stock.history.High).slice(-1)[0]
     const {open, price} = stock
@@ -16,7 +30,6 @@ const StockInfo = ({stock}) => {
             price: stock.history.Close[time].toFixed(2)
         }
     })
-    console.log(data)
 
     const CustomTooltip = ({ active, payload, label, time, price}) => {
         if (active && payload && payload.length) return (
@@ -29,7 +42,6 @@ const StockInfo = ({stock}) => {
         }
 
     const RenderLineChart = () => {
-
         return(
             <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
             <Line type="monotone linear" dot={false} dataKey="price" stroke={`${price > open ? "#00B405" : "#FF5000"}`} />
