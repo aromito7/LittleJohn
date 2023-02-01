@@ -16,15 +16,34 @@ def use_yfinance_api(symbol):
                                    actions=False)
     print(yf.__version__)
 
-    return {#'dir': dir(stock),
-            'name': stock.info['shortName'],
+    return {'name': stock.info['shortName'],
             #'dir' : dir(stock),
-            'fast info': dir(stock.fast_info),
-            'price' : stock.fast_info.toJSON(),
-            #'stats' : stock.stats(),
-            #'news': json.dumps(stock.get_news()),
-            #'history': price_history.to_json(),
-            #'price' : price_history.Close[-1],
+            # 'info values' : list(stock.info.values()),
+            # 'info keys' : list(stock.info.keys()),
+
+            'about' : stock.info['longBusinessSummary'],
+            'employees' : stock.info['fullTimeEmployees'],
+            'city' : stock.info['city'],
+            'state' : stock.info['state'],
+            'sector' : stock.info['sector'],
+            'industry' : stock.info['industry'],
+            'website' : stock.info['website'],
+            'shares' : stock.fast_info['shares'],
+            'year_high' : stock.fast_info['year_high'],
+            'year_low' : stock.fast_info['year_low'],
+            'day_high' : stock.fast_info['day_high'],
+            'day_low' : stock.fast_info['day_low'],
+            'market_cap' : stock.fast_info['market_cap'],
+            'volume' : stock.fast_info['last_volume'],
+            'average_volume' : stock.fast_info['three_month_average_volume'],
+
+
+
+            # 'dir': dir(stock.fast_info),
+            # 'stats' : stock.stats(),
+            # 'news': json.dumps(stock.get_news()),
+            # 'history': price_history.to_json(),
+            # 'price' : price_history.Close[-1],
             'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
