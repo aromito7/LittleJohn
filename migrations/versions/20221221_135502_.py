@@ -49,6 +49,7 @@ def upgrade():
 
     sa.Column('about', sa.String()),
     sa.Column('average_volume', sa.Float()),
+    sa.Column('city', sa.Float()),
     sa.Column('day_high', sa.Float()),
     sa.Column('day_low', sa.Float()),
     sa.Column('employees', sa.Integer()),

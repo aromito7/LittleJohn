@@ -18,7 +18,22 @@ class Stock(db.Model):
 
     about = db.Column(db.String)
     average_volume = db.Column(db.Float)
-    average_volume = db.Column(db.Float)
+    city = db.Column(db.String)
+    day_high = db.Column(db.Float)
+    day_low = db.Column(db.Float)
+    employees = db.Column(db.Integer)
+    eps = db.Column(db.Float)
+    industry = db.Column(db.String)
+    market_cap = db.Column(db.Float)
+    news = db.Column(db.String)
+    sector = db.Column(db.String)
+    shares = db.Column(db.Integer)
+    state = db.Column(db.String)
+    volume = db.Column(db.Integer)
+    website = db.Column(db.String)
+    year_high = db.Column(db.Float)
+    year_low = db.Column(db.Float)
+
 
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
     #user = db.relationship('User', back_populates='transfer')
@@ -36,5 +51,24 @@ class Stock(db.Model):
             'open' : self.open,
             'history' : json.loads(self.history),
 
+            'about' : self.about,
+            'average_volume' : self.average_volume,
+            'city' : self.city,
+            'day_high' : self.day_high,
+            'day_low' : self.day_low,
+            'employees' : self.employees,
+            'eps' : self.eps,
+            'industry' : self.industry,
+            'market_cap' : self.market_cap,
+            'news' : json.loads(self.news),
+            'sector' : self.sector,
+            'shares' : self.shares,
+            'state' : self.state,
+            'volume' : self.volume,
+            'website' : self.website,
+            'year_high' : self.year_high,
+            'year_low' : self.year_low,
+
+            'updated_at' : self.updated_at,
             #'user' : self.user.to_dict()
         }
