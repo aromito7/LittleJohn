@@ -15,6 +15,11 @@ class Stock(db.Model):
     price = db.Column(db.Float, nullable=False)
     open = db.Column(db.Float, nullable=False)
     history = db.Column(db.String, nullable=False)
+
+    about = db.Column(db.String)
+    average_volume = db.Column(db.Float)
+    average_volume = db.Column(db.Float)
+
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
     #user = db.relationship('User', back_populates='transfer')
 

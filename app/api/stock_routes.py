@@ -11,16 +11,23 @@ def use_yfinance_api(symbol):
 
     stock = yf.Ticker(symbol)
     info = stock.info
-    price_history = stock.history(period='90d', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+    price_history = stock.history(period='1y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
                                    interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
                                    actions=False)
     print(yf.__version__)
 
     return {'name': stock.info['shortName'],
-            #'dir' : dir(stock),
+            # 'zzz' : dir(stock.basic_info),
+            #'basic' : {key: stock.info[key] for key in list((stock.info))},
+            # 'inst holders' : (stock.get_institutional_holders().to_json()),
+            # 'holders' : (stock.get_major_holders().to_json()),
+            #'stats' : stock.stats(),
             # 'info values' : list(stock.info.values()),
             # 'info keys' : list(stock.info.keys()),
 
+            'history' : price_history.to_json(),
+            'ticker' : stock.ticker,
+            'eps' : round(stock.stats()['defaultKeyStatistics']['trailingEps'], 2),
             'about' : stock.info['longBusinessSummary'],
             'employees' : stock.info['fullTimeEmployees'],
             'city' : stock.info['city'],
@@ -29,21 +36,15 @@ def use_yfinance_api(symbol):
             'industry' : stock.info['industry'],
             'website' : stock.info['website'],
             'shares' : stock.fast_info['shares'],
-            'year_high' : stock.fast_info['year_high'],
-            'year_low' : stock.fast_info['year_low'],
-            'day_high' : stock.fast_info['day_high'],
-            'day_low' : stock.fast_info['day_low'],
+            'year_high' : round(stock.fast_info['year_high'], 2),
+            'year_low' : round(stock.fast_info['year_low'], 2),
+            'day_high' : round(stock.fast_info['day_high'], 2),
+            'day_low' : round(stock.fast_info['day_low'], 2),
             'market_cap' : stock.fast_info['market_cap'],
             'volume' : stock.fast_info['last_volume'],
             'average_volume' : stock.fast_info['three_month_average_volume'],
-
-
-
-            # 'dir': dir(stock.fast_info),
-            # 'stats' : stock.stats(),
-            # 'news': json.dumps(stock.get_news()),
-            # 'history': price_history.to_json(),
-            # 'price' : price_history.Close[-1],
+            'news': json.dumps(stock.get_news()),
+            'price' : round(stock.basic_info['last_price'], 2),
             'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
@@ -68,10 +69,10 @@ def get_stock_info(symbol):
 
     stock = yf.Ticker(symbol)
     info = stock.info
-    #history_string = stock.history(start=start, end=end, interval="1d").to_json()
-    history_string = stock.history(period='90d', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-                                interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-                                actions=False).to_json()
+    price_history = stock.history(period='1y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+                                   interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+                                   actions=False)
+
 
     if not info:
         return {'error' : 'stock not found'}
@@ -79,6 +80,7 @@ def get_stock_info(symbol):
     for key in ['shortName', 'currentPrice', 'open']:
         if key not in info.keys():
             return {'error' : key + ' not found in stock info'}
+
     name = info['shortName']
     price = info['currentPrice']
 
@@ -86,7 +88,7 @@ def get_stock_info(symbol):
         symbol = symbol,
         name = name,
         price = price,
-        history = history_string
+        history = price_history
         )
 
     db.session.add(new_stock)

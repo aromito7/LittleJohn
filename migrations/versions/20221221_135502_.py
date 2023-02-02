@@ -41,18 +41,35 @@ def upgrade():
 
     op.create_table('stocks',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('symbol', sa.String(length=20), nullable=False),
+    sa.Column('symbol', sa.String(length=10), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('open', sa.Float(), nullable=False),
     sa.Column('history', sa.String(), nullable=False),
+
+    sa.Column('about', sa.String()),
+    sa.Column('average_volume', sa.Float()),
+    sa.Column('day_high', sa.Float()),
+    sa.Column('day_low', sa.Float()),
+    sa.Column('employees', sa.Integer()),
+    sa.Column('eps', sa.Float()),
+    sa.Column('industry', sa.String()),
+    sa.Column('market_cap', sa.Float()),
+    sa.Column('news', sa.String()),
+    sa.Column('sector', sa.String()),
+    sa.Column('shares', sa.Integer()),
+    sa.Column('state', sa.String(2)),
+    sa.Column('volume', sa.Integer()),
+    sa.Column('website', sa.String()),
+    sa.Column('year_high', sa.Float()),
+    sa.Column('year_low', sa.Float()),
+
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
 
     if environment == "production":
         op.execute(f"ALTER TABLE stocks SET SCHEMA {SCHEMA};")
-
 
 
     op.create_table('portfolios',
