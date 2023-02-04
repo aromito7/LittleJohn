@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 //import NavBar from './components/NavBar';
-import LandingPage from './components/LandingPage'
+import PortfolioPage from './components/PortfolioPage'
+import LandingPage from './components/LandingPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -16,6 +17,7 @@ import { authenticate } from './store/session';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,6 +29,20 @@ function App() {
 
   if (!loaded) {
     return null;
+  }
+
+  const Homepage = () => {
+    if(!user){
+      return(
+        <LandingPage/>
+      )
+    }
+    return(
+      <>
+        <Menu/>
+        <PortfolioPage/>
+      </>
+    )
   }
 
   //<NavBar />
@@ -49,13 +65,17 @@ function App() {
           <Menu/>
           <Stock/>
         </ProtectedRoute>
-        <ProtectedRoute path='/' exact={true} >
-          <Menu/>
-          <LandingPage/>
-        </ProtectedRoute>
+
+
+        <Route path='/' exact={true} >
+          <Homepage/>
+        </Route>
+
+
         <Route path='/about' exact={true}>
           <About/>
         </Route>
+
         <Route path='/' exact={true}>
           <LoginForm/>
         </Route>
