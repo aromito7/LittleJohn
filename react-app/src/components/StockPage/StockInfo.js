@@ -3,7 +3,7 @@ import { useState } from 'react';
 //const data = [{name: 'Page A', uv: 400}, {name: 'Page B', uv: 300}];
 
 
-const StockInfo = ({stock}) => {
+const Graph = ({stock}) => {
     console.log(stock)
     const [currentHistory, setCurrentHistory] = useState("1D")
     let times
@@ -62,4 +62,4 @@ const StockInfo = ({stock}) => {
     )
 }
 
-export default StockInfo
+export default Graph

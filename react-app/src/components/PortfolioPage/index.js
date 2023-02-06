@@ -10,7 +10,7 @@ const PortfolioPage = () => {
     const user = useSelector(state => state.session.user)
 
     return(
-        <div id="landing-page-container">
+        <div id="portfolio-page-container">
             <div id="graph-sidebar">
                 <div>
                     <AccountGraph user={user}/>
