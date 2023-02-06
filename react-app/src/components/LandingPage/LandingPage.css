@@ -1,0 +1,57 @@
+#landing-menu{
+    padding: 0 10px 0 10px;
+}
+
+#landing-buttons button{
+    margin: 0 10px 0 10px;
+}
+
+.dark-button{
+    color: white;
+    background-color: black;
+    height: 40px;
+    width: 100px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.light-button{
+    color: black;
+    background-color: white;
+    height: 40px;
+    width: 100px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+#landing-name-logo{
+    padding: 20px;
+    border-right: solid 1px black;
+}
+
+#landing-page-container{
+    padding-top: 50px;
+    background-color: rgb(1, 38, 22);
+    height: 100%;
+    color: rgb(195, 245, 60);
+}
+
+#landing-menu{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    background-color: white;
+}
+
+.landing-button{
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgb(195, 245, 60);
+    color: rgb(1, 38, 22);
+    font-size: 20px;
+    margin: 30px auto 30px auto;
+}

@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
 import loginImage from '../../images/login.jpg'
 import SignUpForm from './SignUpForm';
 import './LoginForm.css'
 
 const LoginForm = () => {
+  const history = useHistory()
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [hasSubmitted, setHasSubmitted] = useState(false)
-  const [showSignUpModal, setShowSignUpModal] = useState(false)
-  const [firstShowing, setFirstShowing] = useState(true)
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [firstShowing, setFirstShowing] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
+
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+
+  document.body.style.overflow = "hidden"
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -88,12 +93,12 @@ const LoginForm = () => {
 
   return (
     <div id="login-container" onClick={e => setShowSignUpModal(false)}>
-      <div className="left-half">
-        <img className="half" id="login-image" src={loginImage}/>
+      <div className="left-half" id="login-image-container">
+        {/* <img className="half" id="login-image" src={loginImage}/> */}
       </div>
-      <div className="right-half">
+      <div className="right-half" id="login-form-container">
         <form className="half">
-          <h2>Log in to Little John</h2>
+          <p className='font28'>Log in to Littlejohn</p>
           <div id="login-inputs">
             <label htmlFor='email' className={hasSubmitted && emailError ? "red-font" : ''}>Email {hasSubmitted && emailError ? emailError : ''}</label>
             <input
@@ -104,27 +109,29 @@ const LoginForm = () => {
               onChange={updateEmail}
               className={hasSubmitted && emailError ? "red-border" : ''}
               />
-            <label htmlFor='password' className={hasSubmitted && passwordError ? "red-font" : ''}>Password {hasSubmitted && passwordError ? passwordError : ''}</label>
+            <label htmlFor={showPassword ? '' : 'password'} className={hasSubmitted && passwordError ? "red-font" : ''}>Password {hasSubmitted && passwordError ? passwordError : ''}</label>
             <input
               name='password'
-              type='password'
+              type={showPassword ? '' : 'password'}
               placeholder='Password'
               value={password}
               onChange={updatePassword}
               className={hasSubmitted && passwordError ? "red-border" : ''}
+
               />
           </div>
           <div id="login-buttons-container">
-            <button type='submit' className='standard-button green-background' onClick={onLogin}>Login</button>
-            <button type='button' className='standard-button green-background' onClick={openSignupModal}>Sign Up</button>
+            <button type='submit' className='dark-button' onClick={onLogin}>Log In</button>
+            <button type='submit' className='dark-button' onClick={loginDemo}>Demo User</button>
           </div>
-          <div id='demo-login-container'>
-            <button type='submit' className='standard-button center green-background' onClick={loginDemo}>Demo User</button>
+          <div id="login-divider" className='dividing-line'><span>or</span></div>
+          <div id='demo-login-container' className='flex'>
+            <p>Not on Littlejohn? <a className='cursor-pointer underline bold' onClick={e => history.push('/signup')}>Create an account</a></p>
           </div>
         </form>
-        {!firstShowing &&
+        {/* {!firstShowing &&
           <SignUpForm showModal={showSignUpModal} setShowModal={setShowSignUpModal}/>
-        }
+        } */}
       </div>
     </div>
   );
