@@ -3,8 +3,11 @@
 }
 
 #stock-sidebar{
-    width: 90%;
+    width: 20%;
+    max-width: 400px;
     border-radius: 5px;
+    position: fixed;
+    margin-top: 50px;
 }
 
 #toggle-watchlist-div{
@@ -17,7 +20,9 @@
 
 #watchlist-div{
     margin-top: 20px;
-    width: 90%;
+    width: 19%;
+    max-width: 400px;
+    position: fixed;
 }
 
 #buying-power-display, #estimated-cost-div{
@@ -38,4 +43,21 @@
 
 #stock-chart-lengths p{
     margin: 10px;
+}
+
+#about-component{
+    margin: 50px 0;
+}
+
+#about-component-header{
+    padding: 20px 0;
+    border-bottom: 1px solid grey;
+}
+
+#about-component-description{
+    padding: 20px 0;
+}
+
+#about-component-description div{
+    margin: 10px 0;
 }

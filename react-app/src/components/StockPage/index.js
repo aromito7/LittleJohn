@@ -8,6 +8,8 @@ import Transaction from "../Transaction"
 import LoadingPage from "../LoadingPage"
 import ErrorPage from "../ErrorPage"
 import StockInfo from "./StockInfo"
+import About from "./About"
+import KeyStatistics from "./KeyStatistics"
 import './stock.css'
 
 const Stock = () => {
@@ -38,6 +40,7 @@ const Stock = () => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
         const data = await response.json()
         setStockData(data)
+        console.log(data)
     },[dispatch, symbol])
 
     useEffect(() => {
@@ -115,7 +118,7 @@ const Stock = () => {
     }
 
     return(
-        <div id="landing-page-container">
+        <div id="portfolio-page-container">
             <div id="graph-sidebar">
                 <div>
                     <div id="account-graph-container">
@@ -126,6 +129,8 @@ const Stock = () => {
                         </div>
                         <StockInfo stock={stockData}/>
                     </div>
+                    <About stock={stockData}/>
+                    <KeyStatistics stock={stockData}/>
                     <div>
                         {transactions.reverse().map((transaction, i) => {
                             return(
@@ -135,8 +140,8 @@ const Stock = () => {
                     </div>
                 </div>
                 <div>
-                    <div id="stock-sidebar" className="dark-background grey-border">
-                        <select value={isBuying} onChange={e => setIsBuying(e.target.value)} id="transaction-select" className="dark-background">
+                    <div id="stock-sidebar" className="grey-border">
+                        <select value={isBuying} onChange={e => setIsBuying(e.target.value)} id="transaction-select">
                             <option value={1}>Buy {symbol}</option>
                             <option value={-1}>Sell {symbol}</option>
                         </select>
@@ -180,11 +185,11 @@ const Stock = () => {
                             <PurchaseDismiss/>
                         </div>
                         <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${buyingPower.toFixed(2)}` : `Shares: ${currentShares}`}</p>
-                    </div>
-                    <div id="watchlist-div" className="flex">
-                        <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
-                            {Boolean(watchlist.find(item => item.stockSymbol == symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
-                        </button>
+                        <div id="watchlist-div" className="flex">
+                            <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
+                                {Boolean(watchlist.find(item => item.stockSymbol == symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

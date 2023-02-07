@@ -59,14 +59,14 @@ const Menu = () => {
     return(
         <div id="menu-container">
             <div id="icon-container">
-                <i className="fa-solid fa-feather"/>
+                <i className="fa-solid fa-feather fa-lg"/>
             </div>
             <div id="search-bar-container" onBlur={e => setFocusSearch(false)} onFocus={e => setFocusSearch(true)}>
                 <div id="search-bar" className="input-icons">
                     <i className="fa-solid fa-magnifying-glass icon"/>
                     <input className="input-field" type="text" value={search} onChange={changeSearch} onKeyDown={onEnter}/>
                     {focusSearch && search.length > 0 &&
-                        <div id="search-results" className="dark-background">
+                        <div id="search-results">
                             {options.map(option => {
                                 return(
                                     <p key={option[0]} onMouseDown={e => history.push(`/stocks/${option[0]}`)} className="cursor-pointer">

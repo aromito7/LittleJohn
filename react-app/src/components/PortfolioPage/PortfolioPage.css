@@ -3,20 +3,27 @@
 }
 
 #portfolio-page-container{
-    padding: 0 50px 0 100px;
+    padding: 25px 50px 0 100px;
 }
 
 
 #menu-container{
+    top:0px;
     height: 50px;
     display: grid;
     grid-template-columns: 50px 1fr 1fr;
-    padding: 0 50px 0 50px;
+    padding: 10px 50px 0 50px;
+    position: fixed;
+    background-color: white;
+    width: 90%;
+    z-index: 999;
 }
 
 
 #search-bar-container{
     align-self: center;
+    background-color: white;
+
 }
 
 #icon-container{
@@ -26,7 +33,8 @@
 
 #search-bar{
     margin-left: 150px;
-    width: 300px;
+    width: 323px;
+    border: 1px solid grey;
 }
 
 #search-bar input{
@@ -154,7 +162,10 @@
 
 #search-results{
     position: absolute;
-    min-width: 325px;
+    min-width: 322px;
+    background-color: white;
+    border: 1px solid grey;
+
 }
 
 #search-results > p{

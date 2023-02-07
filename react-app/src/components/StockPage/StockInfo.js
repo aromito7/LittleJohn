@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 
 const Graph = ({stock}) => {
-    console.log(stock)
+    //console.log(stock)
     const [currentHistory, setCurrentHistory] = useState("1D")
     let times
     switch(currentHistory){

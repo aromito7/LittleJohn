@@ -16,33 +16,33 @@ const BuyingPower = ({user}) => {
 
     const MainBuyingPower = () => {
         return(
-            <div className="flex pad25 dark-background-hover grey-border">
+            <div className="flex pad25">
                 <p className="flex-left grey-bottom bold">Buying Power</p>
-                <p className="flex-right grey-bottom">${user.buying_power.toFixed(2)}</p>
+                <p className="flex-right grey-bottom">${user.buying_power.toLocaleString("en-US")}</p>
             </div>
         )
     }
     if(!open) return(
-        <div id="buying-power-closed" className="dark-background-hover cursor-pointer" onClick={toggleOpen}>
+        <div id="buying-power-closed" className="light-background-hover cursor-pointer" onClick={toggleOpen}>
             <MainBuyingPower/>
         </div>
     )
     return(
         <>
-            <div id="buying-power-open" className="dark-background cursor-pointer" onClick={toggleOpen}>
+            <div id="buying-power-open" className=" cursor-pointer" onClick={toggleOpen}>
                 <MainBuyingPower/>
-                <div className="flex pad25 dark-background">
+                <div className="flex pad25 ">
                     <p className="flex-quarter grey-bottom">Brokerage Cash</p>
                     <p className="flex-quarter grey-bottom text-right">$0.00</p>
                     <p className="flex-right">
                     Buying Power represents the total value of assets you can purchase.
                     </p>
                 </div>
-                <div className="flex pad25 dark-background">
+                <div className="flex pad25 ">
                     <p className="flex-quarter grey-bottom">Buying Power</p>
                     <p className="flex-quarter grey-bottom text-right">${user.buying_power.toFixed(2)}</p>
                 </div>
-                <div className="flex pad25 dark-background">
+                <div className="flex pad25 ">
                     <button className="standard-button green-background font-black" onClick={deposit}>Deposit Funds</button>
                 </div>
             </div>

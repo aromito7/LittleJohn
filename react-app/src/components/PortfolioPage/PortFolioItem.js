@@ -10,7 +10,7 @@ const PortfolioItem = ({stock}) => {
         history.push(`/stocks/${symbol}`)
     }
     return(
-        <div className="portfolio-item-container cursor-pointer dark-background-hover pad10" onClick={e => goToStock(stock.stock.symbol)}>
+        <div className="portfolio-item-container cursor-pointer light-background-hover pad10" onClick={e => goToStock(stock.stock.symbol)}>
             <div>
                 <p>{stock.stock.symbol}</p>
             </div>

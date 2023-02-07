@@ -67,7 +67,6 @@ function App() {
           <Stock/>
         </ProtectedRoute>
 
-
         <Route path='/' exact={true} >
           <Homepage/>
         </Route>
