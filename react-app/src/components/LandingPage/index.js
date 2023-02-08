@@ -1,9 +1,11 @@
 import video from "../../videos/landingPageVideo.mp4"
 import './LandingPage.css'
-import React, { useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useHistory, Redirect } from "react-router-dom";
 
 const LandingPage = () => {
+    const [login, setLogin] = useState(false)
+    const [signup, setSignup] = useState(false)
     const videoEl = useRef(null);
     const history = useHistory();
 
@@ -15,9 +17,18 @@ const LandingPage = () => {
         });
     };
 
+
+
     useEffect(() => {
       attemptPlay();
     }, []);
+
+    if(login){
+      return <Redirect to="/login"/>
+    }
+    if(signup){
+      return <Redirect to="/signup"/>
+    }
 
     return(
         <>
@@ -27,7 +38,7 @@ const LandingPage = () => {
                   <i className="fa-solid fa-feather fa-xl"/>
                 </div>
                 <div id="landing-buttons" className="flex-end align-center">
-                  <button className="light-button cursor-pointer" onClick={e => history.push('/login')}>Log in</button>
+                  <button className="light-button cursor-pointer" onClick={e => setLogin(true)}>Log in</button>
                   <button className="dark-button cursor-pointer" onClick={e => history.push('/signup')}>Sign up</button>
                 </div>
             </div>

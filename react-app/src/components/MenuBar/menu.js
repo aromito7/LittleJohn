@@ -1,22 +1,38 @@
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/session";
+import { logout } from "../../store/session";
 import { useHistory, Link } from "react-router-dom"
 import { useState } from "react";
+import LJIcon from '../../images/littlejohnicon.png'
+import './menu.css'
 
 //const fs = require('fs')
 
-const Menu = () => {
+const Menu = ({props}) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const [search, setSearch] = useState("")
     const searchOptions = useSelector(state => state.stocks.searchOptions)
     const [options, setOptions] = useState([])
     const [focusSearch, setFocusSearch] = useState(false)
+    const [showNotifications, setShowNotifications] = useState(false)
+    const user = useSelector(state => state.session.user)
+    const {showNotificationModal, setShowNotificationModal, closeModals} = props
+    const notifications = []
+    if(!user) return null
+    if(user.portfolio.length == 0){
+        notifications.push({
+            message : "Use the search bar to find new stocks",
+            icon : LJIcon,
+            highlight: "search",
+        })
+    }
     //console.log(fs)
     // fs.readFile('stock_info.csv', (err, data) => {
     //     if(err) throw err;
     //     console.log(data.toString())
     // })
+
+
 
     const changeSearch = e =>{
         const search = e.target.value
@@ -47,6 +63,11 @@ const Menu = () => {
         history.push("/login")
     };
 
+    const openNotificationModal = e =>{
+        e.stopPropagation()
+        setShowNotificationModal(true)
+    }
+
     const onEnter = (e) => {
         if (e.key === 'Enter') {
             //console.log(search)
@@ -56,8 +77,36 @@ const Menu = () => {
         }
       };
 
+
+    const NotificationsModal = () => {
+
+        return(
+            <div id="notification-modal" className="grey-border" onClick={e => e.stopPropagation()}>
+                <p className="font20 bold">Notifications</p>
+                <div id="notification-container">
+                    {
+                        notifications.map(notification => {
+                            return(
+                                <div className="notification flex">
+                                    <img src={notification.icon}/>
+                                    <div className="flex-vertical align-center notification-content">
+                                        <div className="flex">
+                                            <p>Robinhood</p>
+                                            <p className="flex-right">{notification.time || new Date().toDateString().split(' ').slice(1,3).join(' ')}</p>
+                                        </div>
+                                        <p>{notification.message}</p>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        )
+    }
+
     return(
-        <div id="menu-container">
+        <div id="menu-container" onClick={closeModals}>
             <div id="icon-container">
                 <i className="fa-solid fa-feather fa-lg"/>
             </div>
@@ -87,11 +136,14 @@ const Menu = () => {
                         Investing
                     </div>
                 </div>
-                {/* <div className="menu-item-container">
-                    <div className="menu-item cursor-pointer green">
+                <div className="menu-item-container">
+                    <div className={`menu-item cursor-pointer green-font-hover ${showNotificationModal ? "green-font underline" : ""}`} onClick={openNotificationModal}>
                         Notifications
                     </div>
-                </div> */}
+                    {showNotificationModal &&
+                        <NotificationsModal/>
+                    }
+                </div>
                 <div className="menu-item-container">
                     <div className="menu-item cursor-pointer green-font-hover" onClick={e => history.push("/about")}>
                         About

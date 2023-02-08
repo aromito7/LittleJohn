@@ -71,6 +71,8 @@
 }
 
 
+
+
 .grey-bottom{
     border-bottom: 1px solid rgb(64, 73, 78);
 }
@@ -231,8 +233,8 @@
     width: 30%;
     border-radius: 25px;
     text-align: left;
-
 }
+
 
 .wide-button{
     width: 90%;
@@ -412,6 +414,10 @@
 }
 
 .underline{
+    text-decoration: underline;
+}
+
+.green-underline{
     text-decoration: underline;
 }
 

@@ -11,14 +11,29 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import Stock from './components/StockPage';
-import Menu from './components/menu.js';
+import Menu from './components/MenuBar/menu.js';
 import ErrorPage from './components/ErrorPage';
 import About from './components/About';
 import { authenticate } from './store/session';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false)
+  const [showDepositModal, setShowDepositModal] = useState(false)
   const user = useSelector(state => state.session.user)
+
+  const closeModals = e => {
+    setShowDepositModal(false)
+    setShowNotificationModal(false)
+  }
+  const props  = {
+    showNotificationModal,
+    setShowNotificationModal,
+    showDepositModal,
+    setShowDepositModal,
+    closeModals,
+  }
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,8 +55,8 @@ function App() {
     }
     return(
       <>
-        <Menu/>
-        <PortfolioPage/>
+        <Menu props={props}/>
+        <PortfolioPage props={props}/>
       </>
     )
   }
@@ -56,26 +71,18 @@ function App() {
         <Route path='/signup' exact={true}>
           <SignUpPage />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
+
         <ProtectedRoute path='/stocks/:symbol' exact={true}>
-          <Menu/>
-          <Stock/>
+          <Menu props={props}/>
+          <Stock props={props}/>
         </ProtectedRoute>
 
         <Route path='/' exact={true} >
           <Homepage/>
         </Route>
-
-
         <Route path='/about' exact={true}>
           <About/>
         </Route>
-
         <Route path='/' exact={true}>
           <LoginForm/>
         </Route>

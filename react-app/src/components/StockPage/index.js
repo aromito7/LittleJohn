@@ -12,7 +12,7 @@ import About from "./About"
 import KeyStatistics from "./KeyStatistics"
 import './stock.css'
 
-const Stock = () => {
+const Stock = ({props}) => {
     const {symbol} = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -31,10 +31,12 @@ const Stock = () => {
     const [depositOpen, setDepositOpen] = useState(false)
     const [insuficientFunds, setInsuficientFunds] = useState(false)
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
+    const {closeModals} = props
 
     window.addEventListener('locationchange', function () {
         setStockData(null)
     });
+
 
     useEffect(async() => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
@@ -118,7 +120,7 @@ const Stock = () => {
     }
 
     return(
-        <div id="portfolio-page-container">
+        <div id="portfolio-page-container" onClick={closeModals}>
             <div id="graph-sidebar">
                 <div>
                     <div id="account-graph-container">

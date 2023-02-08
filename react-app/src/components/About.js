@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
-import Menu from "./menu"
+import Menu from "./MenuBar/menu"
 const About = () => {
     const user = useSelector(state => state.session.user)
     console.log(user)

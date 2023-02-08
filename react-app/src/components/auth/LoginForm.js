@@ -56,6 +56,10 @@ const LoginForm = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     for(let error of errors){
       const [type, message] = error.split(' : ')
       if(type == "email"){

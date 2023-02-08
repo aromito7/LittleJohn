@@ -2,13 +2,14 @@ import { useState, useEffect } from "react"
 import { deposit } from "../store/session"
 import { useSelector, useDispatch } from "react-redux"
 
-const DepositModal = ({setDepositOpen, user}) => {
+const DepositModal = ({user, props}) => {
     const [amount, setAmount] = useState(0)
     const [from, setFrom] = useState("Interest Checking")
     const [to, setTo] = useState("LittleJohn")
     const [error, setError] = useState("")
     const [errors, setErrors] = useState([])
     const [showDismiss, setShowDismiss] = useState(false)
+    const {showDepositModal, closeModals, setIsDepositOpen} = props
 
     const dispatch = useDispatch()
 
@@ -28,7 +29,7 @@ const DepositModal = ({setDepositOpen, user}) => {
         if (data) {
             setErrors(data);
         }else{
-            setDepositOpen(false)
+            closeModals()
         }
     }
 
@@ -43,14 +44,14 @@ const DepositModal = ({setDepositOpen, user}) => {
     }, [amount])
 
     return(
-        <div className="modal dark-background pad25 black-border" id="deposit-modal">
+        <div className="modal pad25 white-background black-border" id="deposit-modal">
             <div className="flex">
                 <p className="flex-left bold font20">Transfer Money</p>
-                <p id="x-close" className="cursor-pointer" onClick={e => setDepositOpen(false)}>X</p>
+                <p id="x-close" className="cursor-pointer" onClick={e => setIsDepositOpen(false)}>X</p>
             </div>
             <div id="transfer-modal-grid">
                 <p>Amount</p>
-                <input className="grey-border" value={amount} onChange={e => setAmount(e.target.value)}></input>
+                <input className="grey-border flex-end" value={amount} onChange={e => setAmount(e.target.value)}></input>
                 <p>From</p>
                 <select className="grey-border" value={from} onChange={toggle}>
                     <option>Interest Checking</option>
