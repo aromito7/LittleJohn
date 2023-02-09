@@ -3,31 +3,33 @@ import { useState } from 'react';
 //const data = [{name: 'Page A', uv: 400}, {name: 'Page B', uv: 300}];
 
 
-const Graph = ({stock}) => {
+const Graph = ({graphData}) => {
     //console.log(stock)
+    const {history, open, price} = graphData
     const [currentHistory, setCurrentHistory] = useState("1D")
+    const keys = Object.keys(history.Close)
+
+
     let times
     switch(currentHistory){
         case "1D":
-            times = (Object.keys(stock.history.Close).slice(-1))
+            times = (Object.keys(history.Close).slice(-1))
             break
         case "1W":
-            times = (Object.keys(stock.history.Close).slice(-5))
+            times = (Object.keys(history.Close).slice(-5))
             break
         case "1M":
-            times = (Object.keys(stock.history.Close).slice(-20))
+            times = (Object.keys(history.Close).slice(-20))
             break
         case "3M":
-            times = (Object.keys(stock.history.Close).slice(-60))
+            times = (Object.keys(history.Close).slice(-60))
             break
     }
-    const low = Object.values(stock.history.Low).slice(-1)[0]
-    const high = Object.values(stock.history.High).slice(-1)[0]
-    const {open, price} = stock
+
     const data = times.map(time => {
         return{
             time: new Date(Number(time)).toString().split(" ").slice(0,4).join(" "),
-            price: stock.history.Close[time].toFixed(2)
+            price: history.Close[time].toFixed(2)
         }
     })
 

@@ -6,8 +6,6 @@ const BuyingPower = ({user, props}) => {
     const {showDepositModal, setShowDepositModal} = props
     const [isDepositOpen, setIsDepositOpen] = useState(false)
     props.setIsDepositOpen = setIsDepositOpen
-    console.log(props)
-    console.log(`ShowDepositModal: ${showDepositModal}`)
 
     const toggleOpen = (e) => {
         setOpen(!open)

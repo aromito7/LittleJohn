@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom"
+import MiniGraph from "../MiniGraph"
 const PortfolioItem = ({stock}) => {
     const history = useHistory()
     if(!stock.stock) return null
@@ -14,9 +15,10 @@ const PortfolioItem = ({stock}) => {
             <div>
                 <p>{stock.stock.symbol}</p>
             </div>
-            {stock.shares && stock.shares > 0 &&
+            <MiniGraph graphData={stock.stock}/>
+            {/* {stock.shares && stock.shares > 0 &&
                     <p>Shares: {stock.shares}</p>
-            }
+            } */}
             <div>
                 <p className={delta >= 0 ? "green-font" : "orange-font"}>${price.toFixed(2)}</p>
                 <p className={delta >= 0 ? "green-font" : "orange-font"}>{percentDelta}</p>
