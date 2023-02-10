@@ -42,7 +42,7 @@ const BuyingPower = ({user, props}) => {
                 <p className="flex-quarter grey-bottom text-right">${user.buying_power.toFixed(2)}</p>
             </div>
             <div className="flex pad25 ">
-                <button className="standard-button green-background font-black" onClick={deposit}>Deposit Funds</button>
+                <button className="standard-button green-background font-white" onClick={deposit}>Deposit Funds</button>
             </div>
         </div>
         )

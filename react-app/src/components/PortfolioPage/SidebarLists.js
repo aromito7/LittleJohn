@@ -22,8 +22,8 @@ const SidebarLists = ({user}) => {
     return(
         <div id="sidebar-lists-container">
             <div id="portfolio-container" className="grey-border">
-                <div className="list-title cursor-pointer light-background-hover pad10" onClick={togglePortfolio}>
-                    <h1>Portfolio</h1>
+                <div id="portfolio-title-container" className="list-title cursor-pointer light-background-hover pad10" onClick={togglePortfolio}>
+                    <p>Portfolio</p>
                     {showPortfolio ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
                     <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
                 </div>
@@ -38,8 +38,8 @@ const SidebarLists = ({user}) => {
                 }
             </div>
             <div id="watchlist-container" className="grey-border">
-                <div className="list-title cursor-pointer light-background-hover pad10" onClick={toggleWatchlist}>
-                    <h1>Watchlist</h1>
+                <div id="watchlist-title-container" className="list-title cursor-pointer light-background-hover pad10" onClick={toggleWatchlist}>
+                    <p>Watchlist</p>
                     {showWatchlist ? <i className="fa-sharp fa-solid fa-arrow-up fa-2x flex-right"/> :
                     <i className="fa-sharp fa-solid fa-arrow-down fa-2x flex-right"/>}
                 </div>

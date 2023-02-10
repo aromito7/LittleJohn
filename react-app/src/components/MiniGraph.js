@@ -17,10 +17,12 @@ const MiniGraph = ({graphData}) =>{
     })
 
     return(
-        <LineChart width={100} height={50} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-        <Line type="monotone linear" dot={false} dataKey="price" stroke={`${price > open ? "#00B405" : "#FF5000"}`} />
-        <YAxis domain={['dataMin', 'dataMax']} display="none"/>
-        </LineChart>
+        <>
+            <LineChart width={200} height={50} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+            <Line type="monotone linear" dot={false} dataKey="price" stroke={`${price > open ? "#00B405" : "#FF5000"}`} />
+            <YAxis domain={['dataMin', 'dataMax']} display="none"/>
+            </LineChart>
+        </>
     )
 }
 

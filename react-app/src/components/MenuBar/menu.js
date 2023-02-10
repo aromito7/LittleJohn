@@ -65,7 +65,7 @@ const Menu = ({props}) => {
 
     const openNotificationModal = e =>{
         e.stopPropagation()
-        setShowNotificationModal(true)
+        setShowNotificationModal(!showNotificationModal)
     }
 
     const onEnter = (e) => {

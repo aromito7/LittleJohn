@@ -15,12 +15,15 @@ const PortfolioItem = ({stock}) => {
             <div>
                 <p>{stock.stock.symbol}</p>
             </div>
-            <MiniGraph graphData={stock.stock}/>
+            <div id="mini-graph-container">
+                <MiniGraph graphData={stock.stock}/>
+            </div>
+
             {/* {stock.shares && stock.shares > 0 &&
                     <p>Shares: {stock.shares}</p>
             } */}
             <div>
-                <p className={delta >= 0 ? "green-font" : "orange-font"}>${price.toFixed(2)}</p>
+                <p>${price.toFixed(2)}</p>
                 <p className={delta >= 0 ? "green-font" : "orange-font"}>{percentDelta}</p>
             </div>
         </div>

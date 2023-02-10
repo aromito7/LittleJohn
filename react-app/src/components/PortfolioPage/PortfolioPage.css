@@ -63,12 +63,9 @@
 
 }
 
-
 #sidebar-lists-container{
     height: 700px;
 }
-
-
 
 .transaction{
     height: 100px;
@@ -126,6 +123,10 @@
     align-items: center;
 }
 
+#mini-graph-container{
+    width:200px;
+}
+
 #info-container > h1{
     text-align: center;
     padding: 0 0 50px 0;
@@ -178,4 +179,22 @@
 
 #buying-power-closed, #buying-power-open{
     margin: 50px 0 50px 0;
+}
+
+#buying-power-open{
+    box-shadow: -1px 1px 5px 9px rgba(220,220,220,.25);
+}
+
+#portfolio-container, #watchlist-container{
+    border: 1px solid grey;
+}
+
+#portfolio-title-container, #watchlist-title-container{
+    padding: 15px 10px;
+    border-bottom: 1px solid grey;
+    font-weight: bold;
+}
+
+#portfolio-title-container > p, #watchlist-title-container > p{
+    padding-top: 5px;
 }

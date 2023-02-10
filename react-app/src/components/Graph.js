@@ -13,16 +13,16 @@ const Graph = ({graphData}) => {
     let times
     switch(currentHistory){
         case "1D":
-            times = (Object.keys(history.Close).slice(-1))
+            times = (Object.keys(history.Close).slice(-8))
             break
         case "1W":
-            times = (Object.keys(history.Close).slice(-5))
+            times = (Object.keys(history.Close).slice(-40))
             break
         case "1M":
-            times = (Object.keys(history.Close).slice(-20))
+            times = (Object.keys(history.Close).slice(-160))
             break
         case "3M":
-            times = (Object.keys(history.Close).slice(-60))
+            times = (Object.keys(history.Close).slice(-480))
             break
     }
 
@@ -32,6 +32,8 @@ const Graph = ({graphData}) => {
             price: history.Close[time].toFixed(2)
         }
     })
+
+    console.log(data)
 
     const CustomTooltip = ({ active, payload, label, time, price}) => {
         if (active && payload && payload.length) return (

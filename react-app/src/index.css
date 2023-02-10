@@ -67,7 +67,8 @@
 
 
 .light-background, .light-background *, .light-background-hover:hover, .light-background-hover:hover *{
-    background-color: rgb(64, 73, 78);
+    /* background-color: rgb(64, 73, 78); */
+    background-color: rgb(245, 248, 250);
 }
 
 
@@ -200,6 +201,10 @@
     color: black;
 }
 
+.font-white{
+    color: white;
+}
+
 .full-width{
     width: 100%;
 }
@@ -292,6 +297,33 @@
         transition-timing-function: ease-out;
     }
   }
+
+.hide-dropdown{
+    z-index:-1;
+    animation: hide .5s;
+}@keyframes hide {
+    from{
+    z-index:2;
+    } to{
+    z-index:-1;
+    }
+}
+
+.show-dropdown{
+    opacity:1;
+    animation: show .5s;
+    z-index: 2;
+    transform: scale(1);
+  }
+  @keyframes show {
+    from{
+        transition-timing-function: ease-in;
+    } to{
+        transition-timing-function: ease-out;
+    }
+}
+
+
 
 .input-icons i {
     position: absolute;
