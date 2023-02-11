@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Menu from "./MenuBar/menu"
-const About = () => {
+const About = ({props}) => {
     const user = useSelector(state => state.session.user)
-    console.log(user)
     return(
         <>
             {user &&
-                <Menu/>
+                <Menu props={props}/>
             }
-            <div id="about-page-container">
+            <div id="about-page-container" onClick={e => props.closeModals()}>
                 <div className="flex">
                     <div className="flex-left">
                         <h1 className="green-font">About Little John:</h1>

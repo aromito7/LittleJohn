@@ -9,6 +9,7 @@ const Graph = ({graphData}) => {
     const [currentHistory, setCurrentHistory] = useState("1D")
     const keys = Object.keys(history.Close)
 
+    const graphTimeOptions = ["1D",  "1W", "1M", "3M"]
 
     let times
     switch(currentHistory){
@@ -22,7 +23,7 @@ const Graph = ({graphData}) => {
             times = (Object.keys(history.Close).slice(-160))
             break
         case "3M":
-            times = (Object.keys(history.Close).slice(-480))
+            times = (Object.keys(history.Close).slice(-480))//.filter((v,i) => i%8 == 0))
             break
     }
 
@@ -32,8 +33,6 @@ const Graph = ({graphData}) => {
             price: history.Close[time].toFixed(2)
         }
     })
-
-    console.log(data)
 
     const CustomTooltip = ({ active, payload, label, time, price}) => {
         if (active && payload && payload.length) return (
@@ -57,10 +56,17 @@ const Graph = ({graphData}) => {
         <div id='stock-info' className="flex-horizontal grey-border">
             <RenderLineChart/>
             <div id='stock-chart-lengths' className='flex'>
-                <p className={`cursor-pointer ${currentHistory == "1D" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("1D")}>1D</p>
+                {
+                    graphTimeOptions.map(time => {
+                        return(
+                            <p className={`cursor-pointer ${currentHistory == time ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory(time)}>{time}</p>
+                        )
+                    })
+                }
+                {/* <p className={`cursor-pointer ${currentHistory == "1D" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("1D")}>1D</p>
                 <p className={`cursor-pointer ${currentHistory == "1W" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("1W")}>1W</p>
                 <p className={`cursor-pointer ${currentHistory == "1M" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("1M")}>1M</p>
-                <p className={`cursor-pointer ${currentHistory == "3M" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("3M")}>3M</p>
+                <p className={`cursor-pointer ${currentHistory == "3M" ? "green-font green-bottom" : "green-font-hover"}`} onClick={e => setCurrentHistory("3M")}>3M</p> */}
             </div>
         </div>
     )

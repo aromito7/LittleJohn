@@ -36,6 +36,10 @@
     color: red;
 }
 
+.grey-font{
+    color: grey;
+}
+
 .silver-font{
     color: silver;
 }
@@ -127,8 +131,7 @@
     width: 25%;
 }
 
-.flex-end2{
-
+.flex-bottom{
 }
 
 .text-right{

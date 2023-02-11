@@ -81,7 +81,7 @@ function App() {
           <Homepage/>
         </Route>
         <Route path='/about' exact={true}>
-          <About/>
+          <About props={props}/>
         </Route>
         <Route path='/' exact={true}>
           <LoginForm/>

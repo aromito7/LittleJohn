@@ -198,3 +198,24 @@
 #portfolio-title-container > p, #watchlist-title-container > p{
     padding-top: 5px;
 }
+
+#sliding-panes-container, #individual-pane-container, .individual-pane{
+    width: 100%;
+}
+
+#sliding-panes-container{
+    height: 150px;
+    margin-bottom: 50px;
+}
+
+#individual-pane-container{
+    border: 1px solid grey;
+    padding: 20px;
+}
+
+#pane-text{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

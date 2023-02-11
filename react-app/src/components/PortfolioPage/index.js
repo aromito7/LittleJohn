@@ -1,6 +1,7 @@
 import AccountGraph from "./AccountGraph"
 import SidebarLists from "./SidebarLists"
 import BuyingPower from "./BuyingPower"
+import SlidingPanes from "./SlidingPanes"
 import Info from "./Info"
 import './PortfolioPage.css'
 import { useSelector } from "react-redux"
@@ -14,6 +15,7 @@ const PortfolioPage = ({props}) => {
                 <div>
                     <AccountGraph user={user}/>
                     <BuyingPower props={props} user={user}/>
+                    <SlidingPanes/>
                     <Info user={user}/>
                 </div>
                 <div>
