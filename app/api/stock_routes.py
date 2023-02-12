@@ -127,7 +127,8 @@ def get_stock_info(symbol):
     if one doesn't already exist by pulling from yahoo finance api
     """
     stock = Stock.query.filter(Stock.symbol == symbol).first()
-
+    print("Querying Database")
+    print(stock.to_dict())
     if stock:
         return stock.to_dict()
 

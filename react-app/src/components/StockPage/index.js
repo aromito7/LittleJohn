@@ -56,7 +56,7 @@ const Stock = ({props}) => {
     if(!stockData) return <LoadingPage/>
 
     //This is for when no stock data was returned from the backend
-    if(!stockData.name) {
+    if(!stockData.symbol) {
         return <ErrorPage/>
     }
 
@@ -65,7 +65,7 @@ const Stock = ({props}) => {
     const delta = parseFloat(current) - parseFloat(open)
     const isGreen = delta >= 0
     const percent = parseFloat(delta) / parseFloat(open)
-    const name = stockData.name.split(', Inc')[0].split(".com")[0]
+    const name = stockData.name ? stockData.name.split(', Inc')[0].split(".com")[0] : stockData.symbol
 
     const buyStock = async() => {
         if(showErrors){
@@ -131,7 +131,9 @@ const Stock = ({props}) => {
                         </div>
                         <Graph graphData={stockData}/>
                     </div>
-                    <About stock={stockData}/>
+                    {stockData.about &&
+                        <About stock={stockData}/>
+                    }
                     <KeyStatistics stock={stockData}/>
                     <div>
                         {transactions.reverse().map((transaction, i) => {
