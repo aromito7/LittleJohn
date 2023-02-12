@@ -1,7 +1,7 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { useState } from 'react';
 const MiniGraph = ({graphData}) =>{
-    console.log(graphData)
+    // console.log(graphData)
     const {history, open, price} = graphData
     const keys = Object.keys(history.Close)
 
