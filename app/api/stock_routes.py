@@ -136,40 +136,12 @@ def get_stock_info(symbol):
     print("HELLO YFINANCE API!")
     print("HELLO YFINANCE API!")
 
-    # end = datetime.now()#.strftime("%Y-%m-%d")
-    # start = end - timedelta(days=90)
-    # end = end + timedelta(days=1)
-    # start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     try:
         stock = use_yfinance_api(symbol)
     except:
         error = {'error' : 'stock not found'}
         print(error)
         return error
-
-
-    # name = info['shortName']
-    # price = info['currentPrice']
-    # history = price_history.to_json()
-    # open_price = stock.basic_info['open']
-    # eps = stock.stats()['defaultKeyStatistics']['trailingEps']
-    # about = stock.info['longBusinessSummary']
-    # employees = stock.info['fullTimeEmployees'] if 'fullTimeEmployees' in stock.info.keys() else 0
-    # city = stock.info['city'] if 'city' in stock.info.keys() else ''
-    # state = stock.info['state'] if 'state' in stock.info.keys() else ''
-    # sector = stock.info['sector'] if 'sector' in stock.info.keys() else ''
-    # industry = stock.info['industry'] if sector in stock.info.keys() else ''
-    # website = stock.info['website'] if sector in stock.info.keys() else ''
-    # shares = stock.fast_info['shares']
-    # year_high = round(stock.fast_info['year_high'], 2)
-    # year_low = round(stock.fast_info['year_low'], 2)
-    # day_high = round(stock.fast_info['day_high'], 2)
-    # day_low = round(stock.fast_info['day_low'], 2)
-    # market_cap = stock.fast_info['market_cap']
-    # volume = stock.fast_info['last_volume']
-    # average_volume = stock.fast_info['three_month_average_volume']
-    # news = json.dumps(stock.get_news())
-    # price = round(stock.basic_info['last_price'], 2)
 
     new_stock = Stock(
         symbol = symbol,
