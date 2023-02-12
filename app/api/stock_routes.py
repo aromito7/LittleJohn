@@ -8,25 +8,82 @@ stock_routes = Blueprint('stocks', __name__)
 
 @stock_routes.route('/yfinance/<symbol>', methods=['GET'])
 def use_yfinance_api(symbol):
-
+    output = {}
     try:
-        stock = yf.Ticker("GOOG META DIS MMMMMM")
+        stock = yf.Ticker(symbol)
+        info = stock.fast_info
         #stock = yf.Ticker(symbol)
         # info = stock.info
         price_history = stock.history(period='1y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
                                     interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
                                     actions=False)
+
+
+
+        # 'shares' : stock.fast_info['shares'],
+        # 'year_high' : round(stock.fast_info['year_high'], 2),
+        # 'year_low' : round(stock.fast_info['year_low'], 2),
+        # 'day_high' : round(stock.fast_info['day_high'], 2),
+        # 'day_low' : round(stock.fast_info['day_low'], 2),
+        # 'market_cap' : stock.fast_info['market_cap'],
+        # 'volume' : stock.fast_info['last_volume'],
+        # 'average_volume' : stock.fast_info['three_month_average_volume'],
+        # 'news': json.dumps(stock.get_news()),
+        # 'price' : round(stock.basic_info['last_price'], 2),
     except:
         return {'error' : 'stock not found'}
 
-    # data = yf.download("AMZN AAPL GOOG", start="2017-01-01", end="2017-04-30")
+    #output['dir'] = dir(info)
+    output['shares'] = info['shares']
+    output['year_high'] = round(info['year_high'], 2)
+    output['year_low'] = round(info['year_low'], 2)
+    output['day_high'] = round(info['day_high'], 2)
+    output['day_low'] = round(info['day_low'], 2)
+    output['market_cap'] = info['market_cap']
+    output['volume'] = info['last_volume']
+    output['average_volume'] = info['three_month_average_volume']
+    output['news'] = json.dumps(stock.get_news())
+    output['price'] = round(info['last_price'], 2)
+    output['open_price'] = info['open']
 
-    # info = stock.info
+    output['history'] = price_history.to_json()
+    output['ticker'] = symbol
+
+    output['eps'] = None
+    output['name'] = None
+    output['about'] = None
+    output['employees'] = None
+    output['city'] = None
+    output['state'] = None
+    output['sector'] = None
+    output['industry'] = None
+    output['website'] = None
+    #output['yfinance-version'] =  yf.__version__
+
+    # data yf.download("AMZN AAPL GOOG", start="2017-01-01", end="2017-04-30")
 
 
+    try:
+        info = stock.info
+        output['eps'] = round(stock.info['eps'], 2) if stock.info['eps'] else None,
+        output['name'] = stock.info['name']
+        output['about'] = stock.info['longBusinessSummary']
+        output['employees'] = stock.info['fullTimeEmployees']
+        output['city'] = stock.info['city']
+        output['state'] = stock.info['state']
+        output['sector'] = stock.info['sector']
+        output['industry'] = stock.info['industry']
+        output['website'] = stock.info['website']
 
-    return {
-            'history' : dir(price_history.Open),
+
+    except:
+        return output
+
+    return output
+
+    # return {
+    #         'dir' : dir(stock),
+
             # 'name': stock.info['shortName'],
             # 'zzz' : dir(stock.basic_info),
             # 'info' : dir(info),
@@ -40,6 +97,7 @@ def use_yfinance_api(symbol):
             # 'history' : price_history.to_json(),
             # 'ticker' : stock.ticker,
             # 'eps' : round(stock.stats()['defaultKeyStatistics']['trailingEps'], 2),
+
             # 'about' : stock.info['longBusinessSummary'],
             # 'employees' : stock.info['fullTimeEmployees'],
             # 'city' : stock.info['city'],
@@ -47,6 +105,8 @@ def use_yfinance_api(symbol):
             # 'sector' : stock.info['sector'],
             # 'industry' : stock.info['industry'],
             # 'website' : stock.info['website'],
+
+
             # 'shares' : stock.fast_info['shares'],
             # 'year_high' : round(stock.fast_info['year_high'], 2),
             # 'year_low' : round(stock.fast_info['year_low'], 2),
@@ -57,7 +117,8 @@ def use_yfinance_api(symbol):
             # 'average_volume' : stock.fast_info['three_month_average_volume'],
             # 'news': json.dumps(stock.get_news()),
             # 'price' : round(stock.basic_info['last_price'], 2),
-            'yfinance-version': yf.__version__}
+
+            # 'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
 def get_stock_info(symbol):
@@ -79,66 +140,59 @@ def get_stock_info(symbol):
     # end = end + timedelta(days=1)
     # start, end = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     try:
-        stock = yf.Ticker(symbol)
-        info = stock.info
-        price_history = stock.history(period='1y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-                                    interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-                                    actions=False)
+        stock = use_yfinance_api(symbol)
     except:
-        return {'error' : 'stock not found'}
+        error = {'error' : 'stock not found'}
+        print(error)
+        return error
 
-    if not stock.info:
-        return {'error' : 'stock not found'}
-    # for key in ['shortName', 'currentPrice', 'open']:
-    #     if key not in info.keys():
-    #         return {'error' : key + ' not found in stock info'}
 
-    name = info['shortName']
-    price = info['currentPrice']
-    history = price_history.to_json()
-    open_price = stock.basic_info['open']
-    eps = stock.stats()['defaultKeyStatistics']['trailingEps']
-    about = stock.info['longBusinessSummary']
-    employees = stock.info['fullTimeEmployees'] if 'fullTimeEmployees' in stock.info.keys() else 0
-    city = stock.info['city'] if 'city' in stock.info.keys() else ''
-    state = stock.info['state'] if 'state' in stock.info.keys() else ''
-    sector = stock.info['sector'] if 'sector' in stock.info.keys() else ''
-    industry = stock.info['industry'] if sector in stock.info.keys() else ''
-    website = stock.info['website'] if sector in stock.info.keys() else ''
-    shares = stock.fast_info['shares']
-    year_high = round(stock.fast_info['year_high'], 2)
-    year_low = round(stock.fast_info['year_low'], 2)
-    day_high = round(stock.fast_info['day_high'], 2)
-    day_low = round(stock.fast_info['day_low'], 2)
-    market_cap = stock.fast_info['market_cap']
-    volume = stock.fast_info['last_volume']
-    average_volume = stock.fast_info['three_month_average_volume']
-    news = json.dumps(stock.get_news())
-    price = round(stock.basic_info['last_price'], 2)
+    # name = info['shortName']
+    # price = info['currentPrice']
+    # history = price_history.to_json()
+    # open_price = stock.basic_info['open']
+    # eps = stock.stats()['defaultKeyStatistics']['trailingEps']
+    # about = stock.info['longBusinessSummary']
+    # employees = stock.info['fullTimeEmployees'] if 'fullTimeEmployees' in stock.info.keys() else 0
+    # city = stock.info['city'] if 'city' in stock.info.keys() else ''
+    # state = stock.info['state'] if 'state' in stock.info.keys() else ''
+    # sector = stock.info['sector'] if 'sector' in stock.info.keys() else ''
+    # industry = stock.info['industry'] if sector in stock.info.keys() else ''
+    # website = stock.info['website'] if sector in stock.info.keys() else ''
+    # shares = stock.fast_info['shares']
+    # year_high = round(stock.fast_info['year_high'], 2)
+    # year_low = round(stock.fast_info['year_low'], 2)
+    # day_high = round(stock.fast_info['day_high'], 2)
+    # day_low = round(stock.fast_info['day_low'], 2)
+    # market_cap = stock.fast_info['market_cap']
+    # volume = stock.fast_info['last_volume']
+    # average_volume = stock.fast_info['three_month_average_volume']
+    # news = json.dumps(stock.get_news())
+    # price = round(stock.basic_info['last_price'], 2)
 
     new_stock = Stock(
         symbol = symbol,
-        name = name,
-        price = price,
-        history = history,
-        open = open_price,
-        eps = round(eps, 2) if eps else None,
-        about = about,
-        employees = employees,
-        city = city,
-        state = state,
-        sector = sector,
-        industry = industry,
-        website = website,
-        shares = shares,
-        year_high = year_high,
-        year_low = year_low,
-        day_high = day_high,
-        day_low = day_low,
-        market_cap = market_cap,
-        volume = volume,
-        average_volume = average_volume,
-        news = news,
+        name = stock['name'],
+        price = stock['price'],
+        history = stock['history'],
+        open = stock['open_price'],
+        eps = stock['eps'],
+        about = stock['about'],
+        employees = stock['employees'],
+        city = stock['city'],
+        state = stock['state'],
+        sector = stock['sector'],
+        industry = stock['industry'],
+        website = stock['website'],
+        shares = stock['shares'],
+        year_high = stock['year_high'],
+        year_low = stock['year_low'],
+        day_high = stock['day_high'],
+        day_low = stock['day_low'],
+        market_cap = stock['market_cap'],
+        volume = stock['volume'],
+        average_volume = stock['average_volume'],
+        news = stock['news'],
         )
 
     print(new_stock)
