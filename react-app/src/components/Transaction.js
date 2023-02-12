@@ -12,7 +12,7 @@ const Transaction = ({transaction}) => {
             </div>
             <div className="transaction-right">
                 <div className="transaction-right-top">
-                    <p className="flex-left">{transaction.stock.name.split('.com')[0]}</p>
+                    <p className="flex-left">{transaction.stock.name ? transaction.stock.name.split('.com')[0] : transaction.stock.symbol}</p>
                     <p className="flex-right">{transaction.createdAt.split(" GMT")[0]}</p>
                 </div>
                 <div className="transaction-right-bot">

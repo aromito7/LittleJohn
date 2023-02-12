@@ -128,8 +128,8 @@ def get_stock_info(symbol):
     """
     stock = Stock.query.filter(Stock.symbol == symbol).first()
     print("Querying Database")
-    print(stock.to_dict())
     if stock:
+        print(stock.to_dict())
         return stock.to_dict()
 
     print("HELLO YFINANCE API!")
