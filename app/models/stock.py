@@ -43,6 +43,7 @@ class Stock(db.Model):
     watchlist = db.relationship('Watchlist', back_populates='stock')
 
     def to_dict(self):
+        
         return {
             'id': self.id,
             'symbol': self.symbol,

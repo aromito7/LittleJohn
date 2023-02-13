@@ -27,18 +27,23 @@ const Graph = ({graphData}) => {
             break
     }
 
+    let max = 0
+    let min = Infinity
     const data = times.map(time => {
+        const price = history.Close[time]
+
         return{
             time: new Date(Number(time)).toString().split(" ").slice(0,4).join(" "),
-            price: history.Close[time].toFixed(2)
+            price
         }
     })
+
 
     const CustomTooltip = ({ active, payload, label, time, price}) => {
         if (active && payload && payload.length) return (
         <div className="custom-tooltip">
             <p className='date'>{payload[0].payload.time}</p>
-            <p className="label">{`$${payload[0].value}`}</p>
+            <p className="label">{`$${payload[0].value.toFixed(2)}`}</p>
         </div>
         );
         return null
@@ -48,7 +53,7 @@ const Graph = ({graphData}) => {
         return(
             <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
             <Line type="monotone linear" dot={false} dataKey="price" stroke={`${price > open ? "#00B405" : "#FF5000"}`} />
-            <YAxis domain={['dataMin', 'dataMax']} display="none"/>
+            <YAxis domain={['datamin', 'datamax']} display="none"/>
             <Tooltip position={{ x: 'auto', y: -50 }} content={<CustomTooltip data={data}/>}/>
             </LineChart>
         )};

@@ -34,7 +34,7 @@ const BuyingPower = ({user, isDepositOpen, setIsDepositOpen}) => {
             </div>
             <div className="flex pad25 ">
                 <p className="flex-quarter grey-bottom">Buying Power</p>
-                <p className="flex-quarter grey-bottom text-right">${user.buying_power.toFixed(2)}</p>
+                <p className="flex-quarter grey-bottom text-right">${user.buying_power.toLocaleString("en-US")}</p>
             </div>
             <div className="flex pad25 ">
                 <button className="standard-button green-background font-white" onClick={deposit}>Deposit Funds</button>
@@ -49,16 +49,12 @@ const BuyingPower = ({user, isDepositOpen, setIsDepositOpen}) => {
         </div>
     )
 
-    if(true){
-        return(
-            <>
-                <OpenBuyingPower/>
-                <DepositModal user={user} isDepositOpen={isDepositOpen} setIsDepositOpen={setIsDepositOpen}/>
-            </>
-        )
-    }
+
     return(
-        <OpenBuyingPower/>
+        <>
+            <OpenBuyingPower/>
+            <DepositModal user={user} isDepositOpen={isDepositOpen} setIsDepositOpen={setIsDepositOpen}/>
+        </>
     )
 }
 

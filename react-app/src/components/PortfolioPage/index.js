@@ -2,12 +2,13 @@ import AccountGraph from "./AccountGraph"
 import SidebarLists from "./SidebarLists"
 import BuyingPower from "./BuyingPower"
 import SlidingPanes from "./SlidingPanes"
+import DepositModal from "../DepositModal"
 import Info from "./Info"
 import './PortfolioPage.css'
 import { useSelector } from "react-redux"
 import { useState } from "react"
 
-const PortfolioPage = ({closeModals, showDepositModal, setShowDepositModal}) => {
+const PortfolioPage = ({closeModals}) => {
     const user = useSelector(state => state.session.user)
     const [isDepositOpen, setIsDepositOpen] = useState(false)
     return(
@@ -16,6 +17,7 @@ const PortfolioPage = ({closeModals, showDepositModal, setShowDepositModal}) => 
                 <div>
                     <AccountGraph user={user}/>
                     <BuyingPower user={user} setIsDepositOpen={setIsDepositOpen} isDepositOpen={isDepositOpen}/>
+                    <DepositModal user={user} isDepositOpen={isDepositOpen} setIsDepositOpen={setIsDepositOpen}/>
                     <SlidingPanes setIsDepositOpen={setIsDepositOpen} isDepositOpen={isDepositOpen}/>
                     <Info user={user}/>
                 </div>
