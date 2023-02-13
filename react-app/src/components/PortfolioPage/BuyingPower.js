@@ -1,20 +1,15 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import DepositModal from "../DepositModal"
-const BuyingPower = ({user, props}) => {
+const BuyingPower = ({user, isDepositOpen, setIsDepositOpen}) => {
     const [open, setOpen] = useState(false)
-    const {showDepositModal, setShowDepositModal} = props
-    const [isDepositOpen, setIsDepositOpen] = useState(false)
-    props.setIsDepositOpen = setIsDepositOpen
 
     const toggleOpen = (e) => {
         setOpen(!open)
     }
 
     const deposit = (e) => {
-        console.log(`ShowDepositModal: ${showDepositModal}`)
-        //setShowDepositModal(true)
-        setIsDepositOpen(true)
+        setIsDepositOpen(!isDepositOpen)
     }
 
     const MainBuyingPower = () => {
@@ -54,11 +49,11 @@ const BuyingPower = ({user, props}) => {
         </div>
     )
 
-    if(isDepositOpen){
+    if(true){
         return(
             <>
                 <OpenBuyingPower/>
-                <DepositModal props={props} user={user}/>
+                <DepositModal user={user} isDepositOpen={isDepositOpen} setIsDepositOpen={setIsDepositOpen}/>
             </>
         )
     }

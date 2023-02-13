@@ -1,19 +1,27 @@
 import { useState } from "react"
 
-const SlidingPanes = () => {
+const SlidingPanes = ({isDepositOpen, setIsDepositOpen}) => {
     const [currentPane, setCurrentPane] = useState(0)
     const panes = []
+
+    const openDeposit = e => {
+        console.log("Open Sessame")
+        setIsDepositOpen(true)
+    }
+
     panes.push({
         title: "Fund Your Account",
         body: "Your bank account is ready! Fund your Robinhood account to begin trading.",
         link: {
                 name: "Add Funds",
-                onClick: "",
+                onClick: openDeposit,
                 src: null
             },
         image: null,
 
     })
+
+
     panes.push({
         title: "Learn & Earn",
         body: "Learn and earn $1 of AVAX",
@@ -47,7 +55,7 @@ const SlidingPanes = () => {
                                 <p className="flex-right">X</p>
                             </div>
                             <p>{panes[currentPane].body}</p>
-                            <p className="green-font flex-bottom">{panes[currentPane].link.name}</p>
+                            <p className="green-font flex-bottom cursor-pointer" onClick={panes[currentPane].link.onClick}>{panes[currentPane].link.name}</p>
                         </div>
                     </div>
 

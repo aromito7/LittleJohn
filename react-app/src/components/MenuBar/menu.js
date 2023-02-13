@@ -7,16 +7,17 @@ import './menu.css'
 
 //const fs = require('fs')
 
-const Menu = ({props}) => {
+const Menu = () => {
     const dispatch = useDispatch()
     const history = useHistory()
-    const [search, setSearch] = useState("")
     const searchOptions = useSelector(state => state.stocks.searchOptions)
+    const user = useSelector(state => state.session.user)
+
+    const [search, setSearch] = useState("")
     const [options, setOptions] = useState([])
     const [focusSearch, setFocusSearch] = useState(false)
-    const [showNotifications, setShowNotifications] = useState(false)
-    const user = useSelector(state => state.session.user)
-    const {showNotificationModal, setShowNotificationModal, closeModals} = props
+    const [isOpenNotifications, setIsOpenNotifications] = useState(false);
+
     const notifications = []
     if(!user) return null
     if(user.portfolio.length == 0){
@@ -63,11 +64,6 @@ const Menu = ({props}) => {
         history.push("/login")
     };
 
-    const openNotificationModal = e =>{
-        e.stopPropagation()
-        setShowNotificationModal(!showNotificationModal)
-    }
-
     const onEnter = (e) => {
         if (e.key === 'Enter') {
             //console.log(search)
@@ -106,7 +102,7 @@ const Menu = ({props}) => {
     }
 
     return(
-        <div id="menu-container" onClick={closeModals}>
+        <div id="menu-container">
             <div id="icon-container">
                 <i className="fa-solid fa-feather fa-lg"/>
             </div>
@@ -137,10 +133,10 @@ const Menu = ({props}) => {
                     </div>
                 </div>
                 <div className="menu-item-container">
-                    <div className={`menu-item cursor-pointer green-font-hover ${showNotificationModal ? "green-font underline" : ""}`} onClick={openNotificationModal}>
+                    <div className={`menu-item cursor-pointer green-font-hover ${isOpenNotifications ? "green-font underline" : ""}`} onClick={e => setIsOpenNotifications(!isOpenNotifications)}>
                         Notifications
                     </div>
-                    {showNotificationModal &&
+                    {isOpenNotifications &&
                         <NotificationsModal/>
                     }
                 </div>

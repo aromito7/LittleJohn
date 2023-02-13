@@ -12,7 +12,7 @@ import About from "./About"
 import KeyStatistics from "./KeyStatistics"
 import './stock.css'
 
-const Stock = ({props}) => {
+const Stock = () => {
     const {symbol} = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -31,7 +31,6 @@ const Stock = ({props}) => {
     const [depositOpen, setDepositOpen] = useState(false)
     const [insuficientFunds, setInsuficientFunds] = useState(false)
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
-    const {closeModals} = props
 
     window.addEventListener('locationchange', function () {
         setStockData(null)
@@ -102,10 +101,6 @@ const Stock = ({props}) => {
         setShares('0')
     }
 
-    const closeModal = () => {
-        setDepositOpen(false)
-    }
-
     const PurchaseDismiss = () => {
         return(
             <button className={`wide-button center cursor-pointer margin-verticle20 ${isGreen ? 'green-background' : 'orange-background'}`} onClick={buyStock}>
@@ -120,7 +115,7 @@ const Stock = ({props}) => {
     }
 
     return(
-        <div id="portfolio-page-container" onClick={closeModals}>
+        <div id="portfolio-page-container">
             <div id="graph-sidebar">
                 <div>
                     <div id="account-graph-container">

@@ -152,7 +152,11 @@
 }
 
 #x-close{
+    padding: 15px 10px 5px 10px;
+    border-radius: 35px;
     margin-left: auto;
+    height: 50px;
+    width: 50px;
 }
 
 .transform-hide:active{

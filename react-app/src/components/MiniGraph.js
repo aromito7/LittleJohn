@@ -6,7 +6,7 @@ const MiniGraph = ({graphData}) =>{
     const keys = Object.keys(history.Close)
 
 
-    const times = (Object.keys(history.Close).slice(-10))
+    const times = (Object.keys(history.Close).slice(-8))
 
 
     const data = times.map(time => {

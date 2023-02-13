@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { deposit } from "../store/session"
 import { useSelector, useDispatch } from "react-redux"
 
-const DepositModal = ({user, props}) => {
+const DepositModal = ({user, isDepositOpen, setIsDepositOpen}) => {
     const [amount, setAmount] = useState(0)
     const [from, setFrom] = useState("Interest Checking")
     const [to, setTo] = useState("LittleJohn")
     const [error, setError] = useState("")
     const [errors, setErrors] = useState([])
     const [showDismiss, setShowDismiss] = useState(false)
-    const {showDepositModal, closeModals, setIsDepositOpen} = props
 
     const dispatch = useDispatch()
 
@@ -29,7 +28,7 @@ const DepositModal = ({user, props}) => {
         if (data) {
             setErrors(data);
         }else{
-            closeModals()
+            setIsDepositOpen(false)
         }
     }
 
@@ -44,34 +43,42 @@ const DepositModal = ({user, props}) => {
     }, [amount])
 
     return(
-        <div className="modal pad25 white-background black-border" id="deposit-modal">
-            <div className="flex">
-                <p className="flex-left bold font20">Transfer Money</p>
-                <p id="x-close" className="cursor-pointer" onClick={e => setIsDepositOpen(false)}>X</p>
-            </div>
-            <div id="transfer-modal-grid">
-                <p>Amount</p>
-                <input className="grey-border flex-end" value={amount} onChange={e => setAmount(e.target.value)}></input>
-                <p>From</p>
-                <select className="grey-border" value={from} onChange={toggle}>
-                    <option>Interest Checking</option>
-                    <option>LittleJohn</option>
-                </select>
-                <p>To</p>
-                <select className="grey-border" value={to} onChange={toggle}>
-                    <option>LittleJohn</option>
-                    <option>Interest Checking</option>
-                </select>
-            </div>
-            <div className="flex-verticle">
-            <p className="pad10 font20">Current buying power: ${user.buying_power.toFixed(2)}</p>
-                {showDismiss ?
-                    <>
-                        <p className="pad10 red-font font20">{error}</p>
-                        <button className="standard-button green-background center" onClick={e => setShowDismiss(false)}>Dismiss</button>
-                    </>
-                    : <button className="standard-button green-background center" onClick={depositAmount}>Confirm Transfer</button>
-                }
+        <div className={`dropdown-modal ${isDepositOpen ? "active" : "inactive"}`}>
+            <div id="deposit-container">
+                <div className="flex-verticle ">
+                    <div className="flex">
+                        <div id="x-close" className="cursor-pointer light-background-hover font36" onClick={e => setIsDepositOpen(false)}>X</div>
+                    </div>
+                </div>
+                <div id="deposit-container-padding">
+                    <div className="flex">
+                        <p className="flex-left bold font20">Transfer Money</p>
+                    </div>
+                    <div id="transfer-modal-grid">
+                        <p>Amount</p>
+                        <input className="grey-border flex-end" value={amount} onChange={e => setAmount(e.target.value)}></input>
+                        <p>From</p>
+                        <select className="grey-border" value={from} onChange={toggle}>
+                            <option>Interest Checking</option>
+                            <option>LittleJohn</option>
+                        </select>
+                        <p>To</p>
+                        <select className="grey-border" value={to} onChange={toggle}>
+                            <option>LittleJohn</option>
+                            <option>Interest Checking</option>
+                        </select>
+                    </div>
+                    <div className="flex-verticle">
+                    <p className="pad10 font20">Current buying power: ${user.buying_power.toFixed(2)}</p>
+                        {showDismiss ?
+                            <>
+                                <p className="pad10 red-font font20">{error}</p>
+                                <button className="standard-button green-background center" onClick={e => setShowDismiss(false)}>Dismiss</button>
+                            </>
+                            : <button className="standard-button green-background center" onClick={depositAmount}>Confirm Transfer</button>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -15,6 +15,7 @@ import Menu from './components/MenuBar/menu.js';
 import ErrorPage from './components/ErrorPage';
 import About from './components/About';
 import { authenticate } from './store/session';
+import DepositModal from './components/DepositModal';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -22,17 +23,6 @@ function App() {
   const [showDepositModal, setShowDepositModal] = useState(false)
   const user = useSelector(state => state.session.user)
 
-  const closeModals = e => {
-    setShowDepositModal(false)
-    setShowNotificationModal(false)
-  }
-  const props  = {
-    showNotificationModal,
-    setShowNotificationModal,
-    showDepositModal,
-    setShowDepositModal,
-    closeModals,
-  }
 
   const dispatch = useDispatch();
 
@@ -55,8 +45,8 @@ function App() {
     }
     return(
       <>
-        <Menu props={props}/>
-        <PortfolioPage props={props}/>
+        <Menu />
+        <PortfolioPage />
       </>
     )
   }
@@ -73,15 +63,15 @@ function App() {
         </Route>
 
         <ProtectedRoute path='/stocks/:symbol' exact={true}>
-          <Menu props={props}/>
-          <Stock props={props}/>
+          <Menu />
+          <Stock />
         </ProtectedRoute>
 
         <Route path='/' exact={true} >
           <Homepage/>
         </Route>
         <Route path='/about' exact={true}>
-          <About props={props}/>
+          <About />
         </Route>
         <Route path='/' exact={true}>
           <LoginForm/>

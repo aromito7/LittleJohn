@@ -22,7 +22,6 @@ const AccountGraph = () => {
             }
         }
 
-        console.log(values)
         return "Hello, Graph"
     }
     //const accountValue = user.portfolio.reduce((acc, stock) => acc + stock.shares * stock.stock.price ,0)

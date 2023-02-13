@@ -260,15 +260,17 @@
 
 .main-modal{
     position:fixed;
-    top: 50%;
-    left: 0%;
+    left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 25px;
     text-align: left;
-    border-radius:5%;
     justify-content: center;
     align-items:center;
     flex-direction: column;
+    background-color: white;
+    z-index: 999;
+    border: 1px solid black;
+    padding: 25px;
 }
 
 .hideModal{
@@ -280,7 +282,7 @@
     transform: translateY(0px);
     } to{
     z-index:-1;
-    transform: translateY(-1000px);
+    transform: translateY(1000px);
     }
   }
 
@@ -293,7 +295,7 @@
   }
   @keyframes show {
     from{
-        transform: translateY(-1000px);
+        transform: translateY(1000px);
         transition-timing-function: ease-in;
     } to{
         transform: translateY(0px);
@@ -460,4 +462,43 @@
 
 .no-text-resize{
     font-size-adjust: 0;
+}
+
+#deposit-modal{
+    position: absolute;
+    width: 600px;
+    top: 50%;
+    background-color: white;
+}
+
+.dropdown-modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 999;
+}
+
+.dropdown-modal.active{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: ease .5s;
+}
+
+.dropdown-modal.inactive{
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(600px);
+    transition: ease .5s;
+}
+
+#deposit-container{
+    padding: 50px;
+}
+
+#deposit-container-padding{
+    padding: 50px 30%;
 }
