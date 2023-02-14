@@ -3,6 +3,7 @@ import SidebarLists from "./SidebarLists"
 import BuyingPower from "./BuyingPower"
 import SlidingPanes from "./SlidingPanes"
 import DepositModal from "../DepositModal"
+import DailyMovers from "../DailyMovers"
 import Info from "./Info"
 import './PortfolioPage.css'
 import { useSelector } from "react-redux"
@@ -19,6 +20,7 @@ const PortfolioPage = ({closeModals}) => {
                     <BuyingPower user={user} setIsDepositOpen={setIsDepositOpen} isDepositOpen={isDepositOpen}/>
                     <DepositModal user={user} isDepositOpen={isDepositOpen} setIsDepositOpen={setIsDepositOpen}/>
                     <SlidingPanes setIsDepositOpen={setIsDepositOpen} isDepositOpen={isDepositOpen}/>
+                    <DailyMovers />
                     <Info user={user}/>
                 </div>
                 <div>

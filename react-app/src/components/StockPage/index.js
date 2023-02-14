@@ -173,7 +173,7 @@ const Stock = () => {
                         </>
                         }
 
-                        <div className="flex-verticle">
+                        <div className="flex-vertical">
                             {shareError &&
                                 <p id="stock-purchase-errors">{shareError}</p>
                             }

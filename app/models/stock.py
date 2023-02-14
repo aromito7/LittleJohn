@@ -42,8 +42,16 @@ class Stock(db.Model):
     portfolio = db.relationship('Portfolio', back_populates='stock')
     watchlist = db.relationship('Watchlist', back_populates='stock')
 
+    def to_daily_movers_dict(self):
+        return{
+            'symbol': self.symbol,
+            'name': self.name,
+            'price' : self.price,
+            'open' : self.open,
+        }
+
     def to_dict(self):
-        
+
         return {
             'id': self.id,
             'symbol': self.symbol,

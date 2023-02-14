@@ -192,7 +192,7 @@ const SignUpPage = () => {
             {repeatPasswordError}
             </p>
             } */}
-            <div className='flex-verticle'>
+            <div className='flex-vertical'>
                 <div className='flex'>
                     <button onClick={onSignUp} id="sign-in-submit-button" className='dark-button center'>Sign Up</button>
                 </div>

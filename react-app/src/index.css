@@ -75,11 +75,13 @@
     background-color: rgb(245, 248, 250);
 }
 
-
+.grey-background, .grey-background *, .grey-background-hover:hover, .grey-background-hover:hover *{
+    background-color: rgb(227, 233, 237);
+}
 
 
 .grey-bottom{
-    border-bottom: 1px solid rgb(64, 73, 78);
+    border-bottom: 1px solid rgb(227, 233, 237);
 }
 
 .green-bottom{
@@ -87,7 +89,11 @@
 }
 
 .grey-border{
-    border: 1px solid rgb(64, 73, 78);
+    border: 1px solid rgb(227, 233, 237);
+}
+
+.light-border{
+    border: 1px solid rgb(245, 248, 250);
 }
 
 .black-border{
@@ -95,7 +101,7 @@
 }
 
 
-.flex-verticle{
+.flex-vertical{
     display:flex;
     flex-direction: column;
     align-content: center;
@@ -132,6 +138,9 @@
 }
 
 .flex-bottom{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
 }
 
 .text-right{
@@ -178,6 +187,10 @@
 
 .font20{
     font-size: 20px;
+}
+
+.font24{
+    font-size: 24px;
 }
 
 .font28{

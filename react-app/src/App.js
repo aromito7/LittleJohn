@@ -15,7 +15,6 @@ import Menu from './components/MenuBar/menu.js';
 import ErrorPage from './components/ErrorPage';
 import About from './components/About';
 import { authenticate } from './store/session';
-import DepositModal from './components/DepositModal';
 
 function App() {
   const [loaded, setLoaded] = useState(false);

@@ -1,0 +1,22 @@
+#daily-movers-container{
+    padding: 10px 0;
+    border-bottom: 1px solid grey;
+}
+
+#daily-movers-panes-container{
+    height: 180px;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+
+.mover-pane{
+    width: 15%;
+    height: 120px;
+    padding: 3% 2%;
+    justify-content: space-between;
+}
+
+.mover-pane-bottom{
+    justify-content: space-around;
+}

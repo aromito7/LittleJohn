@@ -45,7 +45,7 @@ const DepositModal = ({user, isDepositOpen, setIsDepositOpen}) => {
     return(
         <div className={`dropdown-modal ${isDepositOpen ? "active" : "inactive"}`}>
             <div id="deposit-container">
-                <div className="flex-verticle ">
+                <div className="flex-vertical ">
                     <div className="flex">
                         <div id="x-close" className="cursor-pointer light-background-hover font36" onClick={e => setIsDepositOpen(false)}>X</div>
                     </div>
@@ -68,7 +68,7 @@ const DepositModal = ({user, isDepositOpen, setIsDepositOpen}) => {
                             <option>Interest Checking</option>
                         </select>
                     </div>
-                    <div className="flex-verticle">
+                    <div className="flex-vertical">
                     <p className="pad10 font20">Current buying power: ${user.buying_power.toFixed(2)}</p>
                         {showDismiss ?
                             <>

@@ -176,6 +176,11 @@ def get_stock_info(symbol):
     return new_stock.to_dict()
 
 
+@stock_routes.route('/daily-movers', methods=['GET'])
+def get_daily_movers():
+    stocks = Stock.query.limit(5).all()
+
+    return {'dailyMovers':  [stock.to_daily_movers_dict() for stock in stocks]}
 
 @stock_routes.route('/search-options', methods=['GET'])
 def get_search_options():
