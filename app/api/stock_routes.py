@@ -126,10 +126,13 @@ def get_stock_info(symbol):
     Creates a new stock transaction in the database
     if one doesn't already exist by pulling from yahoo finance api
     """
-    stock = Stock.query.filter(Stock.symbol == symbol).first()
     print("Querying Database")
+    print("Querying Database")
+    print("Querying Database")
+
+    stock = Stock.query.filter(Stock.symbol == symbol).first()
     if stock:
-        print(stock.to_dict())
+        #print(stock.to_dict())
         return stock.to_dict()
 
     print("HELLO YFINANCE API!")
