@@ -39,7 +39,7 @@ def use_yfinance_api(symbol):
     output['year_low'] = round(info['year_low'], 2)
     output['day_high'] = round(info['day_high'], 2)
     output['day_low'] = round(info['day_low'], 2)
-    output['market_cap'] = info['market_cap']
+    output['market_cap'] = round(info['market_cap'], 2)
     output['volume'] = info['last_volume']
     output['average_volume'] = info['three_month_average_volume']
     output['news'] = json.dumps(stock.get_news())
