@@ -1,25 +1,15 @@
-import { useParams, useHistory } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { useState } from "react"
 import { transaction, toggleWatchlist } from "../../store/session"
-import DepositModal from "../DepositModal"
-import Transaction from "../Transaction"
-import LoadingPage from "../LoadingPage"
-import StockSidebar from "./StockSidebar"
-import ErrorPage from "../ErrorPage"
-import Graph from "../Graph"
-import About from "./About"
-import KeyStatistics from "./KeyStatistics"
-import './stock.css'
 
-const Stock = () => {
-    const {symbol} = useParams()
+import DepositModal from "../DepositModal"
+
+const StockSidebar = ({stockData, user}) => {
     const dispatch = useDispatch()
-    const history = useHistory()
-    const user = useSelector(state => state.session.user)
+    const symbol = stockData.symbol
     const portfolio = useSelector(state => state.session.portfolio)
     const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
-    const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
     const watchlist = useSelector(state => state.session.watchlist)
     const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
@@ -30,34 +20,6 @@ const Stock = () => {
     const [shareError, setShareError] = useState("")
     const [depositOpen, setDepositOpen] = useState(false)
     const [insuficientFunds, setInsuficientFunds] = useState(false)
-    const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
-
-    window.addEventListener('locationchange', function () {
-        setStockData(null)
-    });
-
-
-    useEffect(async() => {
-        const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
-        const data = await response.json()
-        setStockData(data)
-        console.log(data)
-    },[dispatch, symbol])
-
-    useEffect(() => {
-        setShowErrors(false)
-        setDepositOpen(false)
-        setInsuficientFunds(false)
-        setShareError(false)
-    },[shares])
-
-    //This is for when stock data hasn't loaded
-    if(!stockData) return <LoadingPage/>
-
-    //This is for when no stock data was returned from the backend
-    if(!stockData.symbol) {
-        return <ErrorPage/>
-    }
 
     const open = stockData.open
     const current = stockData.price
@@ -109,41 +71,71 @@ const Stock = () => {
         )
     }
 
+
     const toggleWatchlistItem = async() => {
         dispatch(toggleWatchlist(user.id, stockData))
         //onWatchlist = !onWatchlist
     }
 
     return(
-        <div id="portfolio-page-container">
-            <div id="graph-sidebar">
-                <div>
-                    <div id="account-graph-container">
-                        <div>
-                            <p className="font48">{name}</p>
-                            <p className="font36">{`$${Math.abs(current.toFixed(2))}`}</p>
-                            <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
-                        </div>
-                        <Graph graphData={stockData}/>
-                    </div>
-                    {stockData.about &&
-                        <About stock={stockData}/>
-                    }
-                    <KeyStatistics stock={stockData}/>
-                    <div>
-                        {transactions.reverse().map((transaction, i) => {
-                            return(
-                                <Transaction transaction={transaction} key={i}/>
-                            )
-                        })}
-                    </div>
+        <div id="stock-sidebar" className="grey-border">
+            <select value={isBuying} onChange={e => setIsBuying(e.target.value)} id="transaction-select">
+                <option value={1}>Buy {symbol}</option>
+                <option value={-1}>Sell {symbol}</option>
+            </select>
+            <div className="flex">
+                <p className="flex-left">Order Type</p>
+                <p className="flex-right">Market Order</p>
+            </div>
+
+            <div className="flex">
+                <p className="flex-left">Buy In</p>
+                <select className="flex-right" value={buyInType} onChange={e => setBuyInType(e.target.value)}>
+                    <option>Shares</option>
+                    <option>Dollars</option>
+                </select>
+            </div>
+            {buyInType == "Shares" &&
+            <>
+                <div className="flex">
+                    <p className="flex-left">Shares</p>
+                    <input className="flex-right light-gray-background" value={shares} onChange={e => setShares(e.target.value)}></input>
                 </div>
-                <div>
-                    <StockSidebar stockData={stockData} user={user}/>
+                <div className="flex">
+                    <p className={`flex-left ${isGreen ? 'green-font' : 'orange-font'}`}>Market Price</p>
+                    <p className="flex-right bold">${current}</p>
                 </div>
+                <div id="estimated-cost-div" className="flex">
+                    <p className="flex-left bold">Estimated Cost</p>
+                    <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? (shares * current).toFixed(2) : 0}</p>
+                </div>
+            </>
+            }
+            {buyInType == "Dollars" &&
+                <div>
+            
+                </div>
+
+            }
+
+            <div className="flex-vertical">
+                {shareError &&
+                    <p id="stock-purchase-errors">{shareError}</p>
+                }
+                {depositOpen && <DepositModal setDepositOpen={setDepositOpen} user={user}/>}
+                {insuficientFunds &&
+                <button className={`wide-button center ${isGreen ? 'green-background' : 'orange-background'}`} onClick={e => setDepositOpen(true)}>Make Deposit</button>
+                }
+                <PurchaseDismiss/>
+            </div>
+            <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${buyingPower.toFixed(2)}` : `Shares: ${currentShares}`}</p>
+            <div id="watchlist-div" className="flex">
+                <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
+                    {Boolean(watchlist.find(item => item.stockSymbol == symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
+                </button>
             </div>
         </div>
     )
 }
 
-export default Stock
+export default StockSidebar
