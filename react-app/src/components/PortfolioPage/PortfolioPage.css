@@ -7,19 +7,6 @@
 }
 
 
-#menu-container{
-    top:0px;
-    height: 50px;
-    display: grid;
-    grid-template-columns: 50px 1fr 1fr;
-    padding: 10px 50px 0 50px;
-    position: fixed;
-    background-color: white;
-    width: 90%;
-    z-index: 999;
-}
-
-
 #search-bar-container{
     align-self: center;
     background-color: white;
@@ -41,13 +28,6 @@
     width: 250px;
 }
 
-#menu-items-container{
-    display: flex;
-    flex-direction: row;
-    column-gap: 25px;
-    align-items: center;
-    justify-content: end;
-}
 
 #icon-container, #search-bar-container, #menu-items-container{
     margin: 0 20px 0 20px;

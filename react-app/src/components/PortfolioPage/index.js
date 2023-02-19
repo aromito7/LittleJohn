@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import { useState } from "react"
 
 const PortfolioPage = ({closeModals}) => {
+    document.body.style.overflow = "scroll"
     const user = useSelector(state => state.session.user)
     const [isDepositOpen, setIsDepositOpen] = useState(false)
     return(
