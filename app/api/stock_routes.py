@@ -18,7 +18,6 @@ def use_yfinance_api(symbol):
                                     interval='60m', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
                                     actions=False)
 
-
         # 'shares' : stock.fast_info['shares'],
         # 'year_high' : round(stock.fast_info['year_high'], 2),
         # 'year_low' : round(stock.fast_info['year_low'], 2),
@@ -46,12 +45,12 @@ def use_yfinance_api(symbol):
     output['average_volume'] = info['three_month_average_volume']
     output['news'] = json.dumps(stock.get_news())
     output['price'] = round(current_price, 2)
-    output['open_price'] = current_price
+    output['open_price'] = open_price
 
     output['is_up'] = current_price - open_price > 0
     output['delta'] = abs((current_price - open_price)/open_price)
 
-    output['history'] = price_history.Close.to_json()
+    output['history'] = price_history.to_json()
     output['ticker'] = symbol
 
     output['eps'] = None
@@ -137,7 +136,7 @@ def get_stock_info(symbol):
 
     stock = Stock.query.filter(Stock.symbol == symbol).first()
     if stock:
-        #print(stock.to_dict())
+        print(stock.to_dict())
         return stock.to_dict()
 
     print("HELLO YFINANCE API!")
@@ -193,9 +192,10 @@ def get_daily_movers():
 
     return {'dailyMovers':  [stock.to_daily_movers_dict() for stock in stocks]}
 
+
 @stock_routes.route('/search-options', methods=['GET'])
 def get_search_options():
-    with open('./app/api/files/stock_info.csv') as f:
+    with open('./app/files/stock_info.csv') as f:
         contents = f.readlines()
 
     contents = contents[1:]

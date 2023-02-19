@@ -32,6 +32,8 @@ const Stock = () => {
     const [insuficientFunds, setInsuficientFunds] = useState(false)
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
 
+
+
     window.addEventListener('locationchange', function () {
         setStockData(null)
     });
@@ -57,6 +59,8 @@ const Stock = () => {
     if(!stockData.symbol) {
         return <ErrorPage/>
     }
+
+    console.log(stockData)
 
     const open = stockData.open
     const current = stockData.price
