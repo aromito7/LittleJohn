@@ -41,7 +41,6 @@ const Stock = () => {
         const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
         const data = await response.json()
         setStockData(data)
-        console.log(data)
     },[dispatch, symbol])
 
     useEffect(() => {

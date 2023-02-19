@@ -16,6 +16,9 @@ class Stock(db.Model):
     open = db.Column(db.Float, nullable=False)
     history = db.Column(db.String, nullable=False)
 
+    is_up = db.Column(db.Boolean, nullable=False)
+    delta = db.Column(db.Float, nullable=False)
+
     about = db.Column(db.String)
     average_volume = db.Column(db.Float)
     city = db.Column(db.String)
@@ -48,6 +51,8 @@ class Stock(db.Model):
             'name': self.name,
             'price' : self.price,
             'open' : self.open,
+            'is_up' : self.is_up,
+            'delta' : self.delta
         }
 
     def to_dict(self):
@@ -59,6 +64,8 @@ class Stock(db.Model):
             'price' : self.price,
             'open' : self.open,
             'history' : json.loads(self.history),
+            'isUp' : self.is_up,
+            'delta' : self.delta,
 
             'about' : self.about,
             'average_volume' : self.average_volume,

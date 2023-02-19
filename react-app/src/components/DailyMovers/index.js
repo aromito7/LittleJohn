@@ -8,11 +8,8 @@ const DailyMovers = () => {
     useEffect(async () => {
         const res = await fetch("/api/stocks/daily-movers")
         const data = await res.json()
-        const temp = data.dailyMovers.forEach(mover => {
-            mover['percentChange'] = Math.abs((mover.price - mover.open)/mover.open)
-            return mover
-        });
-        setMovers(data.dailyMovers.sort((a, b) => Math.abs(b.percentChange) - Math.abs(a.percentChange)))
+
+        setMovers(data.dailyMovers)
     },[])
 
     const MoverPane = ({mover}) => {
@@ -20,8 +17,8 @@ const DailyMovers = () => {
         return(
             <div className="mover-pane grey-border grey-background-hover cursor-pointer flex-vertical" onClick={e => history.push(`/stocks/${mover.symbol}`)}>
                 <p>{mover.name ? mover.name : mover.symbol}</p>
-                <p className={`${mover.price > mover.open ? 'green-font' : 'orange-font'} font24`}>${mover.price}</p>
-                <p className={`${mover.price > mover.open ? 'green-font' : 'orange-font'}`}>{`${mover.price > mover.open ? '+' : '-'}${(mover.percentChange*100).toFixed(2)}%`}</p>
+                <p className={`${mover.is_up ? 'green-font' : 'orange-font'} font24`}>${mover.price}</p>
+                <p className={`${mover.is_up ? 'green-font' : 'orange-font'}`}>{`${mover.is_up ? '+' : '-'}${(mover.delta*100).toFixed(2)}%`}</p>
             </div>
         )
     }

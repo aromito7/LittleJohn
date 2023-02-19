@@ -45,6 +45,8 @@ def upgrade():
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('open', sa.Float(), nullable=False),
     sa.Column('history', sa.String(), nullable=False),
+    sa.Column('is_up', sa.Boolean(), nullable=False),
+    sa.Column('delta', sa.Float(), nullable=False),
 
     sa.Column('name', sa.String()),
     sa.Column('about', sa.String()),

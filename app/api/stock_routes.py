@@ -19,7 +19,6 @@ def use_yfinance_api(symbol):
                                     actions=False)
 
 
-
         # 'shares' : stock.fast_info['shares'],
         # 'year_high' : round(stock.fast_info['year_high'], 2),
         # 'year_low' : round(stock.fast_info['year_low'], 2),
@@ -33,6 +32,9 @@ def use_yfinance_api(symbol):
     except:
         return {'error' : 'stock not found'}
 
+    open_price = info['open']
+    current_price = info['last_price']
+
     #output['dir'] = dir(info)
     output['shares'] = info['shares']
     output['year_high'] = round(info['year_high'], 2)
@@ -43,10 +45,13 @@ def use_yfinance_api(symbol):
     output['volume'] = info['last_volume']
     output['average_volume'] = info['three_month_average_volume']
     output['news'] = json.dumps(stock.get_news())
-    output['price'] = round(info['last_price'], 2)
-    output['open_price'] = info['open']
+    output['price'] = round(current_price, 2)
+    output['open_price'] = current_price
 
-    output['history'] = price_history.to_json()
+    output['is_up'] = current_price - open_price > 0
+    output['delta'] = abs((current_price - open_price)/open_price)
+
+    output['history'] = price_history.Close.to_json()
     output['ticker'] = symbol
 
     output['eps'] = None
@@ -152,6 +157,9 @@ def get_stock_info(symbol):
         price = stock['price'],
         history = stock['history'],
         open = stock['open_price'],
+        is_up = stock['is_up'],
+        delta = stock['delta'],
+
         eps = stock['eps'],
         about = stock['about'],
         employees = stock['employees'],
@@ -181,7 +189,7 @@ def get_stock_info(symbol):
 
 @stock_routes.route('/daily-movers', methods=['GET'])
 def get_daily_movers():
-    stocks = Stock.query.limit(5).all()
+    stocks = Stock.query.order_by(Stock.delta.desc()).limit(5).all()
 
     return {'dailyMovers':  [stock.to_daily_movers_dict() for stock in stocks]}
 
