@@ -33,9 +33,18 @@ const Menu = () => {
     //     console.log(data.toString())
     // })
 
+    const closeModal = e =>{
+        setIsOpenNotifications(false)
+        console.log("close sesame")
+    }
 
+    const openModal = e => {
+        document.addEventListener("click", closeModal);
+        console.log("open sesame")
+        setIsOpenNotifications(true)
+    }
 
-    const changeSearch = e =>{
+    const changeSearch = e => {
         const search = e.target.value
         setSearch(search)
         if(!search){
@@ -78,7 +87,11 @@ const Menu = () => {
 
         return(
             <div id="notification-modal" className="grey-border" onClick={e => e.stopPropagation()}>
-                <p className="font20 bold">Notifications</p>
+                <div className="flex">
+                    <p className="font20 bold">Notifications</p>
+                    <p className="flex-end cursor-pointer" onClick={e => setIsOpenNotifications(false)}>X</p>
+                </div>
+
                 <div id="notification-container">
                     {
                         notifications.map(notification => {

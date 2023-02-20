@@ -8,7 +8,7 @@ const About = ({props}) => {
             {user &&
                 <Menu props={props}/>
             }
-            <div id="about-page-container" onClick={e => props.closeModals()}>
+            <div id="about-page-container">
                 <div className="flex">
                     <div className="flex-left">
                         <h1 className="green-font">About Little John:</h1>

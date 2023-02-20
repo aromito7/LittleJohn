@@ -3,6 +3,7 @@ from app.models import db, Stock
 from datetime import datetime, timedelta
 import json
 import yfinance as yf
+import time
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -125,7 +126,7 @@ def use_yfinance_api(symbol):
             # 'yfinance-version': yf.__version__}
 
 @stock_routes.route('/<symbol>', methods=['GET'])
-def get_stock_info(symbol):
+def get_stock_info(symbol): #add name to parameters for seeding data
     """
     Creates a new stock transaction in the database
     if one doesn't already exist by pulling from yahoo finance api
@@ -203,3 +204,40 @@ def get_search_options():
         contents[i] = content.split(',')[:2]
 
     return {"searchOptions" : [c for c in contents if c[0].isalpha()]}
+
+
+@stock_routes.route('/seeder-file', methods=['GET'])
+def write_seeder_file():
+    stocks = []
+    with open('./app/files/stock_info.csv') as f:
+        stocks = f.readlines()
+
+    stocks = stocks[1:]
+
+    for i, stock in enumerate(stocks):
+        stocks[i] = stock.split(',')[:2]
+
+    stocks = [stock for stock in stocks if stock[0].isalpha()]
+
+    with open('./app/files/stock_seeds.txt', 'a') as f:
+        for stock in stocks:
+            data = get_stock_info(stock[0], stock[1])
+            if "error" in data.keys():
+                print(stock[0], stock[1], "Not found")
+                continue
+
+            print(stock[0], stock[1], "Found")
+            print(stock[0], stock[1], "Found")
+            print(stock[0], stock[1], "Found")
+            data.pop("id")
+            data.pop("updated_at")
+            data = json.dumps(data)
+
+            f.write(data)
+            f.write('\n')
+
+            time.sleep(5)
+
+        f.close()
+
+    return {'message' : stocks}

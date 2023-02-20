@@ -13,7 +13,7 @@ class Portfolio(db.Model):
     stock_id = db.Column(db.Integer, ForeignKey(add_prefix_for_prod('stocks.id')), nullable=False)
     stock_symbol = db.Column(db.String(20), nullable=False)
     average_price = db.Column(db.Float, nullable=False)
-    shares = db.Column(db.Integer, nullable=False)
+    shares = db.Column(db.Float, nullable=False)
 
     user = db.relationship('User', back_populates='portfolio')
     stock = db.relationship('Stock', back_populates='portfolio')

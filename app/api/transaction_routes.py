@@ -46,7 +46,7 @@ def create_transaction(id):
         if shares + current_shares < 0:
             return { 'errors': 'Cannot sell more shares than you own'}
 
-        if shares + current_shares == 0:
+        if shares + current_shares < .01:
             db.session.delete(portfolio_item)
 
         portfolio_item.shares += shares

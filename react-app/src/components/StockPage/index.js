@@ -10,20 +10,18 @@ import ErrorPage from "../ErrorPage"
 import Graph from "../Graph"
 import About from "./About"
 import KeyStatistics from "./KeyStatistics"
+import StockNews from "./StockNews"
 import './stock.css'
 
 const Stock = () => {
     const {symbol} = useParams()
     const dispatch = useDispatch()
-    const history = useHistory()
     const user = useSelector(state => state.session.user)
     const portfolio = useSelector(state => state.session.portfolio)
     const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
     const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
-    const watchlist = useSelector(state => state.session.watchlist)
     const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
-    const [buyInType, setBuyInType] = useState("Shares")
     const [shares, setShares] = useState("0")
     const [isBuying, setIsBuying] = useState(1)
     const [showErrors, setShowErrors] = useState(false)
@@ -104,18 +102,6 @@ const Stock = () => {
         setShares('0')
     }
 
-    const PurchaseDismiss = () => {
-        return(
-            <button className={`wide-button center cursor-pointer margin-verticle20 ${isGreen ? 'green-background' : 'orange-background'}`} onClick={buyStock}>
-                {shareError ? "Dismiss" : isBuying > 0 ? "Purchase" : "Sell"}
-            </button>
-        )
-    }
-
-    const toggleWatchlistItem = async() => {
-        dispatch(toggleWatchlist(user.id, stockData))
-        //onWatchlist = !onWatchlist
-    }
 
     return(
         <div id="portfolio-page-container">
@@ -125,7 +111,7 @@ const Stock = () => {
                         <div>
                             <p className="font48">{name}</p>
                             <p className="font36">{`$${Math.abs(current.toFixed(2))}`}</p>
-                            <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}%${Math.abs((percent*100).toFixed(2))}) Today`}</p>
+                            <p className={`${current >= open ? "green-font" : "orange-font"} font20`}>{`${isGreen ? '+' : '-'}$${Math.abs(delta.toFixed(2))} (${isGreen ? '+' : '-'}${Math.abs((percent*100).toFixed(2))}%) Today`}</p>
                         </div>
                         <Graph graphData={stockData}/>
                     </div>
@@ -133,6 +119,7 @@ const Stock = () => {
                         <About stock={stockData}/>
                     }
                     <KeyStatistics stock={stockData}/>
+                    <StockNews stock={stockData}/>
                     <div>
                         {transactions.reverse().map((transaction, i) => {
                             return(

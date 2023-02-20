@@ -81,7 +81,7 @@ def upgrade():
     sa.Column('stock_id', sa.Integer(), nullable=False),
     sa.Column('stock_symbol', sa.String(length=20), nullable=False),
     sa.Column('average_price', sa.Float(), nullable=False),
-    sa.Column('shares', sa.Integer(), nullable=False),
+    sa.Column('shares', sa.Float(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')

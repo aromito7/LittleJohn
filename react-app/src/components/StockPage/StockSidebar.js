@@ -37,12 +37,7 @@ const StockSidebar = ({stockData, user}) => {
             return
         }
         if(shares <= 0) {
-            setShareError("Enter at least 1 share(s).")
-            setShowErrors(true)
-            return
-        }
-        else if(shares % 1 != 0){
-            setShareError("Enter a whole number of shares")
+            setShareError("Enter a positive number of shares")
             setShowErrors(true)
             return
         }
@@ -57,7 +52,9 @@ const StockSidebar = ({stockData, user}) => {
             setShareError("Not enough buying power")
             return
         }
-        setCurrentShares((parseInt(currentShares) + isBuying*parseInt(shares)).toString())
+        const newShares = (parseFloat(currentShares) + isBuying*parseFloat(shares))
+
+        setCurrentShares((newShares < .01 ? 0 : newShares).toString())
         setBuyingPower(buyingPower - (isBuying * shares) * current)
         const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
         setShares('0')
@@ -79,10 +76,12 @@ const StockSidebar = ({stockData, user}) => {
 
     return(
         <div id="stock-sidebar" className="grey-border">
-            <select value={isBuying} onChange={e => setIsBuying(e.target.value)} id="transaction-select">
-                <option value={1}>Buy {symbol}</option>
-                <option value={-1}>Sell {symbol}</option>
-            </select>
+            <div id="buy-or-sell" className="flex">
+                <div onClick={e => setIsBuying(1)} className={`cursor-pointer green-font-hover ${isBuying == 1 ? 'green-font' : ''}`}>Buy {symbol}</div>
+                {currentShares > 0 &&
+                    <div onClick={e => setIsBuying(-1)} className={`cursor-pointer green-font-hover ${isBuying == -1 ? 'green-font' : ''}`}>Sell {symbol}</div>
+                }
+            </div>
             <div className="flex">
                 <p className="flex-left">Order Type</p>
                 <p className="flex-right">Market Order</p>
@@ -107,13 +106,13 @@ const StockSidebar = ({stockData, user}) => {
                 </div>
                 <div id="estimated-cost-div" className="flex">
                     <p className="flex-left bold">Estimated Cost</p>
-                    <p className="flex-right bold">${shares.match(/^[0-9]*$/) ? (shares * current).toFixed(2) : 0}</p>
+                    <p className="flex-right bold">${shares.match(/^[0-9]*\.?[0-9]*$/) ? (shares * current).toFixed(2) : 0}</p>
                 </div>
             </>
             }
             {buyInType == "Dollars" &&
                 <div>
-            
+
                 </div>
 
             }
