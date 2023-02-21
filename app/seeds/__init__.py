@@ -22,10 +22,10 @@ def seed():
 
         # undo_portfolios()
         # undo_transactions()
-        #undo_stocks()
+        undo_stocks()
         undo_users()
     seed_users()
-    # seed_stocks()
+    seed_stocks()
     # seed_transactions()
     # seed_portfolios()
     # Add other seed functions here
@@ -36,6 +36,6 @@ def seed():
 def undo():
     # undo_portfolios()
     # undo_transactions()
-    #undo_stocks()
+    undo_stocks()
     undo_users()
     # Add other undo functions here
