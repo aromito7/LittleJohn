@@ -1,0 +1,37 @@
+#stock-sidebar > * {
+    padding: 10px;
+}
+
+#stock-sidebar{
+    width: 90%;
+    border-radius: 5px;
+}
+
+#toggle-watchlist-div{
+    margin-top: 50px;
+}
+
+#transaction-select{
+    width: 100%;
+}
+
+#watchlist-div{
+    margin-top: 20px;
+    width: 90%;
+}
+
+#buying-power-display, #estimated-cost-div{
+    border-top: 1px solid grey;
+}
+
+#stock-purchase-errors{
+    margin: 20px 0 20px 0;
+    font-weight: bold;
+}
+
+#stock-info{
+    padding: 100px 20px 100px 20px;
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
+}

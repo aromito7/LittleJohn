@@ -1,0 +1,170 @@
+#landing-page-container *{
+    /* border: 1px solid white; */
+}
+
+#landing-page-container{
+    padding: 0 50px 0 50px;
+}
+
+
+#menu-container{
+    height: 50px;
+    display: grid;
+    grid-template-columns: 50px 1fr 1fr;
+    padding: 0 50px 0 50px;
+}
+
+
+#search-bar-container{
+    align-self: center;
+}
+
+#icon-container{
+    align-self: center;
+    justify-self: center;
+}
+
+#search-bar{
+    margin-left: 150px;
+    width: 300px;
+}
+
+#search-bar input{
+    width: 250px;
+}
+
+#menu-items-container{
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+    align-items: center;
+    justify-content: end;
+}
+
+#icon-container, #search-bar-container, #menu-items-container{
+    margin: 0 20px 0 20px;
+}
+
+#graph-sidebar{
+    margin: 50px auto 0 auto;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    max-width: 1500px;
+    height: 100%;
+    gap: 50px;
+
+}
+
+
+#sidebar-lists-container{
+    height: 700px;
+}
+
+
+
+.transaction{
+    height: 100px;
+    display: grid;
+    grid-template-columns: 150px auto;
+    padding: 20px;
+}
+
+.transaction p{
+    font-size: 20px;
+}
+
+.transaction-left{
+    width: 100%;
+    height: 100%;
+    /* background-color: black;
+    color: white; */
+    border-radius: 50%;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 40px;
+    line-height: 100%;
+}
+
+.transaction-left div{
+    padding-top: 25px;
+}
+
+.transaction-right{
+    margin: 10px 0 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-right-top{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.transaction-right-bot{
+    margin-top: auto;
+}
+
+.list-title{
+    display: flex;
+    flex-direction: row;
+}
+
+.portfolio-item-container{
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    align-items: center;
+}
+
+#info-container > h1{
+    text-align: center;
+    padding: 0 0 50px 0;
+}
+
+
+#deposit-funds{
+    height: 50px;
+    border-radius: 25px;
+    width: 50%;
+    margin: 10px auto 10px auto;
+    background: rgb(0, 180, 5);
+}
+
+#transfer-modal-grid{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#transfer-modal-grid *{
+    padding: 5px;
+    margin: 10px 0 10px 0;
+}
+
+#x-close{
+    margin-left: auto;
+}
+
+.transform-hide:active{
+    transform: rotate(45deg);
+   -webkit-transform: rotate(45deg);
+   -ms-transform: rotate(45deg);
+}
+
+#search-results{
+    position: absolute;
+    min-width: 325px;
+}
+
+#search-results > p{
+    padding: 10px;
+}
+
+#search-results > p:hover{
+    background: rgb(0, 180, 5);
+}
+
+#buying-power-closed, #buying-power-open{
+    margin: 50px 0 50px 0;
+}
