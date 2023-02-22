@@ -27,7 +27,7 @@ class Stock(db.Model):
     employees = db.Column(db.Integer)
     eps = db.Column(db.Float)
     industry = db.Column(db.String)
-    market_cap = db.Column(db.Float)
+    market_cap = db.Column(db.BigInteger)
     news = db.Column(db.String)
     sector = db.Column(db.String)
     shares = db.Column(db.Integer)
@@ -75,7 +75,7 @@ class Stock(db.Model):
             'employees' : self.employees,
             'eps' : self.eps,
             'industry' : self.industry,
-            'market_cap' : self.market_cap,
+            'market_cap' : int(self.market_cap),
             'news' : json.loads(self.news),
             'sector' : self.sector,
             'shares' : self.shares,

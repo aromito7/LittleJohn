@@ -57,7 +57,7 @@ def upgrade():
     sa.Column('employees', sa.Integer()),
     sa.Column('eps', sa.Float()),
     sa.Column('industry', sa.String()),
-    sa.Column('market_cap', sa.Float()),
+    sa.Column('market_cap', sa.BigInteger()),
     sa.Column('news', sa.String()),
     sa.Column('sector', sa.String()),
     sa.Column('shares', sa.Integer()),
