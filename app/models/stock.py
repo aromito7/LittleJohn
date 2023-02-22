@@ -20,7 +20,7 @@ class Stock(db.Model):
     delta = db.Column(db.Float, nullable=False)
 
     about = db.Column(db.String)
-    average_volume = db.Column(db.Float)
+    average_volume = db.Column(db.BigInteger)
     city = db.Column(db.String)
     day_high = db.Column(db.Float)
     day_low = db.Column(db.Float)
@@ -30,9 +30,9 @@ class Stock(db.Model):
     market_cap = db.Column(db.BigInteger)
     news = db.Column(db.String)
     sector = db.Column(db.String)
-    shares = db.Column(db.Integer)
+    shares = db.Column(db.BigInteger)
     state = db.Column(db.String)
-    volume = db.Column(db.Integer)
+    volume = db.Column(db.BigInteger)
     website = db.Column(db.String)
     year_high = db.Column(db.Float)
     year_low = db.Column(db.Float)
@@ -75,7 +75,7 @@ class Stock(db.Model):
             'employees' : self.employees,
             'eps' : self.eps,
             'industry' : self.industry,
-            'market_cap' : int(self.market_cap),
+            'market_cap' : self.market_cap,
             'news' : json.loads(self.news),
             'sector' : self.sector,
             'shares' : self.shares,
