@@ -54,10 +54,11 @@ const Menu = () => {
         const length =  search.length
         const tickerOptions = []
         const nameOptions = []
-
+        console.log(search)
         let i = 0
         while((tickerOptions.length < 3 || nameOptions.length < 3 )&& i < searchOptions.length){
             const [ticker, name] = searchOptions[i]
+            console.log(ticker, name)
             if(tickerOptions.length < 3 && ticker.toUpperCase().slice(0, length) == search.toUpperCase()){
                 tickerOptions.push(searchOptions[i])
             }else if(nameOptions.length < 3 && name.toUpperCase().slice(0, length) == search.toUpperCase()){

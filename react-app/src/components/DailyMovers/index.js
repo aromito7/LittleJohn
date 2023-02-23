@@ -13,7 +13,6 @@ const DailyMovers = () => {
     },[])
 
     const MoverPane = ({mover}) => {
-        console.log(mover)
         return(
             <div className="mover-pane grey-border grey-background-hover cursor-pointer flex-vertical" onClick={e => history.push(`/stocks/${mover.symbol}`)}>
                 <p>{mover.name ? mover.name : mover.symbol}</p>

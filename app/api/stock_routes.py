@@ -193,17 +193,22 @@ def get_daily_movers():
 
     return {'dailyMovers':  [stock.to_daily_movers_dict() for stock in stocks]}
 
-
+#This returns all company ticker symbols + names for the search bar auto-fill
 @stock_routes.route('/search-options', methods=['GET'])
 def get_search_options():
-    with open('./app/files/stock_info.csv') as f:
-        contents = f.readlines()
+    # with open('./app/files/stock_info.csv') as f:
+    #     contents = f.readlines()
 
-    contents = contents[1:]
-    for i, content in enumerate(contents):
-        contents[i] = content.split(',')[:2]
+    # contents = contents[1:]
+    # for i, content in enumerate(contents):
+    #     contents[i] = content.split(',')[:2]
 
-    return {"searchOptions" : [c for c in contents if c[0].isalpha()]}
+    # return {"searchOptions" : [c for c in contents if c[0].isalpha()]}
+    data = Stock.query.with_entities(Stock.symbol, Stock.name).all()
+
+    output = [[datum.symbol, datum.name] for datum in data]
+
+    return {"searchOptions": output}
 
 
 @stock_routes.route('/seeder-file', methods=['GET'])
