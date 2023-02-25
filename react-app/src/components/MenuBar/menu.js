@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/session";
 import { useHistory, Link } from "react-router-dom"
 import { useState } from "react";
+import Transaction from "../Transaction"
 import LJIcon from '../../images/littlejohnicon.png'
 import './menu.css'
 
@@ -20,7 +21,7 @@ const Menu = () => {
 
     const notifications = []
     if(!user) return null
-    if(user.portfolio.length == 0){
+    if(user.portfolio.length > -1){
         notifications.push({
             message : "Use the search bar to find new stocks",
             icon : LJIcon,
