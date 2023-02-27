@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom"
-
+import { useHistory } from "react-router-dom"
 const Transaction = ({transaction}) => {
+    const history = useHistory()
     return(
         <div className="transaction grey-border" key={transaction.id}>
             <div className="transaction-left">
-                <div className="green-background transaction-symbol cursor-pointer">
-                    <Link className="green-background" to={`/stocks/${transaction.stockSymbol}`}>
+                <div className="green-background transaction-symbol cursor-pointer" onClick={ e => history.push(`/stocks/${transaction.stockSymbol}`)}>
+                    <p className="green-background font36">
                         {transaction.stockSymbol}
-                    </Link>
+                    </p>
                 </div>
             </div>
             <div className="transaction-right">
