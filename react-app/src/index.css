@@ -96,9 +96,10 @@
     border: 1px solid rgb(245, 248, 250);
 }
 
-.black-border{
+.black-border, .black-border-hover:hover{
     border: 1px solid black;
 }
+
 
 
 .flex-vertical{

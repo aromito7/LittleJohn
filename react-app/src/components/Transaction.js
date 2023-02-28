@@ -5,7 +5,7 @@ const Transaction = ({transaction}) => {
     return(
         <div className="transaction grey-border" key={transaction.id}>
             <div className="transaction-left">
-                <div className="green-background transaction-symbol cursor-pointer" onClick={ e => history.push(`/stocks/${transaction.stockSymbol}`)}>
+                <div className="green-background transaction-symbol cursor-pointer black-border-hover" onClick={ e => history.push(`/stocks/${transaction.stockSymbol}`)}>
                     <p className="green-background font36">
                         {transaction.stockSymbol}
                     </p>
