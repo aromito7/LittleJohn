@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/session";
-import { useHistory, Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { useState } from "react";
 import Transaction from "../Transaction"
 import LJIcon from '../../images/littlejohnicon.png'

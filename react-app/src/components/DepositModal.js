@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { deposit } from "../store/session"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 
 const DepositModal = ({user, isDepositOpen, setIsDepositOpen}) => {
     const [amount, setAmount] = useState(0)
