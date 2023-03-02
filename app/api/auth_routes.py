@@ -44,6 +44,12 @@ def login():
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+@auth_routes.route('/test-user/<email>')
+def test_login(email):
+    user = User.query.filter(User.email == email).first()
+    if user: return user.to_dict()
+    return {'errors': "email not found"}, 401
+
 
 @auth_routes.route('/logout')
 def logout():

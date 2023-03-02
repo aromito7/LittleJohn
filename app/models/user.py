@@ -36,6 +36,9 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
+        if len(self.portfolio) == 0:
+            account_data = None
+
 
         return {
             'id': self.id,
