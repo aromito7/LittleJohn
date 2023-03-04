@@ -36,8 +36,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
+        account_data = {}
         if len(self.portfolio) == 0:
             account_data = None
+        else:
+            stock = self.portfolio[0]
+            for key in stock.history.Close:
+                account_data[key] = stock.history.Close[key] * stock.shares
+            for stock in self.portfolio[1:]:
+                for key in stock.history.Close:
+                    account_data[key] += stock.history.Close[key] * stock.shares
 
 
         return {
