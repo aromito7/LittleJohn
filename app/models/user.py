@@ -37,15 +37,19 @@ class User(db.Model, UserMixin):
 
     def to_dict(self):
         account_data = {}
-        if len(self.portfolio) == 0:
+        stocks = [stock.to_dict() for stock in self.portfolio]
+
+        if len(stocks) == 0:
             account_data = None
         else:
-            stock = self.portfolio[0]
-            for key in stock.history.Close:
-                account_data[key] = stock.history.Close[key] * stock.shares
-            for stock in self.portfolio[1:]:
-                for key in stock.history.Close:
-                    account_data[key] += stock.history.Close[key] * stock.shares
+            first = stocks[0]
+            first_close = first['stock']['history']['Close']
+            for key in first_close:
+                account_data[key] = first_close[key] * first['shares']
+            for stock in stocks[1:]:
+                current_close = stock['stock']['history']['Close']
+                for key in current_close:
+                    account_data[key] += current_close[key] * stock['shares']
 
 
         return {
@@ -57,8 +61,10 @@ class User(db.Model, UserMixin):
             'buying_power': self.buying_power,
             'member_since': self.created_at,
 
+            'account_data' : account_data,
+
             'transactions': [transaction.to_dict() for transaction in self.transaction],
-            'portfolio': [stock.to_dict() for stock in self.portfolio],
+            'portfolio': stocks,
             'transfers': [transfer.to_dict() for transfer in self.transfer],
             'watchlist': [item.to_dict() for item in self.watchlist]
         }
