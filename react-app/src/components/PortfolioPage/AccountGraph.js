@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import Graph from "../Graph"
-const AccountGraph = () => {
-    const user = useSelector(state => state.session.user)
+const AccountGraph = ({user}) => {
 
     // console.log(user.portfolio[0])
     // console.log(user.portfolio.reduce((acc, stock) => acc + stock.shares * stock.stock.price ,0))
+    console.log("Account graph user:")
+    console.log(user)
 
     const PortfolioGraph = () =>{
 
@@ -16,21 +17,27 @@ const AccountGraph = () => {
 
         //console.log(user.portfolio.reduce((acc, stock) => acc + stock.open * stock.stock.price ,0))
 
-        const values = {}
-        for(let i = 0; i < user.portfolio.length; i++){
-            const item = user.portfolio[i]
-            const history = item.stock.history.Close
-            for(let k = 0; k < Object.keys(history).length; k++){
-                const key = Object.keys(history)[k]
-                if(i == 0){
-                    values[key] = history[key] * item.shares
-                }else{
-                    values[Object.keys(values)[i]] += history[key]
-                }
+        // const values = {}
+        // for(let i = 0; i < user.portfolio.length; i++){
+        //     const item = user.portfolio[i]
+        //     const history = item.stock.history.Close
+        //     for(let k = 0; k < Object.keys(history).length; k++){
+        //         const key = Object.keys(history)[k]
+        //         if(i == 0){
+        //             values[key] = history[key] * item.shares
+        //         }else{
+        //             values[Object.keys(values)[i]] += history[key]
+        //         }
+        //     }
+        // }
+        console.log(user.account_data)
+        const graphData = {
+            history : {
+                Close : user.account_data
             }
         }
+        return <Graph graphData={graphData}/>
 
-        return "Hello, Graph"
     }
     //const accountValue = user.portfolio.reduce((acc, stock) => acc + stock.shares * stock.stock.price ,0)
     return(

@@ -57,7 +57,6 @@ const Stock = () => {
         return <ErrorPage/>
     }
 
-    console.log(stockData)
 
     const open = stockData.open
     const current = stockData.price
@@ -100,8 +99,6 @@ const Stock = () => {
         const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
         setShares('0')
     }
-
-
     return(
         <div id="portfolio-page-container">
             <div id="graph-sidebar">

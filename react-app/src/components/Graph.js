@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 
 const Graph = ({graphData}) => {
+    console.log(graphData)
     //console.log(stock)
     const {history, open, price} = graphData
     const [currentHistory, setCurrentHistory] = useState("1D")
