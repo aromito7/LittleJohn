@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import Menu from "./menu"
 const About = () => {
     const user = useSelector(state => state.session.user)
-    console.log(user)
     return(
         <>
             {user &&

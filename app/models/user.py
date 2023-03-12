@@ -37,6 +37,8 @@ class User(db.Model, UserMixin):
 
     def to_dict(self):
         account_data = {}
+        account_open = 0
+        account_current = 0
         stocks = [stock.to_dict() for stock in self.portfolio]
 
         if len(stocks) == 0:
@@ -51,6 +53,11 @@ class User(db.Model, UserMixin):
                 for key in current_close:
                     account_data[key] += current_close[key] * stock['shares']
 
+            #This calculates the daily open/current value for the account
+
+            for stock in stocks:
+                account_open += stock['stock']['open'] * stock['shares']
+                account_current += stock['stock']['price'] * stock['shares']
 
         return {
             'id': self.id,
@@ -62,6 +69,8 @@ class User(db.Model, UserMixin):
             'member_since': self.created_at,
 
             'account_data' : account_data,
+            'account_open': account_open,
+            'account_current': account_current,
 
             'transactions': [transaction.to_dict() for transaction in self.transaction],
             'portfolio': stocks,
