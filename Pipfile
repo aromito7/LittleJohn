@@ -37,7 +37,7 @@ six = "==1.15.0"
 sqlalchemy = "==1.4.19"
 werkzeug = "==2.0.1"
 wtforms = "==2.3.3"
-yfinance = "==0.2.12"
+yfinance = "==0.2.18"
 
 [dev-packages]
 

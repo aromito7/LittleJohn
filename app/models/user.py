@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
                 current_close = stock['stock']['history']['Close']
                 current_keys = current_close.keys()
                 current_values = list(current_close.values())
-                for i, key in enumerate(first_keys):
+                for i, key in enumerate(first_keys):    
                     account_data[key] += current_values[i] * stock['shares']
 
             #This calculates the daily open/current value for the account
