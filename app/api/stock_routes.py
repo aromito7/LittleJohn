@@ -125,20 +125,21 @@ def use_yfinance_api(symbol):
 
             # 'yfinance-version': yf.__version__}
 
+#Updates a stock in the database with new information from the API
 def update_stock(old_stock, stock_info):
     old_stock.price = stock_info['price']
     old_stock.history = stock_info['history']
     old_stock.open = stock_info['open_price']
     old_stock.is_up = stock_info['is_up']
     old_stock.delta = stock_info['delta']
-    
-    old_stock.delta = stock_info['eps']
-    old_stock.about = stock_info['about']
-    old_stock.employees = stock_info['employees']
-    old_stock.city = stock_info['city']
-    old_stock.state = stock_info['state']
-    old_stock.sector = stock_info['sector']
-    old_stock.industry = stock_info['industry']
+
+    # old_stock.delta = stock_info['eps']
+    # old_stock.about = stock_info['about']
+    # old_stock.employees = stock_info['employees']
+    # old_stock.city = stock_info['city']
+    # old_stock.state = stock_info['state']
+    # old_stock.sector = stock_info['sector']
+    # old_stock.industry = stock_info['industry']
     old_stock.website = stock_info['website']
     old_stock.share = stock_info['shares']
     old_stock.year_high = stock_info['year_high']
@@ -149,7 +150,7 @@ def update_stock(old_stock, stock_info):
     old_stock.volume = stock_info['volume']
     old_stock.average_volume = stock_info['average_volume']
     old_stock.news = stock_info['news']
-
+    old_stock.updated_at = datetime.now()
 
     db.session.commit()
 
@@ -166,7 +167,7 @@ def get_stock_info(symbol): #add name to parameters for seeding data
 
     stock = Stock.query.filter(Stock.symbol == symbol).first()
     if stock:
-        presentDate = datetime.now()
+        presentDate = datetime.utcnow()
         updated_at = stock.updated_at
         updated_timestamp = datetime.timestamp(updated_at) * 1000
         unix_timestamp = datetime.timestamp(presentDate)*1000
