@@ -9,7 +9,7 @@ const AccountGraph = ({user}) => {
     const account_open = user.account_open.toFixed(2)
     const account_current = user.account_current.toFixed(2)
     const delta = (account_current - account_open)
-    const percent = (100 * delta / account_open).toFixed(2)
+    const percent = account_open > 0 ? (100 * delta / account_open).toFixed(2) : 0
 
 
     // console.log(account_open, account_current, delta, percent)
