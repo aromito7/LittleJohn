@@ -103,7 +103,7 @@ export const toggleWatchlist = (userId, stock) => async(dispatch) => {
   });
 
   if(response.ok){
-    const data = response.json();
+    //const data = response.json();
     dispatch(toggleWatchlistItem(userId, stock.stockSymbol, stock))
   }
 }
@@ -123,7 +123,7 @@ export const transaction = (userId, symbol, price, shares, name, stock) => async
   });
 
   if (response.ok) {
-    const data = await response.json();
+    //const data = await response.json();
     console.log("Hello, thunk")
     console.log(symbol, price, shares, name, stock)
     dispatch(stockTransaction(symbol, price, shares, name, stock))
@@ -152,7 +152,7 @@ export const deposit = (userId, amount) => async (dispatch) =>{
   });
 
   if(response.ok){
-    const data = await response.json();
+    //const data = await response.json();
     dispatch(depositAmount(amount))
     return null;
   } else if (response.status < 500) {
@@ -241,14 +241,14 @@ export default function reducer(state = initialState, action) {
       }
 
       transactions.push(newTransaction)
-      var item = portfolio.find(item => item.stock_symbol == symbol)
+      var item = portfolio.find(item => item.stock_symbol === symbol)
       if(item){
         const currentShares = item.shares
         const newShares = currentShares + shares
         if(newShares > 0){
           item.shares = newShares
-        }else if(newShares == 0){
-          portfolio = portfolio.filter(item => item.stock_symbol != symbol)
+        }else if(newShares === 0){
+          portfolio = portfolio.filter(item => item.stock_symbol !== symbol)
         }
       }else{
         const newPortfolioItem = {
@@ -275,20 +275,20 @@ export default function reducer(state = initialState, action) {
       console.log(portfolio)
       return newState;
     case TOGGLE_WATCHLIST:
-      var {userId, stock} = action.payload
+      var {userId, stockInfo} = action.payload
       const watchlist = state.watchlist
 
-      var newWatchlist = watchlist.filter(watchlistItem => (watchlistItem.stockSymbol != stock.symbol) || (watchlistItem.userId != userId))
-      if(newWatchlist.length == watchlist.length){
+      var newWatchlist = watchlist.filter(watchlistItem => (watchlistItem.stockSymbol !== stock.symbol) || (watchlistItem.userId !== userId))
+      if(newWatchlist.length === watchlist.length){
         watchlist.push({
           userId,
-          stockSymbol: stock.symbol,
-          stock,
-          stockId: stock.id
+          stockSymbol: stockInfo.symbol,
+          stockInfo,
+          stockId: stockInfo.id
         })
         newWatchlist = [...watchlist]
       }
-      console.log(newWatchlist)
+      //console.log(newWatchlist)
       newState.watchlist = newWatchlist
 
       return newState

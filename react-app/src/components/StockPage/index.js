@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
-import { transaction } from "../../store/session"
 import Transaction from "../Transaction"
 import LoadingPage from "../LoadingPage"
 import StockSidebar from "./StockSidebar"
@@ -16,17 +15,17 @@ const Stock = () => {
     const {symbol} = useParams()
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
-    const portfolio = useSelector(state => state.session.portfolio)
-    const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
-    const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol == symbol)
-    const [buyingPower, setBuyingPower] = useState(user.buying_power)
-    const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
-    const [shares, setShares] = useState("0")
-    const [isBuying, setIsBuying] = useState(1)
-    const [showErrors, setShowErrors] = useState(false)
-    const [shareError, setShareError] = useState("")
-    const [depositOpen, setDepositOpen] = useState(false)
-    const [insuficientFunds, setInsuficientFunds] = useState(false)
+    //const portfolio = useSelector(state => state.session.portfolio)
+    //const portfolioItem = portfolio.find(stock => stock.stock_symbol === symbol)
+    const transactions = useSelector(state => state.session.transactions).filter(transaction => transaction.stockSymbol === symbol)
+    // const [buyingPower, setBuyingPower] = useState(user.buying_power)
+    // const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
+    // const [shares, setShares] = useState("0")
+    // const [isBuying, setIsBuying] = useState(1)
+    // const [showErrors, setShowErrors] = useState(false)
+    // const [shareError, setShareError] = useState("")
+    // const [depositOpen, setDepositOpen] = useState(false)
+    // const [insuficientFunds, setInsuficientFunds] = useState(false)
     const [stockData, setStockData] = useState(null)    //const stockData = useSelector(state => state.stocks[symbol])
 
 
@@ -36,18 +35,20 @@ const Stock = () => {
     });
 
 
-    useEffect(async() => {
-        const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
-        const data = await response.json()
-        setStockData(data)
+    useEffect( () => {
+        async function fetchData(){
+            const response = await fetch(`/api/stocks/${symbol}`) //if(!stockData) dispatch(thunkAlphaAPI(symbol))
+            const data = await response.json()
+            setStockData(data)
+        }
+        fetchData()
     },[dispatch, symbol])
 
-    useEffect(() => {
-        setShowErrors(false)
-        setDepositOpen(false)
-        setInsuficientFunds(false)
-        setShareError(false)
-    },[shares])
+    // useEffect(() => {
+    //     setShowErrors(false)
+    //     //setDepositOpen(false)
+    //     //setInsuficientFunds(false)
+    // },[shares])
 
     //This is for when stock data hasn't loaded
     if(!stockData) return <LoadingPage/>
@@ -65,40 +66,40 @@ const Stock = () => {
     const percent = parseFloat(delta) / parseFloat(open)
     const name = stockData.name ? stockData.name.split(', Inc')[0].split(".com")[0] : stockData.symbol
 
-    const buyStock = async() => {
-        if(showErrors){
-            setShowErrors(false)
-            setDepositOpen(false)
-            setInsuficientFunds(false)
-            setShareError('')
-            return
-        }
-        if(shares <= 0) {
-            setShareError("Enter at least 1 share(s).")
-            setShowErrors(true)
-            return
-        }
-        else if(shares % 1 != 0){
-            setShareError("Enter a whole number of shares")
-            setShowErrors(true)
-            return
-        }
-        if(isBuying < 0 && shares > portfolioItem.shares){
-            setShareError("Insuficient shares.")
-            setShowErrors(true)
-            return
-        }
-        if(isBuying > 0 && shares * current > user.buying_power){
-            setShowErrors(true)
-            setInsuficientFunds(true)
-            setShareError("Not enough buying power")
-            return
-        }
-        setCurrentShares((parseInt(currentShares) + isBuying*parseInt(shares)).toString())
-        setBuyingPower(buyingPower - (isBuying * shares) * current)
-        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
-        setShares('0')
-    }
+    // const buyStock = async() => {
+    //     if(showErrors){
+    //         setShowErrors(false)
+    //         //setDepositOpen(false)
+    //         //setInsuficientFunds(false)
+    //         //setShareError('')
+    //         return
+    //     }
+    //     if(shares <= 0) {
+    //         //setShareError("Enter at least 1 share(s).")
+    //         setShowErrors(true)
+    //         return
+    //     }
+    //     else if(shares % 1 !== 0){
+    //         //setShareError("Enter a whole number of shares")
+    //         setShowErrors(true)
+    //         return
+    //     }
+    //     if(isBuying < 0 && shares > portfolioItem.shares){
+    //         //setShareError("Insuficient shares.")
+    //         setShowErrors(true)
+    //         return
+    //     }
+    //     if(isBuying > 0 && shares * current > user.buying_power){
+    //         setShowErrors(true)
+    //         //setInsuficientFunds(true)
+    //         //setShareError("Not enough buying power")
+    //         return
+    //     }
+    //     setCurrentShares((parseInt(currentShares) + isBuying*parseInt(shares)).toString())
+    //     setBuyingPower(buyingPower - (isBuying * shares) * current)
+    //     // const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
+    //     // setShares('0')
+    // }
     return(
         <div id="portfolio-page-container">
             <div id="graph-sidebar">

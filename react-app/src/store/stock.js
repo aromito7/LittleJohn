@@ -8,9 +8,9 @@ const setStock = (symbol, stock) => ({
   payload: [symbol, stock]
 });
 
-const removeStock = () => ({
-  type: REMOVE_STOCK,
-})
+// const removeStock = () => ({
+//   type: REMOVE_STOCK,
+// })
 
 const setOptions = (options) => ({
   type: SET_OPTIONS,

@@ -55,23 +55,23 @@ const SignUpForm = ({showModal, setShowModal}) => {
   };
 
   useEffect(() => {
-    if(firstName.length == 0) setFirstNameError(" is required")
+    if(firstName.length === 0) setFirstNameError(" is required")
     else if(firstName.length < 2 || firstName.length > 50) setFirstNameError(" must be between 2 and 50 charactrs")
     else setFirstNameError('')
 
-    if(lastName.length == 0) setLastNameError(" is required")
+    if(lastName.length === 0) setLastNameError(" is required")
     else if(lastName.length < 2 || lastName.length > 50) setLastNameError(" must be between 2 and 50 charactrs")
     else setLastNameError('')
 
-    if(email.length == 0) setEmailError(" is required")
+    if(email.length === 0) setEmailError(" is required")
     else if(!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) setEmailError(" not valid")
     else setEmailError('')
 
-    if(password.length == 0) setPasswordError(" is required")
+    if(password.length === 0) setPasswordError(" is required")
     else setPasswordError('')
 
-    if(repeatPassword.length == 0) setRepeatPasswordError(" is required")
-    else if(password != repeatPassword) setRepeatPasswordError(" must match Password")
+    if(repeatPassword.length === 0) setRepeatPasswordError(" is required")
+    else if(password !== repeatPassword) setRepeatPasswordError(" must match Password")
     else setRepeatPasswordError('')
 
 

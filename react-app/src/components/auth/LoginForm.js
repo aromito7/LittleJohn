@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
-import loginImage from '../../images/login.jpg'
-import SignUpForm from './SignUpForm';
 import './LoginForm.css'
 
 const LoginForm = () => {
@@ -14,8 +12,6 @@ const LoginForm = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-  const [firstShowing, setFirstShowing] = useState(true);
   const [showPassword, setShowPassword] = useState(true);
 
   const user = useSelector(state => state.session.user);
@@ -49,11 +45,11 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const openSignupModal = e => {
-    e.stopPropagation()
-    setShowSignUpModal(true)
-    setFirstShowing(false)
-  }
+  // const openSignupModal = e => {
+  //   e.stopPropagation()
+  //   setShowSignUpModal(true)
+  //   setFirstShowing(false)
+  // }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,11 +58,11 @@ const LoginForm = () => {
   useEffect(() => {
     for(let error of errors){
       const [type, message] = error.split(' : ')
-      if(type == "email"){
+      if(type === "email"){
         setEmailError(message.split('Email')[1])
         return
       }
-      else if(type == 'password'){
+      else if(type === 'password'){
         setPasswordError(message.split('Password')[1])
         return
       }
@@ -75,7 +71,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     const errors = []
-    if(email.length == 0) {
+    if(email.length === 0) {
       setEmailError(" is required")
     }
     else if(!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
@@ -83,7 +79,7 @@ const LoginForm = () => {
     }
     else setEmailError('')
 
-    if(password.length == 0) {
+    if(password.length === 0) {
       setPasswordError(" is required")
     }
     else setPasswordError('')
@@ -96,7 +92,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div id="login-container" onClick={e => setShowSignUpModal(false)}>
+    <div id="login-container">
       <div className="left-half" id="login-image-container">
         {/* <img className="half" id="login-image" src={loginImage}/> */}
       </div>

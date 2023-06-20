@@ -6,10 +6,13 @@ const DailyMovers = () => {
     const [movers, setMovers] = useState([])
 
     useEffect(async () => {
-        const res = await fetch("/api/stocks/daily-movers")
-        const data = await res.json()
+        async function fetchData(){
+            const res = await fetch("/api/stocks/daily-movers")
+            const data = await res.json()
 
-        setMovers(data.dailyMovers)
+            setMovers(data.dailyMovers)
+        }
+        fetchData()
     },[])
 
     const MoverPane = ({mover}) => {

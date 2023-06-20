@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
 import { useState } from "react"
-import { transaction, toggleWatchlist } from "../../store/session"
+import { toggleWatchlist } from "../../store/session"
 
 import DepositModal from "../DepositModal"
 
@@ -9,7 +8,7 @@ const StockSidebar = ({stockData, user}) => {
     const dispatch = useDispatch()
     const symbol = stockData.symbol
     const portfolio = useSelector(state => state.session.portfolio)
-    const portfolioItem = portfolio.find(stock => stock.stock_symbol == symbol)
+    const portfolioItem = portfolio.find(stock => stock.stock_symbol === symbol)
     const watchlist = useSelector(state => state.session.watchlist)
     const [buyingPower, setBuyingPower] = useState(user.buying_power)
     const [currentShares, setCurrentShares] = useState(portfolioItem ? portfolioItem.shares : 0)
@@ -25,8 +24,8 @@ const StockSidebar = ({stockData, user}) => {
     const current = stockData.price
     const delta = parseFloat(current) - parseFloat(open)
     const isGreen = delta >= 0
-    const percent = parseFloat(delta) / parseFloat(open)
-    const name = stockData.name ? stockData.name.split(', Inc')[0].split(".com")[0] : stockData.symbol
+    //const percent = parseFloat(delta) / parseFloat(open)
+    //const name = stockData.name ? stockData.name.split(', Inc')[0].split(".com")[0] : stockData.symbol
 
     const buyStock = async() => {
         if(showErrors){
@@ -56,7 +55,7 @@ const StockSidebar = ({stockData, user}) => {
 
         setCurrentShares((newShares < .01 ? 0 : newShares).toString())
         setBuyingPower(buyingPower - (isBuying * shares) * current)
-        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
+        //const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
         setShares('0')
     }
 
@@ -77,9 +76,9 @@ const StockSidebar = ({stockData, user}) => {
     return(
         <div id="stock-sidebar" className="grey-border">
             <div id="buy-or-sell" className="flex">
-                <div onClick={e => setIsBuying(1)} className={`cursor-pointer green-font-hover ${isBuying == 1 ? 'green-font' : ''}`}>Buy {symbol}</div>
+                <div onClick={e => setIsBuying(1)} className={`cursor-pointer green-font-hover ${isBuying === 1 ? 'green-font' : ''}`}>Buy {symbol}</div>
                 {currentShares > 0 &&
-                    <div onClick={e => setIsBuying(-1)} className={`cursor-pointer green-font-hover ${isBuying == -1 ? 'green-font' : ''}`}>Sell {symbol}</div>
+                    <div onClick={e => setIsBuying(-1)} className={`cursor-pointer green-font-hover ${isBuying === -1 ? 'green-font' : ''}`}>Sell {symbol}</div>
                 }
             </div>
             <div className="flex">
@@ -94,7 +93,7 @@ const StockSidebar = ({stockData, user}) => {
                     <option>Dollars</option>
                 </select>
             </div>
-            {buyInType == "Shares" &&
+            {buyInType === "Shares" &&
             <>
                 <div className="flex">
                     <p className="flex-left">Shares</p>
@@ -110,7 +109,7 @@ const StockSidebar = ({stockData, user}) => {
                 </div>
             </>
             }
-            {buyInType == "Dollars" &&
+            {buyInType === "Dollars" &&
                 <div>
 
                 </div>
@@ -130,7 +129,7 @@ const StockSidebar = ({stockData, user}) => {
             <p id="buying-power-display" className="center">{isBuying > 0 ? `Buying Power: $${buyingPower.toFixed(2)}` : `Shares: ${currentShares}`}</p>
             <div id="watchlist-div" className="flex">
                 <button className={`wide-button center cursor-pointer ${isGreen ? 'green-border green-font' : 'orange-border orange-font'}`} onClick={toggleWatchlistItem}>
-                    {Boolean(watchlist.find(item => item.stockSymbol == symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
+                    {Boolean(watchlist.find(item => item.stockSymbol === symbol)) ? `- Remove from watchlist`:`+ Add to watchlist`}
                 </button>
             </div>
         </div>
