@@ -36,11 +36,38 @@ const AccountGraph = ({user}) => {
         //         }
         //     }
         // }
-        const graphData = {
-            history : {
-                Close : user.account_data
+        var graphData = {}
+
+        if(user.portfolio.length > 0){
+            graphData = {
+                history : {
+                    Close : user.account_data
+                }
+            }
+        }else{
+            const time = new Date().getTime()
+            const hour = time - time % 3600000
+            // console.log(time)
+            // console.log(hour)
+
+            const arr = Array(480).fill().map((x, i) => hour - (i * 3600000))
+            const fakeData = arr.reduce((obj, val) => {
+                obj[val] = 0
+                return obj
+            }, {})
+
+
+            // console.log(fakeData)
+
+            graphData = {
+                history : {
+                    Close : fakeData
+                }
             }
         }
+
+        // console.log("Displaying Graph")
+        // console.log(graphData)
         return <Graph graphData={graphData}/>
 
     }
@@ -60,9 +87,7 @@ const AccountGraph = ({user}) => {
                 <p className="green-font">$0.00 (0.00%)</p>
                 <p>After-Hours</p>
             </div> */}
-            {user.portfolio.length > 0 &&
-                <PortfolioGraph/>
-            }
+            <PortfolioGraph/>
         </div>
     )
 }

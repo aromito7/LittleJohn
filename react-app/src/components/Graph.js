@@ -26,8 +26,8 @@ const Graph = ({graphData}) => {
             break
     }
 
-    let max = 0
-    let min = Infinity
+    // let max = 0
+    // let min = Infinity
     const data = times.map(time => {
         const price = history.Close[time]
 
