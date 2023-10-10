@@ -283,12 +283,12 @@ export default function reducer(state = initialState, action) {
         watchlist.push({
           userId,
           stockSymbol: stockInfo.symbol,
-          stockInfo,
+          stock : stockInfo,
           stockId: stockInfo.id
         })
         newWatchlist = [...watchlist]
       }
-      //console.log(newWatchlist)
+      console.log(newWatchlist)
       newState.watchlist = newWatchlist
 
       return newState
