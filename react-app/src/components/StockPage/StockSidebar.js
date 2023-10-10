@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 import { toggleWatchlist } from "../../store/session"
+import { transaction } from "../../store/session"
 
 import DepositModal from "../DepositModal"
 
@@ -55,7 +56,7 @@ const StockSidebar = ({stockData, user}) => {
 
         setCurrentShares((newShares < .01 ? 0 : newShares).toString())
         setBuyingPower(buyingPower - (isBuying * shares) * current)
-        //const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
+        const response = dispatch(transaction(user.id, symbol, current, shares * isBuying, stockData.name, stockData))
         setShares('0')
     }
 
