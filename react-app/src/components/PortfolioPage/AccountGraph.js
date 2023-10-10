@@ -50,7 +50,12 @@ const AccountGraph = ({user}) => {
             // console.log(time)
             // console.log(hour)
 
-            const arr = Array(480).fill().map((x, i) => hour - (i * 3600000))
+            const arr = Array(480).fill().map((x, i) => {
+                const hours = i % 8
+                const days = Math.floor(i / 8)
+
+                return hour - (hours * 3600000) - (days * 86400000)
+            })
             const fakeData = arr.reduce((obj, val) => {
                 obj[val] = 0
                 return obj
